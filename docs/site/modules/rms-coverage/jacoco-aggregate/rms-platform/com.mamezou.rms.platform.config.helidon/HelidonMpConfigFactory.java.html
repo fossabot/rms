@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>HelidonMpConfigFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.config.helidon</a> &gt; <span class="el_source">HelidonMpConfigFactory.java</span></div><h1>HelidonMpConfigFactory.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.config.helidon;
+
+import java.net.URL;
+import java.nio.file.Paths;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
+import com.mamezou.rms.platform.config.MpConfigFactory;
+
+import io.helidon.config.mp.MpConfigSources;
+import io.helidon.config.yaml.YamlMpConfigSource;
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L14">@Slf4j</span>
+<span class="fc" id="L15">public class HelidonMpConfigFactory implements MpConfigFactory {</span>
+
+    @Override
+    public ConfigSource createFromExternalPath(String path) {
+<span class="fc" id="L19">        ConfigSource source = null;</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (path.endsWith(&quot;.properties&quot;)) {</span>
+<span class="fc" id="L21">            source = MpConfigSources.create(Paths.get(path));</span>
+        }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (path.endsWith(&quot;.yaml&quot;)) {</span>
+<span class="fc" id="L24">            source = YamlMpConfigSource.create(Paths.get(path));</span>
+        }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Unknown config file -&gt;&quot; + path);</span>
+        }
+<span class="fc" id="L29">        log.info(&quot;load config from [{}]&quot;, path);</span>
+<span class="fc" id="L30">        return source;</span>
+    }
+
+    @Override
+    public ConfigSource createFromUrl(URL configUrl) {
+<span class="fc" id="L35">        ConfigSource source = null;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (configUrl.toString().endsWith(&quot;.properties&quot;)) {</span>
+<span class="fc" id="L37">            source = MpConfigSources.create(configUrl);</span>
+        }
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (configUrl.toString().endsWith(&quot;.yaml&quot;)) {</span>
+<span class="fc" id="L40">            source = YamlMpConfigSource.create(configUrl);</span>
+        }
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (source == null) {</span>
+<span class="nc" id="L43">            throw new IllegalArgumentException(&quot;Unknown config file -&gt;&quot; + configUrl);</span>
+        }
+<span class="fc" id="L45">        log.info(&quot;load config from [{}]&quot;, configUrl);</span>
+<span class="fc" id="L46">        return source;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

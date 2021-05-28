@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserAccountFileRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file</a> &gt; <span class="el_source">UserAccountFileRepository.java</span></div><h1>UserAccountFileRepository.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.validation.Valid;
+
+import com.mamezou.rms.core.domain.UserAccount;
+import com.mamezou.rms.core.domain.constraint.ValidationGroups.Update;
+import com.mamezou.rms.core.persistence.UserAccountRepository;
+import com.mamezou.rms.core.persistence.GenericRepository.ApiType;
+import com.mamezou.rms.core.persistence.file.converter.EntityArrayConverter;
+import com.mamezou.rms.core.persistence.file.io.FileAccessor;
+import com.mamezou.rms.platform.extension.EnabledIfRuntimeConfig;
+import com.mamezou.rms.platform.validate.ValidateGroup;
+import com.mamezou.rms.platform.validate.ValidateParam;
+
+@ApplicationScoped
+@EnabledIfRuntimeConfig(propertyName = ApiType.PROP_NAME, value = ApiType.FILE)
+public class UserAccountFileRepository extends AbstractFileRepository&lt;UserAccount&gt; implements UserAccountRepository {
+
+    @Inject
+    public UserAccountFileRepository(FileAccessor fileAccessor, EntityArrayConverter&lt;UserAccount&gt; converter) {
+<span class="fc" id="L26">        super(fileAccessor, converter);</span>
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    public UserAccount findByLoginIdAndPasswod(String loginId, String password) {
+<span class="fc" id="L31">        return load().stream()</span>
+<span class="fc" id="L32">                .filter(attributes -&gt; attributes[1].equals(loginId))</span>
+<span class="fc" id="L33">                .filter(attributes -&gt; attributes[2].equals(password))</span>
+<span class="fc" id="L34">                .map(this.getConverter()::toEntity)</span>
+<span class="fc" id="L35">                .findFirst()</span>
+<span class="fc" id="L36">                .orElse(null);</span>
+    }
+
+    @Override
+    public UserAccount findByLoginId(String loginId) {
+<span class="fc" id="L41">        return load().stream()</span>
+<span class="fc" id="L42">                .filter(attributes -&gt; attributes[1].equals(loginId))</span>
+<span class="fc" id="L43">                .map(this.getConverter()::toEntity)</span>
+<span class="fc" id="L44">                .findFirst()</span>
+<span class="fc" id="L45">                .orElse(null);</span>
+    }
+
+    @ValidateParam
+    @ValidateGroup(groups = Update.class)
+    @Override
+    public UserAccount update(@Valid UserAccount updateUser) {
+<span class="fc" id="L52">        var replaced = new AtomicBoolean(false);</span>
+<span class="fc" id="L53">        var lines = load().stream()</span>
+<span class="fc" id="L54">                .map(items -&gt; {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                    if (items[0].equals(String.valueOf(updateUser.getId()))) {</span>
+<span class="fc" id="L56">                        replaced.set(true);</span>
+<span class="fc" id="L57">                        return getConverter().toArray(updateUser);</span>
+                    }
+<span class="fc" id="L59">                    return items;</span>
+                })
+<span class="fc" id="L61">                .collect(Collectors.toList());</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!replaced.get()) {</span>
+<span class="fc" id="L63">            return null;</span>
+        }
+<span class="fc" id="L65">        this.saveAll(lines);</span>
+<span class="fc" id="L66">        return updateUser;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

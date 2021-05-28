@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScreenController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.ui</a> &gt; <span class="el_source">ScreenController.java</span></div><h1>ScreenController.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.ui;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+
+import com.mamezou.rms.client.api.RentalReservationClientApi;
+import com.mamezou.rms.client.api.login.LoggedInEvent;
+import com.mamezou.rms.client.console.login.LoginEventReciever;
+import com.mamezou.rms.client.console.ui.TransitionMap.RmsScreen;
+import com.mamezou.rms.client.console.ui.TransitionMap.Transition;
+import com.mamezou.rms.client.console.ui.admin.AdminMainScreen;
+import com.mamezou.rms.client.console.ui.admin.EditUserScreen;
+import com.mamezou.rms.client.console.ui.admin.EntryRentalItemScreen;
+import com.mamezou.rms.client.console.ui.admin.EntryUserScreen;
+import com.mamezou.rms.client.console.ui.member.CancelReservationScreen;
+import com.mamezou.rms.client.console.ui.member.EntryReservationScreen;
+import com.mamezou.rms.client.console.ui.member.InquiryReservationScreen;
+import com.mamezou.rms.client.console.ui.member.MemberMainScreen;
+
+/**
+ * アプリケーションの画面遷移を制御するクラス
+ */
+@ApplicationScoped
+public class ScreenController {
+
+    private TransitionMap transitionMap;
+    private LoginEventReciever loginEventReciever;
+
+    @Inject
+<span class="nc" id="L31">    public ScreenController(RentalReservationClientApi clientApi, Event&lt;LoggedInEvent&gt; event, LoginEventReciever reciever) {</span>
+<span class="nc" id="L32">        this.transitionMap = new TransitionMap();</span>
+<span class="nc" id="L33">        transitionMap.add(Transition.LOGIN, new LoginScreen(clientApi, event));</span>
+<span class="nc" id="L34">        transitionMap.add(Transition.MEMBER_MAIN, new MemberMainScreen());</span>
+<span class="nc" id="L35">        transitionMap.add(Transition.INQUIRY_RESERVATION, new InquiryReservationScreen(clientApi));</span>
+<span class="nc" id="L36">        transitionMap.add(Transition.ENTRY_RESERVATRION, new EntryReservationScreen(clientApi));</span>
+<span class="nc" id="L37">        transitionMap.add(Transition.CANCEL_RESERVATRION, new CancelReservationScreen(clientApi));</span>
+<span class="nc" id="L38">        transitionMap.add(Transition.ADMIN_MAIN, new AdminMainScreen());</span>
+<span class="nc" id="L39">        transitionMap.add(Transition.ENTRY_RENTAL_ITEM, new EntryRentalItemScreen(clientApi));</span>
+<span class="nc" id="L40">        transitionMap.add(Transition.ENTRY_USER, new EntryUserScreen(clientApi));</span>
+<span class="nc" id="L41">        transitionMap.add(Transition.EDIT_USER, new EditUserScreen(clientApi));</span>
+<span class="nc" id="L42">        transitionMap.add(Transition.END, new EndScreen());</span>
+<span class="nc" id="L43">        loginEventReciever = reciever;</span>
+<span class="nc" id="L44">    }</span>
+
+    public void start(String[] args) {
+<span class="nc" id="L47">        var loginScreen = transitionMap.stratScreen();</span>
+<span class="nc" id="L48">        doPlay(loginScreen);</span>
+<span class="nc" id="L49">    }</span>
+
+    private RmsScreen doPlay(RmsScreen screen) {
+<span class="nc" id="L52">        var next = screen.play(loginEventReciever.getLoginUser(), true);</span>
+<span class="nc" id="L53">        return doPlay(transitionMap.nextScreen(next)) ;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

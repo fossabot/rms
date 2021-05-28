@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>JulToSLF4DelegateExtension.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-test</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.test.junit5</a> &gt; <span class="el_source">JulToSLF4DelegateExtension.java</span></div><h1>JulToSLF4DelegateExtension.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.test.junit5;
+
+import java.util.logging.LogManager;
+
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
+/**
+ * {@link java.util.logging.Logger JUL}に対する出力をSLF4Jにデリゲートさせる
+ * JUnitExtension。
+ * HelidonはSLF4J経由ではなくJULを使っているためSLF4Jへログ出力を集約するために
+ * この処理が必要となる。
+ */
+<span class="fc" id="L15">public class JulToSLF4DelegateExtension implements BeforeAllCallback {</span>
+
+    static {
+        // java.util.loggingの出力をSLF4Jへdelegate
+<span class="fc" id="L19">        LogManager.getLogManager().reset();</span>
+<span class="fc" id="L20">        SLF4JBridgeHandler.removeHandlersForRootLogger();</span>
+<span class="fc" id="L21">        SLF4JBridgeHandler.install();</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public void beforeAll(ExtensionContext context) throws Exception {
+        /*
+         * Helidonを起動するHelidonJunitExtensionもBeforeAllCallback#beforeAllのフックポイントを使っている
+         * HelidonのログをSLF4JへdelegateさせるにはHelidonが起動するまでにdelegate処理を実行する必要がある
+         * がJUnit5が用意する一番最初のフックポイントはbeforeAllののため確実にHelidonより早く呼び出せるポ
+         * イントがない。
+         * このため、beforeAllのコールバックを待たずにクラスがロードされた時点でSLF4Jへのdelegate処理を行っ
+         * ている。
+         * よって、このメソッドはstatic initializerが呼び出されるためのダミーなのでなにも行っていない。
+         */
+<span class="fc" id="L35">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

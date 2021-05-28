@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>MemberMainScreen.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.ui.member</a> &gt; <span class="el_source">MemberMainScreen.java</span></div><h1>MemberMainScreen.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.ui.member;
+
+import static com.mamezou.rms.client.console.ui.textio.TextIoUtils.*;
+
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+import com.mamezou.rms.client.console.ui.TransitionMap.RmsScreen;
+import com.mamezou.rms.client.console.ui.TransitionMap.Transition;
+
+import lombok.RequiredArgsConstructor;
+
+<span class="nc" id="L11">public class MemberMainScreen implements RmsScreen {</span>
+
+<span class="nc" id="L13">    @RequiredArgsConstructor</span>
+    public enum MemberMenuList {
+
+<span class="nc" id="L16">        INQUIRY(&quot;予約照会&quot;, Transition.INQUIRY_RESERVATION),</span>
+<span class="nc" id="L17">        ENTRY(&quot;レンタル品予約&quot;, Transition.ENTRY_RESERVATRION),</span>
+<span class="nc" id="L18">        CANCEL(&quot;予約キャンセル&quot;, Transition.CANCEL_RESERVATRION),</span>
+<span class="nc" id="L19">        RELOGIN(&quot;再ログイン&quot;, Transition.LOGIN),</span>
+<span class="nc" id="L20">        END(&quot;終了&quot;, Transition.END);</span>
+
+        private final String name;
+        private final Transition transition;
+
+        Transition getTransition() {
+<span class="nc" id="L26">            return transition;</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L31">            return name;</span>
+        }
+    }
+
+    @Override
+    public Transition play(UserAccountClientDto loginUser, boolean printHeader) {
+
+<span class="nc" id="L38">        printScreenHeader(loginUser, &quot;レンタル会員サービスメニュー画面&quot;);</span>
+
+<span class="nc" id="L40">        var selectedMenu = newEnumInputReader(MemberMenuList.class)</span>
+<span class="nc" id="L41">                .read(&quot;メニュー番号を入力して下さい。&quot;);</span>
+
+<span class="nc" id="L43">        return selectedMenu.getTransition();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

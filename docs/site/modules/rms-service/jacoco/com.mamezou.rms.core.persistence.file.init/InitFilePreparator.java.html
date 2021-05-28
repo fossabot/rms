@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InitFilePreparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file.init</a> &gt; <span class="el_source">InitFilePreparator.java</span></div><h1>InitFilePreparator.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file.init;
+
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.stream.StreamSupport;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.microprofile.config.Config;
+
+import com.mamezou.rms.core.persistence.GenericRepository.ApiType;
+import com.mamezou.rms.core.persistence.file.IoSystemException;
+import com.mamezou.rms.core.persistence.file.io.FileAccessor;
+import com.mamezou.rms.core.persistence.file.io.PathResolver;
+
+import lombok.extern.slf4j.Slf4j;
+
+@ApplicationScoped
+<span class="fc" id="L30">@Slf4j</span>
+public class InitFilePreparator {
+
+    private Config config;
+
+    @Inject
+<span class="fc" id="L36">    public InitFilePreparator(Config config) {</span>
+<span class="fc" id="L37">        this.config = config;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * CDIコンテナのApplicationScopedなBeanの準備完了イベントハンドラ
+     * &lt;p&gt;
+     * @param event イベント
+     */
+    public void onApplicationScopedInitializedEvent(@Observes @Initialized(ApplicationScoped.class) Object event) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (config.getValue(ApiType.PROP_NAME, String.class).equals(ApiType.FILE)) {</span>
+<span class="fc" id="L47">            initDataIfAbsent();</span>
+        }
+<span class="fc" id="L49">    }</span>
+
+    /**
+     * fileTypeがpermanentだがマスタデータ格納フォルダが存在しない場合に初期データを投入する。
+     * &lt;code&gt;csv.type.permanent.init.data&lt;/code&gt;で初期データフォルダが指定されている場合はそのデータを投入、
+     * 指定されていない場合は&lt;code&gt;csv.temporary.fileName&lt;/code&gt;に指定されているリソースファイルを投入する。
+     */
+    private void initDataIfAbsent() {
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (config.getValue(&quot;csv.type&quot;, String.class).equals(&quot;temporary&quot;)) {</span>
+<span class="fc" id="L59">            return;</span>
+        }
+
+<span class="fc" id="L62">        PathResolver pathEnv = new PathResolver.FixedDirPathResolver();</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (Files.exists(pathEnv.getBaseDir())) {</span>
+<span class="nc" id="L64">            return;</span>
+        }
+
+<span class="fc" id="L67">        String initDataPath = config.getOptionalValue(&quot;csv.type.permanent.init.data&quot;, String.class).orElse(null);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (initDataPath != null) {</span>
+<span class="fc" id="L69">            Path from = Paths.get(initDataPath);</span>
+<span class="fc" id="L70">            RecursiveCopyCommand.from(from).to(pathEnv.getBaseDir()).copy();</span>
+<span class="fc" id="L71">            log.info(&quot;初期データを作成しました。&quot; + from + &quot;=&gt;&quot; + pathEnv.getBaseDir());</span>
+<span class="fc" id="L72">            return;</span>
+        }
+
+        // csv.temporary.fileName.$1 のvalueに指定されているリソースファイルを読み込み
+        // csv.permanent.fileName.$1 のvalueのファイル名でデータ格納フォルダに出力する
+<span class="fc" id="L77">        String temporaryFileConfigPrefix = &quot;csv.temporary.fileName&quot;;</span>
+<span class="fc" id="L78">        StreamSupport.stream(config.getPropertyNames().spliterator(), false)</span>
+<span class="fc" id="L79">            .filter(configKey -&gt; configKey.startsWith(temporaryFileConfigPrefix))</span>
+<span class="fc" id="L80">            .map(configKey -&gt; {</span>
+<span class="fc" id="L81">                String fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + &quot;.&quot;).length()); // csv.temporary.fileName.$1の$1部分を取得</span>
+<span class="fc" id="L82">                String resoucePath = config.getValue(configKey, String.class);</span>
+<span class="fc" id="L83">                String outputFileName = config.getValue(&quot;csv.permanent.fileName.&quot; + fileNameInConfigKey, String.class);</span>
+<span class="fc" id="L84">                return Pair.of(resoucePath, outputFileName);</span>
+            })
+<span class="fc" id="L86">            .forEach(fileNames -&gt; {</span>
+<span class="fc" id="L87">                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight());</span>
+<span class="fc" id="L88">            });</span>
+<span class="fc" id="L89">        log.info(&quot;初期データを作成しました。${csv.type.temporary.fileName}&quot; + &quot;=&gt;&quot; + pathEnv.getBaseDir());</span>
+<span class="fc" id="L90">    }</span>
+
+    /**
+     * ディレクトリをfromからtoにコピーする。
+     * サブディレクトリの中身も全てコピーする&lt;br&gt;
+     * コピー先が存在する場合は例外を送出する&lt;br&gt;
+     */
+     static class RecursiveCopyCommand {
+
+        private Path from;
+        private Path to;
+
+        private RecursiveCopyCommand() {
+            // nop
+        }
+
+        public static RecursiveCopyCommand from(Path from) {
+<span class="fc" id="L107">            RecursiveCopyCommand command = new RecursiveCopyCommand();</span>
+<span class="fc" id="L108">            command.from = from;</span>
+<span class="fc" id="L109">            return command;</span>
+        }
+        public RecursiveCopyCommandFinsher to(Path to) {
+<span class="fc" id="L112">            this.to = to;</span>
+<span class="fc" id="L113">            return new RecursiveCopyCommandFinsher();</span>
+        }
+
+<span class="fc" id="L116">        public class RecursiveCopyCommandFinsher {</span>
+
+            public void copy() {
+                //コピー元
+<span class="fc" id="L120">                final Path fromPath = from;</span>
+                //コピー先
+<span class="fc" id="L122">                final Path toPath = to;</span>
+
+                //FileVisitorの定義
+<span class="fc" id="L125">                FileVisitor&lt;Path&gt; visitor = new SimpleFileVisitor&lt;Path&gt;() {</span>
+                    @Override
+                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                        //ディレクトリをコピーする
+<span class="fc" id="L129">                        Files.copy(dir, toPath.resolve(fromPath.relativize(dir)), StandardCopyOption.COPY_ATTRIBUTES);</span>
+<span class="fc" id="L130">                        return FileVisitResult.CONTINUE;</span>
+                    }
+
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        //ファイルをコピーする
+<span class="fc" id="L136">                        Files.copy(file, toPath.resolve(fromPath.relativize(file)), StandardCopyOption.COPY_ATTRIBUTES);</span>
+<span class="fc" id="L137">                        return FileVisitResult.CONTINUE;</span>
+                    }
+                };
+
+                //ファイルツリーを辿ってFileVisitorの動作をさせる
+                try {
+<span class="fc" id="L143">                    Files.walkFileTree(fromPath, visitor);</span>
+<span class="nc" id="L144">                } catch (IOException e) {</span>
+<span class="nc" id="L145">                    throw new IoSystemException(e);</span>
+<span class="fc" id="L146">                }</span>
+<span class="fc" id="L147">            }</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

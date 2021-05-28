@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MpConfigDump.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.log</a> &gt; <span class="el_source">MpConfigDump.java</span></div><h1>MpConfigDump.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.log;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Dump out Config at startup.
+ * Filter the output by setting configdump.filters as below.
+ * &lt;pre&gt;
+ * configdump:
+ *   filter-enable: true
+ *   filters:
+ *     - filter: server
+ *     - filter: security
+ * &lt;/pre&gt;
+ */
+@ApplicationScoped
+<span class="fc" id="L30">@Slf4j(topic = &quot;ConfigDump&quot;)</span>
+public class MpConfigDump {
+
+    private Config config;
+
+    @Inject
+<span class="fc" id="L36">    public MpConfigDump(Config config) {</span>
+<span class="fc" id="L37">        this.config = config;</span>
+<span class="fc" id="L38">    }</span>
+    void onInialized(@Observes @Initialized(ApplicationScoped.class) Object event) {
+
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (!log.isDebugEnabled()) {</span>
+<span class="fc" id="L42">            return;</span>
+        }
+
+<span class="nc" id="L45">        List&lt;String&gt; filters = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (config.getOptionalValue(&quot;configdump.filter-enable&quot;, Boolean.class).orElse(false)) {</span>
+<span class="nc" id="L47">            filters = StreamSupport.stream(config.getPropertyNames().spliterator(), false)</span>
+<span class="nc" id="L48">                    .filter(s -&gt; s.startsWith(&quot;configdump.filters&quot;))</span>
+<span class="nc" id="L49">                    .map(s -&gt; config.getValue(s, String.class))</span>
+<span class="nc" id="L50">                    .collect(Collectors.toList());</span>
+        }
+
+<span class="nc" id="L53">        Predicate&lt;String&gt; containsForwardMatch = new ContainsForwardMatch(filters);</span>
+<span class="nc" id="L54">        String configDump = StreamSupport.stream(config.getPropertyNames().spliterator(), false)</span>
+<span class="nc" id="L55">            .filter(containsForwardMatch)</span>
+<span class="nc" id="L56">            .map(name -&gt; name + &quot;=&quot; + config.getValue(name, String.class))</span>
+<span class="nc" id="L57">            .sorted()</span>
+<span class="nc" id="L58">            .collect(Collectors.joining(System.lineSeparator()));</span>
+
+<span class="nc" id="L60">        log.debug(System.lineSeparator() + configDump);</span>
+<span class="nc" id="L61">    }</span>
+
+    static class ContainsForwardMatch implements Predicate&lt;String&gt; {
+
+        private List&lt;String&gt; filters;
+<span class="nc" id="L66">        ContainsForwardMatch(List&lt;String&gt; filters) {</span>
+<span class="nc" id="L67">            this.filters = filters;</span>
+<span class="nc" id="L68">        }</span>
+
+        @Override
+        public boolean test(String name) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            return filters.isEmpty()</span>
+<span class="nc" id="L73">                        ? true</span>
+<span class="nc" id="L74">                        : filters.stream().anyMatch(filter -&gt; name.startsWith(filter));</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

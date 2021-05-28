@@ -1,0 +1,12 @@
+com.mamezou.rms.core
+com.mamezou.rms.core.common
+com.mamezou.rms.core.domain
+com.mamezou.rms.core.domain.constraint
+com.mamezou.rms.core.exception
+com.mamezou.rms.core.persistence
+com.mamezou.rms.core.persistence.file
+com.mamezou.rms.core.persistence.file.converter
+com.mamezou.rms.core.persistence.file.init
+com.mamezou.rms.core.persistence.file.io
+com.mamezou.rms.core.persistence.jpa
+com.mamezou.rms.core.service

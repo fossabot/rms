@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RentalReservationClientLocalApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-api-local</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.api.adaptor.local</a> &gt; <span class="el_source">RentalReservationClientLocalApi.java</span></div><h1>RentalReservationClientLocalApi.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.api.adaptor.local;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+import com.mamezou.rms.client.api.RentalReservationClientApi;
+import com.mamezou.rms.client.api.adaptor.local.BindLoginUser.LoginAction;
+import com.mamezou.rms.client.api.adaptor.local.dto.RentalItemDtoConverter;
+import com.mamezou.rms.client.api.adaptor.local.dto.ReservationDtoConverter;
+import com.mamezou.rms.client.api.adaptor.local.dto.UserAccountDtoConverter;
+import com.mamezou.rms.client.api.dto.RentalItemClientDto;
+import com.mamezou.rms.client.api.dto.ReservationClientDto;
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
+import com.mamezou.rms.core.RentalReservationApplication;
+import com.mamezou.rms.core.common.LoginUserUtils;
+import com.mamezou.rms.platform.extension.ConfiguableScoped;
+
+@ConfiguableScoped
+@HandleExceptions
+@BindLoginUser
+<span class="nc" id="L25">public class RentalReservationClientLocalApi implements RentalReservationClientApi {</span>
+
+    @Inject
+    private RentalReservationApplication application;
+
+    @LoginAction
+    @Override
+    public UserAccountClientDto authenticate(String loginId, String password)
+            throws BusinessFlowClientException {
+<span class="nc" id="L34">        return application.authenticate(loginId, password).transform(UserAccountDtoConverter::toDto);</span>
+    }
+
+    @Override
+    public List&lt;ReservationClientDto&gt; findReservationByRentalItemAndStartDate(Integer itemId, LocalDate startDate)
+            throws BusinessFlowClientException {
+<span class="nc" id="L40">        return application.findReservationByRentalItemAndStartDate(itemId, startDate).stream()</span>
+<span class="nc" id="L41">                    .map(ReservationDtoConverter::toDto)</span>
+<span class="nc" id="L42">                    .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public List&lt;ReservationClientDto&gt; findReservationByReserverId(int reserverId) {
+<span class="nc" id="L47">        return application.findReservationByReserverId(reserverId).stream()</span>
+<span class="nc" id="L48">                    .map(ReservationDtoConverter::toDto)</span>
+<span class="nc" id="L49">                    .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public List&lt;ReservationClientDto&gt; getOwnReservations() {
+<span class="nc" id="L54">        return findReservationByReserverId(LoginUserUtils.get().getUserId());</span>
+    }
+
+    @Override
+    public List&lt;RentalItemClientDto&gt; getAllRentalItems() {
+<span class="nc" id="L59">        return application.getAllRetailItems().stream()</span>
+<span class="nc" id="L60">                    .map(RentalItemDtoConverter::toDto)</span>
+<span class="nc" id="L61">                    .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public List&lt;UserAccountClientDto&gt; getAllUserAccounts() {
+<span class="nc" id="L66">        return application.getAllUserAccounts().stream()</span>
+<span class="nc" id="L67">                    .map(UserAccountDtoConverter::toDto)</span>
+<span class="nc" id="L68">                    .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public ReservationClientDto addReservation(ReservationClientDto addReservationDto) throws BusinessFlowClientException {
+<span class="nc" id="L73">        var newReservation = application.addReservation(addReservationDto.to(ReservationDtoConverter::toEntity));</span>
+<span class="nc" id="L74">        return newReservation.transform(ReservationDtoConverter::toDto);</span>
+    }
+
+    @Override
+    public RentalItemClientDto addRentalItem(RentalItemClientDto addRentalItemDto) throws BusinessFlowClientException {
+<span class="nc" id="L79">        var newRentalItem = application.addRentalItem(addRentalItemDto.to(RentalItemDtoConverter::toEntity));</span>
+<span class="nc" id="L80">        return newRentalItem.transform(RentalItemDtoConverter::toDto);</span>
+    }
+
+    @Override
+    public UserAccountClientDto addUserAccount(UserAccountClientDto addUserDto) throws BusinessFlowClientException {
+<span class="nc" id="L85">        var newUserAccount = application.addUserAccount(addUserDto.to(UserAccountDtoConverter::toEntity));</span>
+<span class="nc" id="L86">        return newUserAccount.transform(UserAccountDtoConverter::toDto);</span>
+    }
+
+    @Override
+    public void cancelReservation(int reservationId) throws BusinessFlowClientException {
+<span class="nc" id="L91">        application.cancelReservation(reservationId);</span>
+<span class="nc" id="L92">    }</span>
+
+    @Override
+    public UserAccountClientDto updateUserAccount(UserAccountClientDto updateUserAccountDto) {
+<span class="nc" id="L96">        var updatedUser = application.updateUserAccount(updateUserAccountDto.to(UserAccountDtoConverter::toEntity));</span>
+<span class="nc" id="L97">        return updatedUser.transform(UserAccountDtoConverter::toDto);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

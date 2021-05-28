@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Jose4jCallerPrincipal.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.jwt.impl.jose4j</a> &gt; <span class="el_source">Jose4jCallerPrincipal.java</span></div><h1>Jose4jCallerPrincipal.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.jwt.impl.jose4j;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.security.enterprise.CallerPrincipal;
+
+import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jose4j.jwt.JwtClaims;
+
+/**
+ * jose4jの{@link JwtClaims Claims}を実体に持ったCellerPrincipal実装。
+ * {@link JsonWebToken}に定義されているプロパティ以外の動作は考慮していない。
+ */
+public class Jose4jCallerPrincipal extends CallerPrincipal implements JsonWebToken {
+
+    private JwtClaims claims;
+
+    public Jose4jCallerPrincipal(String name, JwtClaims claims) {
+<span class="fc" id="L21">        super(name);</span>
+<span class="fc" id="L22">        this.claims = claims;</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public Set&lt;String&gt; getGroups() {
+        // JOSE4JはListでparseするがMP-JWTはSetを要求するため変換
+<span class="fc" id="L28">        return new HashSet&lt;&gt;(getClaim(Claims.groups.name()));</span>
+    }
+
+    @Override
+    public Set&lt;String&gt; getClaimNames() {
+<span class="nc" id="L33">        return new HashSet&lt;&gt;(claims.getClaimNames());</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public &lt;T&gt; T getClaim(String claimName) {
+<span class="fc" id="L39">        return (T) claims.getClaimValue(claimName);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>JwtSecurityRequestFilter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.jwt.filter</a> &gt; <span class="el_source">JwtSecurityRequestFilter.java</span></div><h1>JwtSecurityRequestFilter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.jwt.filter;
+
+import java.io.IOException;
+
+import javax.annotation.Priority;
+import javax.inject.Inject;
+import javax.ws.rs.ConstrainedTo;
+import javax.ws.rs.Priorities;
+import javax.ws.rs.RuntimeType;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
+import com.mamezou.rms.platform.jwt.JsonWebTokenValidator;
+import com.mamezou.rms.platform.jwt.JwtConfig;
+import com.mamezou.rms.platform.jwt.JwtValidateException;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Priority(Priorities.AUTHENTICATION)
+@ConstrainedTo(RuntimeType.SERVER)
+@Authenticated
+<span class="fc" id="L28">@Slf4j</span>
+public class JwtSecurityRequestFilter implements ContainerRequestFilter {
+
+    private JsonWebTokenValidator tokenValidator;
+    private boolean enableFilter;
+
+    @Inject
+<span class="fc" id="L35">    public JwtSecurityRequestFilter(JsonWebTokenValidator tokenValidator, Config config) {</span>
+<span class="fc" id="L36">        this.tokenValidator = tokenValidator;</span>
+<span class="fc" id="L37">        this.enableFilter = JwtConfig.of(config).enableFilter();</span>
+<span class="fc" id="L38">    }</span>
+
+    @Override
+    public void filter(ContainerRequestContext request) throws IOException {
+
+        // -- NOTE ----------
+        // @Authenticatedがバインドされているメソッド以外では呼ばれないため
+        // 認証が除外されているパスに対する考慮は不要
+        // ------------------
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (!enableFilter) {</span>
+<span class="fc" id="L49">            log.debug(&quot;設定(jwt.filter.enable)がOFFになっているため認証チェックは行いません&quot;);</span>
+<span class="fc" id="L50">            return;</span>
+        }
+
+        // HeaderからBearerを取得
+<span class="fc" id="L54">        String bearerString = request.getHeaderString(HttpHeaders.AUTHORIZATION);</span>
+<span class="fc" id="L55">        log.debug(&quot;bearer value=&gt;[{}]&quot;, bearerString);</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        if (bearerString == null || !bearerString.startsWith(JwtConfig.BEARER_MARK)) {</span>
+<span class="fc" id="L57">            log.warn(&quot;Authorizationヘッダの値が正しくありません。value=[{}]&quot;, bearerString);</span>
+<span class="fc" id="L58">            request.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());</span>
+<span class="fc" id="L59">            return;</span>
+        }
+
+        // Bearerを検証してPricipalオブジェクトに復号化
+        JsonWebToken token;
+        try {
+<span class="fc" id="L65">            String bearerToken = bearerString.substring(7); // &quot;Bearer xxxxxx&quot;のxxxxxの部分を取得</span>
+<span class="fc" id="L66">            token = validateToken(bearerToken);</span>
+<span class="nc" id="L67">        } catch (JwtValidateException e) {</span>
+<span class="nc" id="L68">            log.warn(String.format(&quot;不正なトークンです。value=[{%s}]&quot;, bearerString), e);</span>
+<span class="nc" id="L69">            request.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());</span>
+<span class="nc" id="L70">            return;</span>
+<span class="fc" id="L71">        }</span>
+
+        // 後続の処理で使えるようにSecurityContextを入れ替える
+<span class="fc" id="L74">        SecurityContext securityContext = request.getSecurityContext();</span>
+<span class="fc" id="L75">        JwtSecurityContext jwtSecurityContext = new JwtSecurityContext(</span>
+                    securityContext,
+                    token,
+<span class="fc" id="L78">                    &quot;https&quot;.equals(request.getUriInfo().getAbsolutePath().getScheme().toLowerCase())</span>
+                );
+<span class="fc" id="L80">        request.setSecurityContext(jwtSecurityContext);</span>
+<span class="fc" id="L81">    }</span>
+
+    private JsonWebToken validateToken(String bearerToken) throws JwtValidateException {
+<span class="fc" id="L84">        return tokenValidator.validate(bearerToken);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

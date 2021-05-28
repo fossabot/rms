@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResourcePathUnderConfigProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.config</a> &gt; <span class="el_source">ResourcePathUnderConfigProvider.java</span></div><h1>ResourcePathUnderConfigProvider.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.config;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
+
+import com.mamezou.rms.platform.util.ResourceUtils;
+
+/**
+ * Provider class that automatically reads the conf file under `mpconfig` path directly under the classpath.
+ * If there is a subfolder, the subfolder is also recursively traced and read.&lt;br&gt;
+ * Also, since this class is instantiated by ServiceLoader, if you want to use it,
+ * define this class in `META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider`&lt;br&gt;
+ */
+<span class="fc" id="L20">public class ResourcePathUnderConfigProvider implements ConfigSourceProvider {</span>
+
+    public static final String CONFIG_RESOURCE_PATH = &quot;mpconfig&quot;;
+<span class="fc" id="L23">    public static final List&lt;String&gt; SUPPROTED_CONFIG_TYPE = List.of(&quot;.properties&quot;, &quot;yaml&quot;);</span>
+<span class="fc" id="L24">    public static final Predicate&lt;Object&gt; SUPPROTED_CONFIG_FILTER = (fileName) -&gt; SUPPROTED_CONFIG_TYPE.stream()</span>
+<span class="fc" id="L25">            .anyMatch(type -&gt; fileName.toString().endsWith(type));</span>
+
+    @Override
+    public Iterable&lt;ConfigSource&gt; getConfigSources(ClassLoader classLoader) {
+        List&lt;URL&gt; configUrls;
+        try {
+<span class="fc" id="L31">            configUrls = ResourceUtils.findResoucePathUnder(CONFIG_RESOURCE_PATH, SUPPROTED_CONFIG_FILTER, classLoader);</span>
+<span class="nc" id="L32">        } catch (IOException e) {</span>
+<span class="nc" id="L33">            throw new IllegalStateException(e);</span>
+<span class="fc" id="L34">        }</span>
+<span class="fc" id="L35">        return configUrls.stream()</span>
+<span class="fc" id="L36">                    .map(url -&gt; MpConfigFactory.newInstance().createFromUrl(url))</span>
+<span class="fc" id="L37">                    .collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

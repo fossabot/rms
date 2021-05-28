@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationInitializerCdiExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.extension</a> &gt; <span class="el_source">ApplicationInitializerCdiExtension.java</span></div><h1>ApplicationInitializerCdiExtension.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.extension;
+
+import java.util.List;
+
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
+import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.ProcessAnnotatedType;
+import javax.enterprise.inject.spi.WithAnnotations;
+import javax.enterprise.inject.spi.configurator.AnnotatedTypeConfigurator;
+
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L17">@Slf4j</span>
+<span class="fc" id="L18">public class ApplicationInitializerCdiExtension implements Extension {</span>
+
+    private static final String CDI_REGISTER_CONFIG_KEY = &quot;configuredCdi.register&quot;;
+    private static final String CDI_ALIAS_CONFIG_KEY = &quot;configuredCdi.alias&quot;;
+
+    void enabledIfRuntimeConfig(@Observes @WithAnnotations(EnabledIfRuntimeConfig.class) ProcessAnnotatedType&lt;?&gt; event) {
+<span class="fc" id="L24">        EnabledIfRuntimeConfig annotation = event.getAnnotatedType().getAnnotation(EnabledIfRuntimeConfig.class);</span>
+<span class="fc" id="L25">        Config config = ConfigProvider.getConfig();</span>
+<span class="fc" id="L26">        String runtimeConfigValue = config.getValue(annotation.propertyName(), String.class);</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (runtimeConfigValue.equals(annotation.value())) {</span>
+<span class="fc" id="L28">            log.info(&quot;EnabledIfRuntimeConfigがアノテートされているCDIクラスを有効化しました [Class:{}]&quot;, event.getAnnotatedType().getJavaClass().getSimpleName());</span>
+        } else {
+<span class="fc" id="L30">            event.veto();</span>
+<span class="fc" id="L31">            log.info(&quot;EnabledIfRuntimeConfigがアノテートされているCDIクラスを無効化しました [Class:{}]&quot;, event.getAnnotatedType().getJavaClass().getSimpleName());</span>
+        }
+<span class="fc" id="L33">    }</span>
+
+    void registerConfiguredBeans(@Observes BeforeBeanDiscovery event) {
+
+<span class="fc" id="L37">        Config config = ConfigProvider.getConfig();</span>
+<span class="fc" id="L38">        List&lt;ConfiguredCdiBean&gt; configCdiBeans = ConfiguredCdiBeanBinder.newListBinder(config).alias(CDI_ALIAS_CONFIG_KEY)</span>
+<span class="fc" id="L39">                .key(CDI_REGISTER_CONFIG_KEY).bind();</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (configCdiBeans.isEmpty()) {</span>
+<span class="fc" id="L42">            log.info(&quot;{}によるCDIBean登録はありませんでした&quot;, CDI_REGISTER_CONFIG_KEY);</span>
+        }
+
+<span class="fc" id="L45">        configCdiBeans.forEach(configCdiBean -&gt; {</span>
+<span class="fc" id="L46">            AnnotatedTypeConfigurator&lt;?&gt; configurator = event.addAnnotatedType(configCdiBean.getBeanClass(), configCdiBean.getId());</span>
+<span class="fc" id="L47">            configurator.add(configCdiBean.getScoped());</span>
+<span class="fc" id="L48">            log.info(&quot;[{}]を設定によりCDIBean登録しました&quot;, configCdiBean.getBeanClass().getName());</span>
+<span class="fc" id="L49">        });</span>
+<span class="fc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

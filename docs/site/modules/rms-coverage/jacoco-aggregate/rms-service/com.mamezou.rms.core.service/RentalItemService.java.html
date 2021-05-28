@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RentalItemService.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.service</a> &gt; <span class="el_source">RentalItemService.java</span></div><h1>RentalItemService.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.service;
+
+import static com.mamezou.rms.core.exception.BusinessFlowException.CauseType.*;
+
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import com.mamezou.rms.core.domain.RentalItem;
+import com.mamezou.rms.core.exception.BusinessFlowException;
+import com.mamezou.rms.core.persistence.RentalItemRepository;
+
+@ApplicationScoped
+public class RentalItemService {
+
+    private RentalItemRepository repository;
+
+    // ----------------------------------------------------- constructor methods
+
+    @Inject
+<span class="fc" id="L22">    public RentalItemService(RentalItemRepository rentalItemRepository) {</span>
+<span class="fc" id="L23">        this.repository = rentalItemRepository;</span>
+<span class="fc" id="L24">    }</span>
+
+    // ----------------------------------------------------- public methods
+
+    public RentalItem get(int rentalItemId) {
+<span class="fc" id="L29">        return repository.get(rentalItemId);</span>
+    }
+
+    public List&lt;RentalItem&gt; findAll() {
+<span class="fc" id="L33">        return repository.findAll();</span>
+    }
+
+    public RentalItem findBySerialNo(String serialNo) {
+<span class="fc" id="L37">        return repository.findBySerialNo(serialNo);</span>
+    }
+
+    public RentalItem add(RentalItem addRentalItem) {
+        // シリアル番号の重複チェック
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (findBySerialNo(addRentalItem.getSerialNo()) != null) {</span>
+<span class="fc" id="L43">            throw new BusinessFlowException(&quot;The serialNo is already registered.&quot;, DUPRICATE);</span>
+        }
+        // 登録
+<span class="fc" id="L46">        repository.add(addRentalItem);</span>
+<span class="fc" id="L47">        return get(addRentalItem.getId());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocalDateTimeSerializers.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.provider.converter</a> &gt; <span class="el_source">LocalDateTimeSerializers.java</span></div><h1>LocalDateTimeSerializers.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.provider.converter;
+
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.json.bind.serializer.DeserializationContext;
+import javax.json.bind.serializer.JsonbDeserializer;
+import javax.json.bind.serializer.JsonbSerializer;
+import javax.json.bind.serializer.SerializationContext;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonParser;
+
+public class LocalDateTimeSerializers {
+
+    private DateTimeFormatter dateTimeFormatter;
+
+    // ----------------------------------------------------- public methods
+
+<span class="nc" id="L20">    public LocalDateTimeSerializers(DateTimeFormatter formatter) {</span>
+<span class="nc" id="L21">        this.dateTimeFormatter = formatter;</span>
+<span class="nc" id="L22">    }</span>
+
+    public JsonbSerializer&lt;LocalDateTime&gt; getSerializer() {
+<span class="nc" id="L25">        return new LocalDateTimeSerializer();</span>
+    }
+
+    public JsonbDeserializer&lt;LocalDateTime&gt; getDeserializer() {
+<span class="nc" id="L29">        return new LocaDateTimeDeserializer();</span>
+    }
+
+
+    // ----------------------------------------------------- inner classes
+
+<span class="nc" id="L35">    public class LocalDateTimeSerializer implements JsonbSerializer&lt;LocalDateTime&gt; {</span>
+        @Override
+        public void serialize(LocalDateTime obj, JsonGenerator generator, SerializationContext ctx) {
+<span class="nc" id="L38">            generator.write(dateTimeFormatter.format(obj));</span>
+<span class="nc" id="L39">        }</span>
+    }
+
+<span class="nc" id="L42">    public class LocaDateTimeDeserializer implements JsonbDeserializer&lt;LocalDateTime&gt; {</span>
+        @Override
+        public LocalDateTime deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
+<span class="nc" id="L45">            String value = parser.getString();</span>
+<span class="nc" id="L46">            return LocalDateTime.parse(value, dateTimeFormatter);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

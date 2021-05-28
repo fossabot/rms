@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeforeAfterDateTime.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.domain.constraint</a> &gt; <span class="el_source">BeforeAfterDateTime.java</span></div><h1>BeforeAfterDateTime.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.domain.constraint;
+
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.*;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.time.LocalDateTime;
+
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+
+import com.mamezou.rms.core.domain.constraint.BeforeAfterDateTime.BeforeAfterDateTimeValidator;
+
+@Documented
+@Constraint(validatedBy = { BeforeAfterDateTimeValidator.class })
+@Target({ TYPE, ANNOTATION_TYPE })
+@Retention(RUNTIME)
+public @interface BeforeAfterDateTime {
+
+    String message() default &quot;{com.mamezou.rms.service.contrains.BeforeAfterDateTime.message}&quot;;
+
+    Class&lt;?&gt;[] groups() default {};
+
+    Class&lt;? extends Payload&gt;[] payload() default {};
+
+    String from() default &quot;start datetime&quot;;
+
+    String to() default &quot;end datetime&quot;;
+
+    @Target({ TYPE, ANNOTATION_TYPE })
+    @Retention(RUNTIME)
+    @Documented
+    public @interface List {
+        BeforeAfterDateTime[] value();
+    }
+
+<span class="fc" id="L41">    public static class BeforeAfterDateTimeValidator implements ConstraintValidator&lt;BeforeAfterDateTime, BeforeAfterDateTimeValidatable&gt; {</span>
+        public boolean isValid(BeforeAfterDateTimeValidatable bean, ConstraintValidatorContext context) {
+<span class="fc bfc" id="L43" title="All 4 branches covered.">            if (bean.getStartDateTime() == null || bean.getEndDateTime() == null) {</span>
+<span class="fc" id="L44">                return true; // チェックしない</span>
+            }
+<span class="fc" id="L46">            return bean.getStartDateTime().isBefore(bean.getEndDateTime());</span>
+        }
+    }
+
+    public interface BeforeAfterDateTimeValidatable {
+        public LocalDateTime getStartDateTime();
+        public LocalDateTime getEndDateTime();
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

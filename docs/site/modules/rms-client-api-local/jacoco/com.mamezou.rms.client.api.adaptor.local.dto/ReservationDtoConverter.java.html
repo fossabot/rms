@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationDtoConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-api-local</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.api.adaptor.local.dto</a> &gt; <span class="el_source">ReservationDtoConverter.java</span></div><h1>ReservationDtoConverter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.api.adaptor.local.dto;
+
+import com.mamezou.rms.client.api.dto.ReservationClientDto;
+import com.mamezou.rms.core.domain.Reservation;
+
+<span class="nc" id="L6">public class ReservationDtoConverter {</span>
+
+    public static ReservationClientDto toDto(Reservation reservation) {
+<span class="nc" id="L9">        ReservationClientDto dto = new ReservationClientDto();</span>
+<span class="nc" id="L10">        dto.setId(reservation.getId());</span>
+<span class="nc" id="L11">        dto.setStartDateTime(reservation.getStartDateTime());</span>
+<span class="nc" id="L12">        dto.setEndDateTime(reservation.getEndDateTime());</span>
+<span class="nc" id="L13">        dto.setNote(reservation.getNote());</span>
+<span class="nc" id="L14">        dto.setRentalItemId(reservation.getRentalItemId());</span>
+<span class="nc" id="L15">        dto.setUserAccountId(reservation.getUserAccountId());</span>
+<span class="nc" id="L16">        dto.setUserAccountDto(</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">                reservation.getUserAccount() != null</span>
+<span class="nc" id="L18">                    ? reservation.getUserAccount().transform(UserAccountDtoConverter::toDto)</span>
+<span class="nc" id="L19">                    : null);</span>
+<span class="nc" id="L20">        dto.setRentalItemDto(</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">                reservation.getRentalItem() != null</span>
+<span class="nc" id="L22">                    ? reservation.getRentalItem().transform(RentalItemDtoConverter::toDto)</span>
+<span class="nc" id="L23">                    : null);</span>
+<span class="nc" id="L24">        return dto;</span>
+    }
+
+    public static Reservation toEntity(ReservationClientDto dto) {
+<span class="nc" id="L28">        Reservation reservation = new Reservation();</span>
+<span class="nc" id="L29">        reservation.setId(dto.getId());</span>
+<span class="nc" id="L30">        reservation.setStartDateTime(dto.getStartDateTime());</span>
+<span class="nc" id="L31">        reservation.setEndDateTime(dto.getEndDateTime());</span>
+<span class="nc" id="L32">        reservation.setNote(dto.getNote());</span>
+<span class="nc" id="L33">        reservation.setRentalItemId(dto.getRentalItemId());</span>
+<span class="nc" id="L34">        reservation.setUserAccountId(dto.getUserAccountId());</span>
+<span class="nc" id="L35">        reservation.setUserAccount(</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                dto.getUserAccountDto() != null</span>
+<span class="nc" id="L37">                    ? dto.getUserAccountDto().to(UserAccountDtoConverter::toEntity)</span>
+<span class="nc" id="L38">                    : null);</span>
+<span class="nc" id="L39">        reservation.setRentalItem(</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                dto.getRentalItemDto() != null</span>
+<span class="nc" id="L41">                    ? dto.getRentalItemDto().to(RentalItemDtoConverter::toEntity)</span>
+<span class="nc" id="L42">                    : null);</span>
+<span class="nc" id="L43">        return reservation;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RentalItemDtoConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-api-local</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.api.adaptor.local.dto</a> &gt; <span class="el_source">RentalItemDtoConverter.java</span></div><h1>RentalItemDtoConverter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.api.adaptor.local.dto;
+
+import com.mamezou.rms.client.api.dto.RentalItemClientDto;
+import com.mamezou.rms.core.domain.RentalItem;
+
+<span class="nc" id="L6">public class RentalItemDtoConverter {</span>
+
+    public static RentalItemClientDto toDto(RentalItem rentalItem) {
+<span class="nc" id="L9">        RentalItemClientDto dto = new RentalItemClientDto();</span>
+<span class="nc" id="L10">        dto.setId(rentalItem.getId());</span>
+<span class="nc" id="L11">        dto.setSerialNo(rentalItem.getSerialNo());</span>
+<span class="nc" id="L12">        dto.setItemName(rentalItem.getItemName());</span>
+<span class="nc" id="L13">        return dto;</span>
+    }
+
+    public static RentalItem toEntity(RentalItemClientDto dto) {
+<span class="nc" id="L17">        RentalItem rentalItem = new RentalItem();</span>
+<span class="nc" id="L18">        rentalItem.setId(dto.getId());</span>
+<span class="nc" id="L19">        rentalItem.setSerialNo(dto.getSerialNo());</span>
+<span class="nc" id="L20">        rentalItem.setItemName(dto.getItemName());</span>
+<span class="nc" id="L21">        return rentalItem;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

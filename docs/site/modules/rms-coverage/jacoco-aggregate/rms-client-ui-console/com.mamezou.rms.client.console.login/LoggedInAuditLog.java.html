@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>LoggedInAuditLog.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.login</a> &gt; <span class="el_source">LoggedInAuditLog.java</span></div><h1>LoggedInAuditLog.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.login;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+
+import com.mamezou.rms.client.api.login.LoggedInEvent;
+
+import lombok.extern.slf4j.Slf4j;
+
+@ApplicationScoped
+<span class="nc" id="L11">@Slf4j</span>
+<span class="nc" id="L12">public class LoggedInAuditLog {</span>
+
+    void onLoggedInEvent(@Observes LoggedInEvent event) {
+<span class="nc" id="L15">        log.info(&quot;{}さんがログインしました！&quot;, event.getLoginUser().getUserName());</span>
+<span class="nc" id="L16">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

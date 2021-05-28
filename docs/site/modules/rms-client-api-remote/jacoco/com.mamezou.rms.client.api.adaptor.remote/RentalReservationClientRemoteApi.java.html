@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RentalReservationClientRemoteApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-api-remote</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.api.adaptor.remote</a> &gt; <span class="el_source">RentalReservationClientRemoteApi.java</span></div><h1>RentalReservationClientRemoteApi.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.api.adaptor.remote;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import com.mamezou.rms.client.api.RentalReservationClientApi;
+import com.mamezou.rms.client.api.adaptor.remote.dto.AddRentalItemRequestDto;
+import com.mamezou.rms.client.api.adaptor.remote.dto.AddReservationRequestDto;
+import com.mamezou.rms.client.api.adaptor.remote.dto.AddUserAccountRequestDto;
+import com.mamezou.rms.client.api.adaptor.remote.rest.RentalReservationRestClient;
+import com.mamezou.rms.client.api.dto.RentalItemClientDto;
+import com.mamezou.rms.client.api.dto.ReservationClientDto;
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
+import com.mamezou.rms.platform.extension.ConfiguableScoped;
+
+@ConfiguableScoped
+<span class="fc" id="L23">public class RentalReservationClientRemoteApi implements RentalReservationClientApi {</span>
+
+    @Inject
+    @RestClient
+    private RentalReservationRestClient client;
+
+    @Override
+    public UserAccountClientDto authenticate(String loginId, String password) {
+<span class="fc" id="L31">        var paramMap = new HashMap&lt;String, String&gt;();</span>
+<span class="fc" id="L32">        paramMap.put(&quot;loginId&quot;, loginId);</span>
+<span class="fc" id="L33">        paramMap.put(&quot;password&quot;, password);</span>
+<span class="fc" id="L34">        return client.authenticate(paramMap);</span>
+    }
+
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // RestClient does not allow type definition of List&lt;? extends ReservationDto&gt;. So forcibly cast.
+    public List&lt;ReservationClientDto&gt; findReservationByRentalItemAndStartDate(Integer targetRentalItemId, LocalDate targetDate) {
+<span class="fc" id="L41">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.findReservation(targetRentalItemId, targetDate);</span>
+    }
+
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;ReservationClientDto&gt; findReservationByReserverId(int reserverId) {
+<span class="fc" id="L47">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.findReservationByReserverId(reserverId);</span>
+    }
+
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;ReservationClientDto&gt; getOwnReservations() {
+<span class="fc" id="L53">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.getOwnReservations();</span>
+    }
+
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;RentalItemClientDto&gt; getAllRentalItems() {
+<span class="fc" id="L59">        return (List&lt;RentalItemClientDto&gt;)(List&lt;?&gt;)client.getAllRentalItems();</span>
+    }
+
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;UserAccountClientDto&gt; getAllUserAccounts() {
+<span class="fc" id="L65">        return (List&lt;UserAccountClientDto&gt;)(List&lt;?&gt;)client.getAllUserAccounts();</span>
+    }
+
+    @Override
+    public ReservationClientDto addReservation(ReservationClientDto addReservation) {
+<span class="fc" id="L70">        var requestDto = new AddReservationRequestDto(addReservation);</span>
+<span class="fc" id="L71">        return client.addReservation(requestDto);</span>
+    }
+
+    @Override
+    public RentalItemClientDto addRentalItem(RentalItemClientDto addRentalItem) {
+<span class="fc" id="L76">        var requestDto = new AddRentalItemRequestDto(addRentalItem);</span>
+<span class="fc" id="L77">        return client.addRentalItem(requestDto);</span>
+    }
+
+    @Override
+    public UserAccountClientDto addUserAccount(UserAccountClientDto addUserAccountDto) {
+<span class="fc" id="L82">        var requestDto = new AddUserAccountRequestDto(addUserAccountDto);</span>
+<span class="fc" id="L83">        return client.addUserAccount(requestDto);</span>
+    }
+
+    @Override
+    public void cancelReservation(int reservationId) throws BusinessFlowClientException {
+<span class="fc" id="L88">        client.cancelReservation(reservationId);</span>
+<span class="fc" id="L89">    }</span>
+
+    @Override
+    public UserAccountClientDto updateUserAccount(UserAccountClientDto updateUserAccountDto) {
+<span class="fc" id="L93">        return client.updateUserAccount(updateUserAccountDto);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

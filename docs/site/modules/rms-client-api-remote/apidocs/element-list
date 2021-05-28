@@ -1,0 +1,4 @@
+com.mamezou.rms.client.api.adaptor.remote
+com.mamezou.rms.client.api.adaptor.remote.auth
+com.mamezou.rms.client.api.adaptor.remote.dto
+com.mamezou.rms.client.api.adaptor.remote.rest
