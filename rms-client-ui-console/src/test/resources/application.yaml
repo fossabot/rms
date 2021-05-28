@@ -1,0 +1,13 @@
+config_ordinal: 199
+configuredCdi:
+  alias:
+    remote:
+      class: com.mamezou.rms.client.api.adaptor.remote.RentalReservationClientRemoteApi
+      scope: application
+    local:
+      class: com.mamezou.rms.client.api.adaptor.local.RentalReservationClientLocalApi
+      scope: application
+  register:
+    - alias: remote
+    - class: com.mamezou.rms.platform.jwt.impl.jose4j.Jose4jJwtGenerator
+    - class: com.mamezou.rms.platform.jwt.impl.jose4j.Jose4PrivateSecretedTokenValidator

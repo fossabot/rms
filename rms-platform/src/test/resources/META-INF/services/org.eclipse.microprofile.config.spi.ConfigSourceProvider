@@ -1,0 +1,2 @@
+com.mamezou.rms.platform.config.ExternalPathConfigProvider
+com.mamezou.rms.platform.config.ResourcePathUnderConfigProvider
