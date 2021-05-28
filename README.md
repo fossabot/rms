@@ -7,7 +7,7 @@ Rental Management Systemのビルドやテスト、APIドキュメントなど�
 | ------ | ------ | ---- |
 | rms-all | REST API Document | [Redoc](http://54.199.30.101/static/)|
 |  | Java API Document | [Javadoc](https://ozytso.github.io/rms/site/modules/apidocs/index.html) |
-|  | Code Coverage | [JaCoCo](https://ozytso.github.io/rms/site/modules/ers-coverage/jacoco-aggregate/index.html) |
+|  | Code Coverage | [JaCoCo](https://ozytso.github.io/rms/site/modules/rms-coverage/jacoco-aggregate/index.html) |
 |  | Code Duplication | [CDC](https://ozytso.github.io/rms/site/modules/cpd.html) |
 | rms-platform | Generate maven-site | [Project Information Top](https://ozytso.github.io/rms/site/modules/rms-platform/project-info.html) |
 | | JUnit Test Result | [Surefire Report](https://ozytso.github.io/rms/site/modules/rms-platform/surefire-report.html) |
