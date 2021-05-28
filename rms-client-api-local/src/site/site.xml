@@ -14,7 +14,7 @@
       <topBarEnabled>true</topBarEnabled>
       <navBarStyle>navbar-inverse</navBarStyle>
       <gitHub>
-        <projectId>mamezou-tech/ers-jdk8</projectId>
+        <projectId>ozytso/rms</projectId>
         <ribbonOrientation>right</ribbonOrientation>
       </gitHub>
       <googleSearch>

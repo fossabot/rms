@@ -1,2 +1,2 @@
 # About RentalManagementSystem
-See the [GitHub page](https://github.com/mamezou-tech/ers-jdk8) for a description of the project
+See the [GitHub page](https://github.com/ozytso/rms) for a description of the project

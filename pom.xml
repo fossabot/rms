@@ -385,7 +385,7 @@
         <version>${version.plugin.maven-scm-publish}</version>
         <configuration>
           <siteOutputEncoding>${site.encoding}</siteOutputEncoding>
-          <subDirectory>docs/site/services</subDirectory>
+          <subDirectory>docs/site/modules</subDirectory>
           <scmBranch>github-pages</scmBranch>
         </configuration>
       </plugin>
