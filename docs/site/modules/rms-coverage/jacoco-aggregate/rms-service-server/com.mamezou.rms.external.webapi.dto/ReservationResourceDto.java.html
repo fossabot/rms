@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationResourceDto.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-service-server</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.external.webapi.dto</a> &gt; <span class="el_source">ReservationResourceDto.java</span></div><h1>ReservationResourceDto.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.external.webapi.dto;
+
+import java.time.LocalDateTime;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import com.mamezou.rms.core.domain.Reservation;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Schema(description = &quot;予約DTO&quot;)
+@Getter
+<span class="fc" id="L16">@Setter</span>
+<span class="fc" id="L17">public class ReservationResourceDto {</span>
+
+    @Schema(required = true)
+<span class="fc" id="L20">    private Integer id;</span>
+
+    @Schema(required = true)
+<span class="fc" id="L23">    private LocalDateTime startDateTime;</span>
+
+    @Schema(required = true)
+<span class="fc" id="L26">    private LocalDateTime endDateTime;</span>
+
+    @Schema(required = false)
+<span class="fc" id="L29">    private String note;</span>
+
+    @Schema(required = true)
+<span class="fc" id="L32">    private int rentalItemId;</span>
+
+    @Schema(required = true)
+<span class="fc" id="L35">    private int userAccountId;</span>
+
+    @Schema(required = true)
+<span class="fc" id="L38">    private UserAccountResourceDto userAccountDto;</span>
+
+    @Schema(required = true)
+<span class="fc" id="L41">    private RentalItemResourceDto rentalItemDto;</span>
+
+    public static ReservationResourceDto toDto(Reservation entity) {
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (entity == null) {</span>
+<span class="nc" id="L45">            return null;</span>
+        }
+<span class="fc" id="L47">        var dto = new ReservationResourceDto();</span>
+<span class="fc" id="L48">        dto.setId(entity.getId());</span>
+<span class="fc" id="L49">        dto.setStartDateTime(entity.getStartDateTime());</span>
+<span class="fc" id="L50">        dto.setEndDateTime(entity.getEndDateTime());</span>
+<span class="fc" id="L51">        dto.setNote(entity.getNote());</span>
+<span class="fc" id="L52">        dto.setRentalItemId(entity.getRentalItemId());</span>
+<span class="fc" id="L53">        dto.setUserAccountId(entity.getUserAccountId());</span>
+<span class="fc" id="L54">        dto.setRentalItemDto(entity.getRentalItem().transform(RentalItemResourceDto::toDto));</span>
+<span class="fc" id="L55">        dto.setUserAccountDto(entity.getUserAccount().transform(UserAccountResourceDto::toDto));</span>
+<span class="fc" id="L56">        return dto;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L61">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

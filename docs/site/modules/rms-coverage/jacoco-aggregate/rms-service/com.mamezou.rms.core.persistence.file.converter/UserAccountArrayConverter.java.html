@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>UserAccountArrayConverter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file.converter</a> &gt; <span class="el_source">UserAccountArrayConverter.java</span></div><h1>UserAccountArrayConverter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file.converter;
+
+import com.mamezou.rms.core.domain.UserAccount;
+import com.mamezou.rms.core.domain.UserAccount.UserType;
+
+<span class="fc" id="L6">public class UserAccountArrayConverter implements EntityArrayConverter&lt;UserAccount&gt; {</span>
+
+<span class="fc" id="L8">    public static final UserAccountArrayConverter INSTANCE = new UserAccountArrayConverter();</span>
+
+    public UserAccount toEntity(String[] attributes) {
+
+<span class="fc" id="L12">        int id = Integer.parseInt(attributes[0]);</span>
+<span class="fc" id="L13">        String loginId = attributes[1];</span>
+<span class="fc" id="L14">        String password = attributes[2];</span>
+<span class="fc" id="L15">        String userName = attributes[3];</span>
+<span class="fc" id="L16">        String phoneNumber = attributes[4];</span>
+<span class="fc" id="L17">        String contact = attributes[5];</span>
+<span class="fc" id="L18">        UserType userType = UserType.valueOf(attributes[6]);</span>
+
+<span class="fc" id="L20">        return UserAccount.of(id, loginId, password, userName, phoneNumber, contact, userType);</span>
+    }
+
+    public String[] toArray(UserAccount userAccount) {
+
+<span class="fc" id="L25">        String[] userAccountAttributes = new String[7];</span>
+
+<span class="fc" id="L27">        userAccountAttributes[0] = String.valueOf(userAccount.getId());</span>
+<span class="fc" id="L28">        userAccountAttributes[1] = userAccount.getLoginId();</span>
+<span class="fc" id="L29">        userAccountAttributes[2] = userAccount.getPassword();</span>
+<span class="fc" id="L30">        userAccountAttributes[3] = userAccount.getUserName();</span>
+<span class="fc" id="L31">        userAccountAttributes[4] = userAccount.getPhoneNumber();</span>
+<span class="fc" id="L32">        userAccountAttributes[5] = userAccount.getContact();</span>
+<span class="fc" id="L33">        userAccountAttributes[6] = userAccount.getUserType().name();</span>
+
+<span class="fc" id="L35">        return userAccountAttributes;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

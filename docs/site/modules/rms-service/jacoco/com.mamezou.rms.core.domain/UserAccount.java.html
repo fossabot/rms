@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserAccount.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.domain</a> &gt; <span class="el_source">UserAccount.java</span></div><h1>UserAccount.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.domain;
+
+import static javax.persistence.AccessType.*;
+
+import javax.persistence.Access;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.mamezou.rms.core.domain.constraint.Contact;
+import com.mamezou.rms.core.domain.constraint.LoginId;
+import com.mamezou.rms.core.domain.constraint.Passowrd;
+import com.mamezou.rms.core.domain.constraint.PhoneNumber;
+import com.mamezou.rms.core.domain.constraint.RmsId;
+import com.mamezou.rms.core.domain.constraint.UserName;
+import com.mamezou.rms.core.domain.constraint.UserTypeConstraint;
+import com.mamezou.rms.core.domain.constraint.ValidationGroups.Update;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Access(FIELD)
+@Entity
+@Getter
+<span class="fc" id="L34">@Setter</span>
+<span class="fc" id="L35">@NoArgsConstructor</span>
+<span class="fc" id="L36">@AllArgsConstructor(staticName = &quot;of&quot;)</span>
+public class UserAccount implements Transformable, IdAccessable {
+
+    /** UserType */
+<span class="fc" id="L40">    public enum UserType {</span>
+
+<span class="fc" id="L42">        ADMIN(true),</span>
+<span class="fc" id="L43">        MEMBER(false);</span>
+
+        boolean admin;
+<span class="fc" id="L46">        private UserType(boolean admin) {</span>
+<span class="fc" id="L47">            this.admin = admin;</span>
+<span class="fc" id="L48">        }</span>
+        public boolean isAdmin() {
+<span class="nc" id="L50">            return admin;</span>
+        }
+    }
+
+    /** id */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @RmsId(groups = Update.class)
+<span class="fc" id="L58">    private Integer id;</span>
+
+    /** ログインID */
+    @LoginId
+<span class="fc" id="L62">    private String loginId;</span>
+
+    /** パスワード */
+    @Passowrd
+<span class="fc" id="L66">    private String password;</span>
+
+    /** ユーザ名 */
+    @UserName
+<span class="fc" id="L70">    private String userName;</span>
+
+    /** 電話番号 */
+    @PhoneNumber
+<span class="fc" id="L74">    private String phoneNumber;</span>
+
+    /** 連絡先 */
+    @Contact
+<span class="fc" id="L78">    private String contact;</span>
+
+    /** ユーザ区分 */
+    @Enumerated(EnumType.STRING)
+    @UserTypeConstraint
+<span class="fc" id="L83">    private UserType userType;</span>
+
+
+    // ----------------------------------------------------- factory methods
+
+    public static UserAccount ofTransient(String loginId, String password, String userName, String phoneNumber, String contact, UserType userType) {
+<span class="fc" id="L89">        return of(null, loginId, password, userName, phoneNumber, contact, userType);</span>
+    }
+
+    // ----------------------------------------------------- service methods
+
+    @Transient
+    public boolean isAdmin() {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        return this.userType == UserType.ADMIN;</span>
+    }
+
+    public void setAdmin(boolean isAdmin) {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        this.userType = isAdmin ? UserType.ADMIN : UserType.MEMBER;</span>
+<span class="fc" id="L101">    }</span>
+
+    // ----------------------------------------------------- override methods
+
+    @Override
+    public String toString() {
+<span class="fc" id="L107">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

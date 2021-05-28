@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ClientConstants.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.ui</a> &gt; <span class="el_source">ClientConstants.java</span></div><h1>ClientConstants.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.ui;
+
+import java.time.format.DateTimeFormatter;
+
+import com.mamezou.rms.client.api.dto.RentalItemClientDto;
+import com.mamezou.rms.client.api.dto.ReservationClientDto;
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+
+<span class="nc" id="L9">public class ClientConstants {</span>
+
+<span class="nc" id="L11">    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd&quot;);</span>
+<span class="nc" id="L12">    public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd HH:mm&quot;);</span>
+
+<span class="nc" id="L14">    public static final DtoFormatter&lt;RentalItemClientDto&gt; RENATL_ITEM_FORMAT = new DtoFormatter.RentalItemFormatter();</span>
+<span class="nc" id="L15">    public static final DtoFormatter&lt;ReservationClientDto&gt; RESERVATION_FORMAT = new DtoFormatter.ReservationFormatter();</span>
+<span class="nc" id="L16">    public static final DtoFormatter&lt;UserAccountClientDto&gt; USER_ACCOUNT_FORMAT = new DtoFormatter.UserAccountFormatter();</span>
+
+    public static final String SCREEN_BREAK_KEY = &quot;-1&quot;;
+<span class="nc" id="L19">    public static final int SCREEN_BREAK_VALUE = Integer.parseInt(SCREEN_BREAK_KEY);</span>
+
+<span class="nc" id="L21">    public static final String LOGIN_INFORMATION = &quot;ログイン名とパスワードを入力して下さい。&quot; + System.lineSeparator()</span>
+        + &quot;終了する場合は、ログイン名に-1を入力してください。&quot;;
+<span class="nc" id="L23">    public static final String INQUIRY_RESERVATION_INFORMATION = &quot;レンタル品番号と日付を入力してください。&quot; + System.lineSeparator()</span>
+        + &quot;メニュー画面へ戻る場合は、-1を入力して下さい。&quot;;
+<span class="nc" id="L25">    public static final String ENTRY_RESERVATION_INFORMATION = &quot;レンタル品番号、利用開始日時、利用終了日時、備考(空白可)を入力してください。&quot; + System.lineSeparator()</span>
+        + &quot;メニュー画面へ戻る場合は、-1を入力して下さい。&quot;;
+<span class="nc" id="L27">    public static final String CANCEL_RESERVATION_INFORMATION = &quot;予約番号を入力してください。&quot; + System.lineSeparator()</span>
+        + &quot;メニュー画面へ戻る場合は、-1を入力して下さい。&quot;;
+    public static final String CANNOT_CANCEL_RESERVATION_INFORMATION = &quot;キャンセル可能な予約がありません。メニュー画面へ戻ります。&quot;;
+<span class="nc" id="L30">    public static final String ENTRY_RENTAL_ITEM_INFORMATION = &quot;シリアル番号、レンタル品名を入力してください。&quot; + System.lineSeparator()</span>
+        + &quot;管理者用メニュー画面へ戻る場合は、-1を入力して下さい。&quot;;
+<span class="nc" id="L32">    public static final String ENTRY_USER_INFORMATION = &quot;ログインID、パスワード、ユーザ名、電話番号、連絡先、権限を入力して下さい。&quot; + System.lineSeparator()</span>
+        + &quot;管理者用メニュー画面へ戻る場合は、-1を入力して下さい。&quot;;
+<span class="nc" id="L34">    public static final String EDIT_USER_INFORMATION = &quot;編集するユーザ番号を入力後、パスワード、ユーザ名、電話番号、連絡先、権限を入力して下さい。&quot; + System.lineSeparator()</span>
+        + &quot;管理者用メニュー画面へ戻る場合は、-1を入力して下さい。&quot;;
+
+    public static final String UNKNOWN_ERROR_INFORMATION = &quot;予期せぬエラーが発生しました。ログインからやり直してください&quot;;
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

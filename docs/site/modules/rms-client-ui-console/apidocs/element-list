@@ -1,0 +1,6 @@
+com.mamezou.rms.client.console
+com.mamezou.rms.client.console.login
+com.mamezou.rms.client.console.ui
+com.mamezou.rms.client.console.ui.admin
+com.mamezou.rms.client.console.ui.member
+com.mamezou.rms.client.console.ui.textio

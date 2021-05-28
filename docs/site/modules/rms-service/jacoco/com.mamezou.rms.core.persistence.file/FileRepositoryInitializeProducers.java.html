@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileRepositoryInitializeProducers.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file</a> &gt; <span class="el_source">FileRepositoryInitializeProducers.java</span></div><h1>FileRepositoryInitializeProducers.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Map;
+
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.Config;
+
+import com.mamezou.rms.core.domain.RentalItem;
+import com.mamezou.rms.core.domain.Reservation;
+import com.mamezou.rms.core.domain.UserAccount;
+import com.mamezou.rms.core.persistence.file.converter.EntityArrayConverter;
+import com.mamezou.rms.core.persistence.file.converter.RentalItemArrayConverter;
+import com.mamezou.rms.core.persistence.file.converter.ReservationArrayConverter;
+import com.mamezou.rms.core.persistence.file.converter.UserAccountArrayConverter;
+import com.mamezou.rms.core.persistence.file.io.FileAccessor;
+import com.mamezou.rms.core.persistence.file.io.PathResolver;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Dependent
+<span class="fc" id="L27">@Slf4j</span>
+<span class="fc" id="L28">public class FileRepositoryInitializeProducers {</span>
+
+    // config value is &quot;permanent&quot; or &quot;temporary&quot;
+    private static final String FILE_TYPE_CONFIG_KEY = &quot;csv.type&quot;;
+    // samaple key is &quot;csv-file.permanent.file_name.reservation = reservation.csv&quot;
+    private static final String FILE_NAME_CONFIG_KEY_FORMAT = &quot;csv.%s.fileName.%s&quot;;
+
+<span class="fc" id="L35">    private static final Map&lt;Class&lt;?&gt;, String&gt; FILE_NAME_TYPE_CONFIG_KEY_MAP = Map.of(</span>
+                RentalItemFileRepository.class, &quot;rentalitem&quot;,
+                ReservationFileRepository.class, &quot;reservation&quot;,
+                UserAccountFileRepository.class, &quot;useraccount&quot;
+            );
+
+    @Inject
+    private Config config;
+
+    @Produces
+    public FileAccessor creteFileAccessor(InjectionPoint injectionPoint) throws IOException {
+
+        // 1%sの文字列取得
+<span class="fc" id="L48">        String fileType = config.getValue(FILE_TYPE_CONFIG_KEY, String.class);</span>
+
+        // 2%sの文字列取得
+<span class="fc" id="L51">        Class&lt;?&gt; beanClass = injectionPoint.getBean().getBeanClass();</span>
+<span class="fc" id="L52">        String fileNameTypeConfigKey = FILE_NAME_TYPE_CONFIG_KEY_MAP.get(beanClass);</span>
+
+        // ファイル名のConfigKeyの決定
+<span class="fc" id="L55">        String fileNameConfigKey = String.format(FILE_NAME_CONFIG_KEY_FORMAT, fileType, fileNameTypeConfigKey);</span>
+<span class="fc" id="L56">        String fileName = config.getValue(fileNameConfigKey, String.class);</span>
+
+        // フィルパスの取得
+        Path filePath;
+<span class="pc bpc" id="L60" title="1 of 3 branches missed.">        switch (fileType) {</span>
+            case &quot;permanent&quot;:
+<span class="fc" id="L62">                filePath = new PathResolver.FixedDirPathResolver().resolve(fileName);</span>
+<span class="fc" id="L63">                break;</span>
+            case &quot;temporary&quot;:
+<span class="fc" id="L65">                filePath =  FileAccessor.copyResourceToRealPath(fileName, new PathResolver.TempDirPathResolver());</span>
+<span class="fc" id="L66">                break;</span>
+            default:
+<span class="nc" id="L68">                throw new IllegalArgumentException(&quot;unknown fileType -&gt; &quot; + fileType);</span>
+        }
+<span class="fc" id="L70">        log.info(&quot;[{}]モードでファイルをオープンしました。PATH={}&quot;, fileType, filePath);</span>
+
+<span class="fc" id="L72">        return new FileAccessor(filePath);</span>
+    }
+
+    @Produces
+    public EntityArrayConverter&lt;RentalItem&gt; createRentalItemConverter(InjectionPoint injectionPoint) {
+<span class="fc" id="L77">        return RentalItemArrayConverter.INSTANCE;</span>
+    }
+
+    @Produces
+    public EntityArrayConverter&lt;Reservation&gt; createReservationConverter(InjectionPoint injectionPoint) {
+<span class="fc" id="L82">        return ReservationArrayConverter.INSTANCE;</span>
+    }
+
+    @Produces
+    public EntityArrayConverter&lt;UserAccount&gt; createUserAccoutConverter(InjectionPoint injectionPoint) {
+<span class="fc" id="L87">        return UserAccountArrayConverter.INSTANCE;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

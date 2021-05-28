@@ -1,0 +1,4 @@
+com.mamezou.rms.client.api
+com.mamezou.rms.client.api.dto
+com.mamezou.rms.client.api.exception
+com.mamezou.rms.client.api.login

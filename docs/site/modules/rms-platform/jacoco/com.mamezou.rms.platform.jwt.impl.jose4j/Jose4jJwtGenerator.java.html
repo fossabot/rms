@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Jose4jJwtGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.jwt.impl.jose4j</a> &gt; <span class="el_source">Jose4jJwtGenerator.java</span></div><h1>Jose4jJwtGenerator.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.jwt.impl.jose4j;
+
+import static com.mamezou.rms.platform.jwt.impl.jose4j.KeyCreators.*;
+import static org.jose4j.jws.AlgorithmIdentifiers.*;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.Config;
+import org.jose4j.jws.JsonWebSignature;
+import org.jose4j.jwt.JwtClaims;
+import org.jose4j.jwt.NumericDate;
+import org.jose4j.lang.JoseException;
+
+import com.mamezou.rms.platform.extension.ConfiguableScoped;
+import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator;
+import com.mamezou.rms.platform.jwt.JwtConfig;
+
+@ConfiguableScoped
+public class Jose4jJwtGenerator implements JsonWebTokenGenerator {
+
+    private JwtConfig jwtConfig;
+
+    @Inject
+<span class="fc" id="L26">    public  Jose4jJwtGenerator(Config config) {</span>
+<span class="fc" id="L27">        this.jwtConfig = JwtConfig.of(config);</span>
+<span class="fc" id="L28">    }</span>
+
+    @Override
+    public String generateToken(UserClaims userClaims) {
+
+<span class="fc" id="L33">        JsonWebSignature jws = new JsonWebSignature(); // 署名オブジェクト</span>
+
+<span class="fc" id="L35">        JwtClaims claims = createClaims(userClaims);</span>
+<span class="fc" id="L36">        jws.setPayload(claims.toJson());</span>
+<span class="fc" id="L37">        jws.setAlgorithmHeaderValue(HMAC_SHA256);</span>
+<span class="fc" id="L38">        jws.setKey(jwtConfig.getSecretKey(PHRASE_TO_KEY_CONVERTER));</span>
+<span class="fc" id="L39">        jws.setDoKeyValidation(false);</span>
+
+        try {
+            // ClaimsのJSONを秘密鍵で署名
+<span class="fc" id="L43">            return jws.getCompactSerialization();</span>
+<span class="nc" id="L44">        } catch (JoseException e) {</span>
+<span class="nc" id="L45">            throw new IllegalStateException(e);</span>
+        }
+    }
+
+
+    // ----------------------------------------------------- inner classes
+
+    private JwtClaims createClaims(UserClaims userClaims) {
+
+        // MicroProfile-JWTで必須とされている項目のみ設定
+<span class="fc" id="L55">        JwtClaims claims = new JwtClaims();</span>
+
+        // 発行者
+<span class="fc" id="L58">        claims.setIssuer(jwtConfig.getIssuer());</span>
+        // ユーザ識別子
+<span class="fc" id="L60">        claims.setSubject(userClaims.getUserId());</span>
+        // 有効期限(exp)
+<span class="fc" id="L62">        claims.setExpirationTimeMinutesInTheFuture(jwtConfig.getExpirationTime());</span>
+        // 発行日時(iat)
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (jwtConfig.isIssuedAtToNow()) {</span>
+<span class="fc" id="L65">            claims.setIssuedAtToNow();</span>
+        } else {
+<span class="fc" id="L67">            claims.setIssuedAt(NumericDate.fromSeconds(jwtConfig.getIssuedAt()));</span>
+        }
+        // tokenId(jti)
+<span class="fc" id="L70">        claims.setGeneratedJwtId();</span>
+        // ユーザ名(MicroProfile-JWTのカスタムClaim)
+<span class="fc" id="L72">        claims.setStringClaim(&quot;upn&quot;, userClaims.getUserPrincipalName());</span>
+        // グループ名(MicroProfile-JWTのカスタムClaim)
+<span class="fc" id="L74">        claims.setStringListClaim(&quot;groups&quot;, new ArrayList&lt;&gt;(userClaims.getGroups()));</span>
+
+<span class="fc" id="L76">        return claims;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

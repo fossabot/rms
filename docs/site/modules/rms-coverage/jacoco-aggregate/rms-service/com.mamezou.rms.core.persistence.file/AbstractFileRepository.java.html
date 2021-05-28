@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>AbstractFileRepository.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file</a> &gt; <span class="el_source">AbstractFileRepository.java</span></div><h1>AbstractFileRepository.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import com.mamezou.rms.core.domain.IdAccessable;
+import com.mamezou.rms.core.domain.Transformable;
+import com.mamezou.rms.core.domain.constraint.ValidationGroups.Add;
+import com.mamezou.rms.core.persistence.GenericRepository;
+import com.mamezou.rms.core.persistence.file.converter.EntityArrayConverter;
+import com.mamezou.rms.core.persistence.file.io.FileAccessor;
+import com.mamezou.rms.platform.validate.ValidateGroup;
+import com.mamezou.rms.platform.validate.ValidateParam;
+
+public class AbstractFileRepository&lt;T extends Transformable &amp; IdAccessable&gt; implements GenericRepository&lt;T&gt;, FileRepository {
+
+    private FileAccessor fileAccessor;
+    private EntityArrayConverter&lt;T&gt; entityConverter;
+
+
+    // ----------------------------------------------------- constructor methods
+
+<span class="fc" id="L28">    public AbstractFileRepository(FileAccessor fileAccessor, EntityArrayConverter&lt;T&gt; entityConverter) {</span>
+<span class="fc" id="L29">        this.fileAccessor = fileAccessor;</span>
+<span class="fc" id="L30">        this.entityConverter = entityConverter;</span>
+<span class="fc" id="L31">    }</span>
+
+
+    // ----------------------------------------------------- implement methods
+
+    @Override
+    public T get(int id) {
+<span class="fc" id="L38">        return load().stream()</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                .filter(items -&gt; Integer.parseInt(items[0]) == id) // numberはpos:0は共通</span>
+<span class="fc" id="L40">                .map(entityConverter::toEntity)</span>
+<span class="fc" id="L41">                .findFirst()</span>
+<span class="fc" id="L42">                .orElse(null);</span>
+    }
+
+    @Override
+    public List&lt;T&gt; findAll() {
+<span class="fc" id="L47">        return load().stream()</span>
+<span class="fc" id="L48">                .map(entityConverter::toEntity)</span>
+<span class="fc" id="L49">                .collect(Collectors.toList());</span>
+    }
+
+    @ValidateParam
+    @ValidateGroup(groups = Add.class)
+    @Override
+    public void add(@Valid T entity) {
+<span class="fc" id="L56">        var nextSeq = this.getNextSequence();</span>
+<span class="fc" id="L57">        entity.setId(nextSeq);</span>
+<span class="fc" id="L58">        save(entity.transform(entityConverter::toArray));</span>
+<span class="fc" id="L59">    }</span>
+
+    @Override
+    public Path getStoragePath() {
+<span class="fc" id="L63">        return fileAccessor.getFilePath();</span>
+    }
+
+
+    // ----------------------------------------------------- specific methods
+
+    public int getNextSequence() {
+<span class="fc" id="L70">        return load().stream()</span>
+<span class="fc" id="L71">                .map(items -&gt; Integer.parseInt(items[0]))</span>
+<span class="fc" id="L72">                .collect(Collectors.maxBy(Integer::compareTo))</span>
+<span class="fc" id="L73">                .get()</span>
+                + 1;
+    }
+
+    public void delete(Integer id) {
+<span class="fc" id="L78">        var excludedData = load().stream()</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">                .filter(items -&gt; Integer.parseInt(items[0])  != id) // numberはpos:0は共通</span>
+<span class="fc" id="L80">                .collect(Collectors.toList());</span>
+<span class="fc" id="L81">        saveAll(excludedData);</span>
+<span class="fc" id="L82">    }</span>
+
+
+    // ----------------------------------------------------- package private methods
+
+    EntityArrayConverter&lt;T&gt; getConverter() {
+<span class="fc" id="L88">        return entityConverter;</span>
+    }
+
+    List&lt;String[]&gt; load() {
+        try {
+<span class="fc" id="L93">            List&lt;String[]&gt; dataList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L94">            fileAccessor.load(dataList);</span>
+<span class="fc" id="L95">            return dataList;</span>
+<span class="nc" id="L96">        } catch (IOException e) {</span>
+<span class="nc" id="L97">            throw new IoSystemException(e);</span>
+        }
+    }
+
+    void save(String[] arrayData) {
+        try {
+<span class="fc" id="L103">            fileAccessor.save(arrayData);</span>
+<span class="nc" id="L104">        } catch (IOException e) {</span>
+<span class="nc" id="L105">            throw new IoSystemException(e);</span>
+<span class="fc" id="L106">        }</span>
+<span class="fc" id="L107">    }</span>
+
+    void saveAll(List&lt;String[]&gt; allData) {
+        try {
+<span class="fc" id="L111">            fileAccessor.saveAll(allData);</span>
+<span class="nc" id="L112">        } catch (IOException e) {</span>
+<span class="nc" id="L113">            throw new IoSystemException(e);</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

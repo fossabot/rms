@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationClientDto.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-client-api</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.api.dto</a> &gt; <span class="el_source">ReservationClientDto.java</span></div><h1>ReservationClientDto.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.api.dto;
+
+import java.time.LocalDateTime;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+<span class="fc" id="L14">@Setter</span>
+<span class="fc" id="L15">@NoArgsConstructor</span>
+<span class="fc" id="L16">@AllArgsConstructor(staticName = &quot;of&quot;)</span>
+public class ReservationClientDto implements Convertable {
+
+<span class="fc" id="L19">    private Integer id;</span>
+<span class="fc" id="L20">    private LocalDateTime startDateTime;</span>
+<span class="fc" id="L21">    private LocalDateTime endDateTime;</span>
+<span class="fc" id="L22">    private String note;</span>
+<span class="fc" id="L23">    private int rentalItemId;</span>
+<span class="fc" id="L24">    private int userAccountId;</span>
+<span class="fc" id="L25">    private RentalItemClientDto rentalItemDto;</span>
+<span class="fc" id="L26">    private UserAccountClientDto userAccountDto;</span>
+
+    public static ReservationClientDto ofTransient(LocalDateTime startDateTime, LocalDateTime endDateTime, String note, int rentalItemId, int userAccountId) {
+<span class="fc" id="L29">        return of(null, startDateTime, endDateTime, note, rentalItemId, userAccountId, null, null);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L34">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

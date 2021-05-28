@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InquiryReservationScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.ui.member</a> &gt; <span class="el_source">InquiryReservationScreen.java</span></div><h1>InquiryReservationScreen.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.ui.member;
+
+import static com.mamezou.rms.client.console.ui.ClientConstants.*;
+import static com.mamezou.rms.client.console.ui.textio.TextIoUtils.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.mamezou.rms.client.api.RentalReservationClientApi;
+import com.mamezou.rms.client.api.dto.RentalItemClientDto;
+import com.mamezou.rms.client.api.dto.ReservationClientDto;
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
+import com.mamezou.rms.client.console.ui.TransitionMap.RmsScreen;
+import com.mamezou.rms.client.console.ui.TransitionMap.Transition;
+import com.mamezou.rms.client.console.ui.textio.TextIoUtils;
+
+import lombok.RequiredArgsConstructor;
+
+<span class="nc" id="L20">@RequiredArgsConstructor</span>
+public class InquiryReservationScreen implements RmsScreen {
+
+    private final RentalReservationClientApi clientApi;
+
+    @Override
+    public Transition play(UserAccountClientDto loginUser, boolean printHeader) {
+
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (printHeader) {</span>
+<span class="nc" id="L29">            printScreenHeader(loginUser, &quot;予約照会画面&quot;);</span>
+        }
+
+        // レンタル品一覧を表示
+<span class="nc" id="L33">        var items = clientApi.getAllRentalItems();</span>
+<span class="nc" id="L34">        println(INQUIRY_RESERVATION_INFORMATION);</span>
+<span class="nc" id="L35">        items.forEach(dto -&gt;</span>
+<span class="nc" id="L36">            println(RENATL_ITEM_FORMAT.format(dto))</span>
+        );
+<span class="nc" id="L38">        blankLine();</span>
+
+        // 照会するレンタル品を選択
+<span class="nc" id="L41">        var selectedItem = newIntInputReader()</span>
+<span class="nc" id="L42">                .withSelectableValues(</span>
+<span class="nc" id="L43">                        items.stream()</span>
+<span class="nc" id="L44">                            .map(RentalItemClientDto::getId)</span>
+<span class="nc" id="L45">                            .collect(Collectors.toList()),</span>
+                        SCREEN_BREAK_VALUE)
+<span class="nc" id="L47">                .read(&quot;レンタル品番号&quot;);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (TextIoUtils.isBreak(selectedItem)) {</span>
+<span class="nc" id="L49">            return Transition.MEMBER_MAIN;</span>
+        }
+
+        // 照会する日付を入力
+<span class="nc" id="L53">        var inputedDate = newLocalDateReader()</span>
+<span class="nc" id="L54">                .read(&quot;日付（入力例－2020/10/23）&quot;);</span>
+
+        // 照会の実行
+        try {
+<span class="nc" id="L58">            var results = clientApi.findReservationByRentalItemAndStartDate(selectedItem, inputedDate);</span>
+<span class="nc" id="L59">            printResultList(loginUser, results);</span>
+<span class="nc" id="L60">            return Transition.MEMBER_MAIN;</span>
+
+<span class="nc" id="L62">        } catch (BusinessFlowClientException e) {</span>
+<span class="nc" id="L63">            printServerError(e);</span>
+<span class="nc" id="L64">            return play(loginUser, false); // start over!!</span>
+
+        }
+    }
+
+    private void printResultList(UserAccountClientDto loginUser, List&lt;ReservationClientDto&gt; reservations) {
+<span class="nc" id="L70">        blankLine();</span>
+<span class="nc" id="L71">        println(&quot;***** 予約検索結果 *****&quot;);</span>
+<span class="nc" id="L72">        println(&quot;選択レンタル品番号：&quot; + reservations.get(0).getRentalItemId());</span>
+<span class="nc" id="L73">        println(&quot;入力日付：&quot; + DATE_FORMAT.format(reservations.get(0).getStartDateTime()));</span>
+<span class="nc" id="L74">        reservations.forEach(r -&gt;</span>
+<span class="nc" id="L75">            println(RESERVATION_FORMAT.format(r))</span>
+        );
+<span class="nc" id="L77">        blankLine();</span>
+<span class="nc" id="L78">        waitPressEnter();</span>
+<span class="nc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

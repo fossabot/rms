@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EndPointSpec xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/com/mamezou/rms/external/webapi/EndPointSpec.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.mamezou.rms.external.webapi;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.time.LocalDate;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> javax.validation.Valid;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> javax.ws.rs.Consumes;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> javax.ws.rs.DELETE;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.GET;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.POST;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.PUT;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.Path;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.PathParam;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.Produces;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.QueryParam;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> javax.ws.rs.core.MediaType;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.Operation;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.media.Content;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.media.Schema;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.openapi.annotations.tags.Tag;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.core.domain.constraint.LoginId;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.core.domain.constraint.Passowrd;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.core.domain.constraint.RmsId;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.AddRentalItemDto;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.AddReservationDto;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.AddUserAccountDto;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.LoginDto;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.RentalItemResourceDto;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.ReservationResourceDto;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> com.mamezou.rms.external.webapi.dto.UserAccountResourceDto;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * レンタル予約システムのREST APIインタフェース。</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * MicroProfileのOpenAPIのアノテーションを使いAPIの詳細情報を付加している。&lt;br&gt;</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * 全体に関するAPI情報は{@link ApplicationConfig}に定義。</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a name="EndPointSpec" href="../../../../../com/mamezou/rms/external/webapi/EndPointSpec.html#EndPointSpec">EndPointSpec</a> {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <em class="jxr_javadoccomment">/** for @RolesAllowed const */</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ADMIN_ROLE = <span class="jxr_string">"ADMIN"</span>;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String MEMBER_ROLE = <span class="jxr_string">"MEMBER"</span>;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      @GET
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>      @Path(<span class="jxr_string">"/login"</span>)
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      @Tag(name = <span class="jxr_string">"Authenticate API"</span>)
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      @Operation(
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          operationId = <span class="jxr_string">"authenticate"</span>,
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          summary = <span class="jxr_string">"ユーザ認証を行う（curlのテスト用）"</span>,
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          description = <span class="jxr_string">"ログイン名とパスワードに一致するユーザを取得する"</span>)
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      @Parameters({
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          @Parameter(name = <span class="jxr_string">"loginId"</span>, description = <span class="jxr_string">"ログインId"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              schema = @Schema(implementation = String.<strong class="jxr_keyword">class</strong>, minLength = 5, maxLength = 10)),
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>          @Parameter(name = <span class="jxr_string">"password"</span>,  description = <span class="jxr_string">"パスワード"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>              schema = @Schema(implementation = String.<strong class="jxr_keyword">class</strong>, minLength = 5, maxLength = 10))
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      })
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      @APIResponse(
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          description = <span class="jxr_string">"認証成功"</span>,
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(implementation = UserAccountResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>      @APIResponse(responseCode = <span class="jxr_string">"404"</span>, ref = <span class="jxr_string">"#/components/responses/NotFound"</span>)
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <a name="UserAccountResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/UserAccountResourceDto.html#UserAccountResourceDto">UserAccountResourceDto</a> authenticate(
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>                  @LoginId @QueryParam(<span class="jxr_string">"loginId"</span>) String loginId,
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>                  @Passowrd @QueryParam(<span class="jxr_string">"password"</span>) String password);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      @POST
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      @Path(<span class="jxr_string">"/login"</span>)
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      @Consumes(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>      @Tag(name = <span class="jxr_string">"Authenticate API"</span>)
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      @Operation(
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          operationId = <span class="jxr_string">"authenticate"</span>,
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          summary = <span class="jxr_string">"ユーザ認証を行う"</span>,
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>          description = <span class="jxr_string">"ログイン名とパスワードに一致するユーザを取得する"</span>)
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      @Parameter(
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>              name = <span class="jxr_string">"loginDto"</span>, description = <span class="jxr_string">"ログインIDとパスワード"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>              content = @Content(mediaType = <span class="jxr_string">"application/json"</span>,
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>              schema = @Schema(type = SchemaType.OBJECT, implementation = LoginDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      @APIResponse(
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>          responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          description = <span class="jxr_string">"認証成功"</span>,
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>          content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(implementation = UserAccountResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      @APIResponse(responseCode = <span class="jxr_string">"404"</span>, ref = <span class="jxr_string">"#/components/responses/NotFound"</span>)
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <a name="UserAccountResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/UserAccountResourceDto.html#UserAccountResourceDto">UserAccountResourceDto</a> authenticate(@Valid <a name="LoginDto" href="../../../../../com/mamezou/rms/external/webapi/dto/LoginDto.html#LoginDto">LoginDto</a> loginDto);
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>      @GET
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     @Path(<span class="jxr_string">"/reservations/item/{itemId}/startdate/{startDate}"</span>)
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>     @Operation(
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         operationId = <span class="jxr_string">"findReservationByRentalItemAndStartDate"</span>,
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         summary = <span class="jxr_string">"指定されたレンタル品と利用開始日で予約を検索する"</span>,
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         description = <span class="jxr_string">"指定されたレンタル品と利用開始日に一致する予約を検索する"</span>)
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     @Parameters({
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         @Parameter(name = <span class="jxr_string">"itemId"</span>, description = <span class="jxr_string">"レンタル品ID"</span>, in = ParameterIn.PATH, required = <strong class="jxr_keyword">true</strong>),
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>         @Parameter(name = <span class="jxr_string">"startDate"</span>, description = <span class="jxr_string">"利用開始日"</span>, in = ParameterIn.PATH, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>             schema = @Schema(implementation = String.<strong class="jxr_keyword">class</strong>, example = <span class="jxr_string">"20201230"</span>, format = <span class="jxr_string">"yyyyMMdd"</span>))
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     })
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     @APIResponse(responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>         description = <span class="jxr_string">"検索結果"</span>,
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema =
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>             @Schema(type = SchemaType.ARRAY, implementation = ReservationResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>     @APIResponse(responseCode = <span class="jxr_string">"404"</span>, ref = <span class="jxr_string">"#/components/responses/NotFound"</span>)
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     List&lt;ReservationResourceDto&gt; findReservationByRentalItemAndStartDate(
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                 @RmsId @PathParam(<span class="jxr_string">"itemId"</span>) Integer itemId,
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                 @NotNull @PathParam(<span class="jxr_string">"startDate"</span>) LocalDate startDate);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     @GET
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>     @Path(<span class="jxr_string">"/reservations/reserver/{reserverId}"</span>)
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>     @Operation(
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>         operationId = <span class="jxr_string">"findReservationByReserverId"</span>,
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>         summary = <span class="jxr_string">"指定されたユーザが予約者の予約を検索する"</span>,
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>         description = <span class="jxr_string">"指定されたユーザが予約者の予約を検索する"</span>)
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>     @Parameters({
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>         @Parameter(name = <span class="jxr_string">"reserverId"</span>, description = <span class="jxr_string">"ユーザID"</span>, in = ParameterIn.PATH, required = <strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>     })
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>     @APIResponse(responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>         description = <span class="jxr_string">"検索結果"</span>,
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema =
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>             @Schema(type = SchemaType.ARRAY, implementation = ReservationResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     List&lt;ReservationResourceDto&gt; findReservationByReserverId(
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>                 @RmsId @PathParam(<span class="jxr_string">"reserverId"</span>) Integer reserverId);
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     @GET
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>     @Path(<span class="jxr_string">"/reservations/own"</span>)
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     @Operation(
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         operationId = <span class="jxr_string">"getOwnReservations"</span>,
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         summary = <span class="jxr_string">"自分の予約一覧を取得する"</span>,
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         description = <span class="jxr_string">"ログインユーザが予約者となっている予約の一覧を取得する。このAPIは/reservations/?reserverId={reserverId}のエイリアスとなっている"</span>)
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>     @APIResponse(responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>         description = <span class="jxr_string">"検索結果"</span>,
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema =
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>             @Schema(type = SchemaType.ARRAY, implementation = ReservationResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>     List&lt;ReservationResourceDto&gt; getOwnReservations();
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>     @GET
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>     @Path(<span class="jxr_string">"/items"</span>)
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>     @Operation(
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>         operationId = <span class="jxr_string">"getAllRentalItems"</span>,
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         summary = <span class="jxr_string">"レンタル品の全件を取得する"</span>,
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         description = <span class="jxr_string">"登録されているすべてのレンタル品を取得する"</span>)
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>     @APIResponse(responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>         description = <span class="jxr_string">"検索結果"</span>,
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(type = SchemaType.ARRAY, implementation = RentalItemResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     List&lt;RentalItemResourceDto&gt; getAllRentalItems();
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>     @GET
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     @Path(<span class="jxr_string">"/users"</span>)
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>     @Operation(
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         operationId = <span class="jxr_string">"getAllUserAccounts"</span>,
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>         summary = <span class="jxr_string">"ユーザの全件を取得する"</span>,
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         description = <span class="jxr_string">"登録されているすべてのユーザを取得する"</span>)
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     @APIResponse(responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>         description = <span class="jxr_string">"検索結果"</span>,
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(type = SchemaType.ARRAY, implementation = UserAccountResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>     List&lt;UserAccountResourceDto&gt; getAllUserAccounts();
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     @POST
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>     @Path(<span class="jxr_string">"/reservations"</span>)
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>     @Consumes(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>     @Operation(
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>         operationId = <span class="jxr_string">"addReservation"</span>,
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         summary = <span class="jxr_string">"予約を登録する"</span>,
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>         description = <span class="jxr_string">"依頼された予約内容を登録する"</span>)
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>     @Parameter(
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>         name = <span class="jxr_string">"addReservationDto"</span>, description = <span class="jxr_string">"登録内容"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>,
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>         schema = @Schema(type = SchemaType.OBJECT, implementation = AddReservationDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>     @APIResponse(
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>         responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>         description = <span class="jxr_string">"登録成功"</span>,
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(type = SchemaType.OBJECT, implementation = ReservationResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>     @APIResponse(responseCode = <span class="jxr_string">"404"</span>, ref = <span class="jxr_string">"#/components/responses/UnknownData"</span>)
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>     @APIResponse(responseCode = <span class="jxr_string">"409"</span>, ref = <span class="jxr_string">"#/components/responses/DataDupricate"</span>)
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>     <a name="ReservationResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/ReservationResourceDto.html#ReservationResourceDto">ReservationResourceDto</a> addReservation(@Valid <a name="AddReservationDto" href="../../../../../com/mamezou/rms/external/webapi/dto/AddReservationDto.html#AddReservationDto">AddReservationDto</a> dto);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>     @DELETE
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>     @Path(<span class="jxr_string">"/reservations/{reservationId}"</span>)
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>     @Tag(name = <span class="jxr_string">"Member API"</span>)
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>     @Operation(
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>         operationId = <span class="jxr_string">"cancelReservation"</span>,
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>         summary = <span class="jxr_string">"予約をキャンセルする"</span>,
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>         description = <span class="jxr_string">"依頼された予約IDに対する予約をキャンセルする。予約のキャンセルは予約した人しか行えない。"</span>
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>                 + <span class="jxr_string">"他の人が予約キャンセルを行った場合は禁止操作としてエラーにする"</span>)
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>     @Parameter(
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>         name = <span class="jxr_string">"itemId"</span>, description = <span class="jxr_string">"予約ID"</span>, in = ParameterIn.PATH, required = <strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>     @APIResponse(
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>         responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>         description = <span class="jxr_string">"登録成功"</span>)
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>     @APIResponse(responseCode = <span class="jxr_string">"404"</span>, ref = <span class="jxr_string">"#/components/responses/UnknownData"</span>)
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>     @APIResponse(responseCode = <span class="jxr_string">"409"</span>, ref = <span class="jxr_string">"#/components/responses/Forbidden"</span>)
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>     <strong class="jxr_keyword">void</strong> cancelReservation(@RmsId @PathParam(<span class="jxr_string">"reservationId"</span>) Integer reservationId);
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>     @POST
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>     @Path(<span class="jxr_string">"/items"</span>)
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>     @Consumes(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>     @Tag(name = <span class="jxr_string">"Admin API"</span>)
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>     @Operation(
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>         operationId = <span class="jxr_string">"addRentalItem"</span>,
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>         summary = <span class="jxr_string">"レンタル品を登録する"</span>,
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>         description = <span class="jxr_string">"依頼されたレンタル品を登録する"</span>)
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>     @Parameter(
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>         name = <span class="jxr_string">"addRentalItemDto"</span>, description = <span class="jxr_string">"登録内容"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>,
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>         schema = @Schema(type = SchemaType.OBJECT, implementation = AddRentalItemDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>     @APIResponse(
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>         responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>         description = <span class="jxr_string">"登録成功"</span>,
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(type = SchemaType.OBJECT, implementation = RentalItemResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>     @APIResponse(responseCode = <span class="jxr_string">"409"</span>, ref = <span class="jxr_string">"#/components/responses/DataDupricate"</span>)
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>     <a name="RentalItemResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/RentalItemResourceDto.html#RentalItemResourceDto">RentalItemResourceDto</a> addRentalItem(@Valid <a name="AddRentalItemDto" href="../../../../../com/mamezou/rms/external/webapi/dto/AddRentalItemDto.html#AddRentalItemDto">AddRentalItemDto</a> dto);
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>     @POST
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     @Path(<span class="jxr_string">"/users"</span>)
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>     @Consumes(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>     @Tag(name = <span class="jxr_string">"Admin API"</span>)
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>     @Operation(
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>         operationId = <span class="jxr_string">"addUserAccount"</span>,
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>         summary = <span class="jxr_string">"ユーザを登録する"</span>,
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>         description = <span class="jxr_string">"依頼されたユーザを登録する"</span>)
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>     @Parameter(
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         name = <span class="jxr_string">"addUserAccountDto"</span>, description = <span class="jxr_string">"登録内容"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>,
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>         schema = @Schema(type = SchemaType.OBJECT, implementation = AddUserAccountDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>     @APIResponse(
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>         description = <span class="jxr_string">"登録成功"</span>,
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(type = SchemaType.OBJECT, implementation = UserAccountResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>     @APIResponse(responseCode = <span class="jxr_string">"409"</span>, ref = <span class="jxr_string">"#/components/responses/DataDupricate"</span>)
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>     <a name="UserAccountResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/UserAccountResourceDto.html#UserAccountResourceDto">UserAccountResourceDto</a> addUserAccount(@Valid <a name="AddUserAccountDto" href="../../../../../com/mamezou/rms/external/webapi/dto/AddUserAccountDto.html#AddUserAccountDto">AddUserAccountDto</a> dto);
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>     @PUT
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>     @Path(<span class="jxr_string">"/users"</span>)
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>     @Consumes(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>     @Produces(MediaType.APPLICATION_JSON)
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>     @Tag(name = <span class="jxr_string">"Admin API"</span>)
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>     @Operation(
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         operationId = <span class="jxr_string">"updateUserAccount"</span>,
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>         summary = <span class="jxr_string">"ユーザを更新する"</span>,
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>         description = <span class="jxr_string">"依頼されたユーザを更新する"</span>)
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>     @Parameter(
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>         name = <span class="jxr_string">"dto"</span>, description = <span class="jxr_string">"更新内容"</span>, required = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>,
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         schema = @Schema(type = SchemaType.OBJECT, implementation = UserAccountResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>     @APIResponse(
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         responseCode = <span class="jxr_string">"200"</span>,
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>         description = <span class="jxr_string">"登録成功"</span>,
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         content = @Content(mediaType = <span class="jxr_string">"application/json"</span>, schema = @Schema(type = SchemaType.OBJECT, implementation = UserAccountResourceDto.<strong class="jxr_keyword">class</strong>)))
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>     @APIResponse(responseCode = <span class="jxr_string">"400"</span>, ref = <span class="jxr_string">"#/components/responses/ParameterError"</span>)
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>     @APIResponse(responseCode = <span class="jxr_string">"404"</span>, ref = <span class="jxr_string">"#/components/responses/UnknownData"</span>)
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>     @APIResponse(responseCode = <span class="jxr_string">"500"</span>, ref = <span class="jxr_string">"#/components/responses/ServerError"</span>)
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>     <a name="UserAccountResourceDto" href="../../../<a name="UserAccountResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/UserAccountResourceDto.html#UserAccountResourceDto">UserAccountResourceDto</a>external/webapi/dto/UserAccountResourceDto.html#UserAccountResourceDto">UserAccountResourceDto</a> updateUserAccount(@Valid <a name="UserAccountResourceDto" href="../../../../../com/mamezou/rms/external/webapi/dto/UserAccountResourceDto.html#UserAccountResourceDto">UserAccountResourceDto</a> dto);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2021 <a href="https://www.mamezou.com/">Mamezou Co.,Ltd.</a>. All rights reserved.</div>
+</body>
+</html>

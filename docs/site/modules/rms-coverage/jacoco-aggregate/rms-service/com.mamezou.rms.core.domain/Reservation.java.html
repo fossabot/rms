@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Reservation.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.domain</a> &gt; <span class="el_source">Reservation.java</span></div><h1>Reservation.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.domain;
+
+import static java.time.temporal.ChronoUnit.*;
+import static javax.persistence.AccessType.*;
+
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
+
+import javax.persistence.Access;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.apache.commons.lang3.Range;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.mamezou.rms.core.domain.constraint.BeforeAfterDateTime;
+import com.mamezou.rms.core.domain.constraint.Note;
+import com.mamezou.rms.core.domain.constraint.ReserveEndDateTime;
+import com.mamezou.rms.core.domain.constraint.ReserveStartDateTime;
+import com.mamezou.rms.core.domain.constraint.ReserveStartDateTimeFuture;
+import com.mamezou.rms.core.domain.constraint.RmsId;
+import com.mamezou.rms.core.domain.constraint.BeforeAfterDateTime.BeforeAfterDateTimeValidatable;
+import com.mamezou.rms.core.domain.constraint.ValidationGroups.Add;
+import com.mamezou.rms.core.domain.constraint.ValidationGroups.Update;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Access(FIELD)
+@Entity
+@BeforeAfterDateTime(from = &quot;利用開始日時&quot;, to = &quot;利用終了日時&quot;)
+@Getter
+<span class="fc" id="L37">@Setter</span>
+<span class="fc" id="L38">public class Reservation implements BeforeAfterDateTimeValidatable, Transformable, IdAccessable {</span>
+
+    /** id */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @RmsId(groups = Update.class)
+<span class="fc" id="L44">    private Integer id;</span>
+
+    /** 利用開始日時 */
+    @ReserveStartDateTime
+    @ReserveStartDateTimeFuture(groups = Add.class)
+    @Column(columnDefinition = &quot;TIMESTAMP&quot;)
+<span class="fc" id="L50">    private LocalDateTime startDateTime;</span>
+
+    /** 利用終了日時 */
+    @ReserveEndDateTime
+    @Column(columnDefinition = &quot;TIMESTAMP&quot;)
+<span class="fc" id="L55">    private LocalDateTime endDateTime;</span>
+
+    /** メモ */
+    @Note
+<span class="fc" id="L59">    private String note;</span>
+
+    /** 予約したレンタル品ID */
+    @RmsId
+<span class="fc" id="L63">    private int rentalItemId;</span>
+
+    /** 予約したユーザのユーザアカウントID */
+    @RmsId
+<span class="fc" id="L67">    private int userAccountId;</span>
+
+    /** 予約したユーザ */
+<span class="fc" id="L70">    private transient UserAccount userAccount;</span>
+
+    /** 予約したレンタル品 */
+<span class="fc" id="L73">    private transient RentalItem rentalItem;</span>
+
+
+    // ----------------------------------------------------- factory methods
+
+    public static Reservation of(Integer reservationId, LocalDateTime startDateTime, LocalDateTime endDateTime, String note,
+            int rentalItemId, int userAccountId) {
+
+<span class="fc" id="L81">        var entity = new Reservation();</span>
+<span class="fc" id="L82">        entity.id = reservationId;</span>
+<span class="fc" id="L83">        entity.startDateTime = startDateTime;</span>
+<span class="fc" id="L84">        entity.endDateTime = endDateTime;</span>
+<span class="fc" id="L85">        entity.note = note;</span>
+<span class="fc" id="L86">        entity.rentalItemId = rentalItemId;</span>
+<span class="fc" id="L87">        entity.userAccountId = userAccountId;</span>
+<span class="fc" id="L88">        return entity;</span>
+    }
+
+    public static Reservation ofTransient(LocalDateTime startDateTime, LocalDateTime endDateTime, String note, int rentalItemId, int userAccountId) {
+<span class="fc" id="L92">        return of(null, startDateTime, endDateTime, note, rentalItemId, userAccountId);</span>
+    }
+
+    // ----------------------------------------------------- original setter methods
+
+    public void setStartDateTime(LocalDateTime startDateTime) {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        this.startDateTime = startDateTime == null ? null : startDateTime.truncatedTo(MINUTES);</span>
+<span class="fc" id="L99">    }</span>
+
+    public void setEndDateTime(LocalDateTime endDateTime) {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        this.endDateTime = endDateTime == null ? null : endDateTime.truncatedTo(MINUTES);</span>
+<span class="fc" id="L103">    }</span>
+
+
+    // ----------------------------------------------------- service methods
+
+    public DateTimePeriod getReservePeriod() {
+<span class="fc" id="L109">        return new DateTimePeriod(startDateTime, endDateTime);</span>
+    }
+
+
+    // ----------------------------------------------------- override methods
+
+    @Override
+    public String toString() {
+<span class="fc" id="L117">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+    }
+
+
+    // ----------------------------------------------------- inner classes
+
+    public static class DateTimePeriod {
+
+        private LocalDateTime startDateTime;
+        private LocalDateTime endDateTime;
+        private Range&lt;ChronoLocalDateTime&lt;?&gt;&gt; period;
+
+<span class="fc" id="L129">        public DateTimePeriod(LocalDateTime startDateTime, LocalDateTime endDateTime) {</span>
+<span class="fc" id="L130">            this.startDateTime = startDateTime;</span>
+<span class="fc" id="L131">            this.endDateTime = endDateTime;</span>
+<span class="fc" id="L132">            period = Range.between(startDateTime, endDateTime);        }</span>
+
+        public LocalDateTime getStartDateTime() {
+<span class="fc" id="L135">            return this.startDateTime;</span>
+        }
+
+        public LocalDateTime getEndDateTime() {
+<span class="fc" id="L139">            return this.endDateTime;</span>
+        }
+
+        public boolean isOverlappedBy(DateTimePeriod otherPeriod) {
+<span class="fc" id="L143">            return this.period.isOverlappedBy(otherPeriod.period);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

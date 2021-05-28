@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationArrayConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file.converter</a> &gt; <span class="el_source">ReservationArrayConverter.java</span></div><h1>ReservationArrayConverter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file.converter;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import com.mamezou.rms.core.domain.Reservation;
+
+<span class="fc" id="L8">public class ReservationArrayConverter implements EntityArrayConverter&lt;Reservation&gt; {</span>
+
+<span class="fc" id="L10">    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd HH:mm&quot;);</span>
+<span class="fc" id="L11">    public static final ReservationArrayConverter INSTANCE = new ReservationArrayConverter();</span>
+
+    @Override
+    public Reservation toEntity(String[] attributes) {
+
+<span class="fc" id="L16">        int reservationId = Integer.parseInt(attributes[0]);</span>
+<span class="fc" id="L17">        LocalDateTime startDateTime = LocalDateTime.parse(attributes[1], DATE_TIME_FORMATTER);</span>
+<span class="fc" id="L18">        LocalDateTime endDateTime = LocalDateTime.parse(attributes[2], DATE_TIME_FORMATTER);</span>
+<span class="fc" id="L19">        String note = attributes[3];</span>
+<span class="fc" id="L20">        int rentalItemId = Integer.parseInt(attributes[4]);</span>
+<span class="fc" id="L21">        int userAccountId = Integer.parseInt(attributes[5]);</span>
+
+<span class="fc" id="L23">        return Reservation.of(reservationId, startDateTime, endDateTime, note, rentalItemId, userAccountId);</span>
+    }
+
+    @Override
+    public String[] toArray(Reservation reservation) {
+
+<span class="fc" id="L29">        String[] reservationAttributes = new String[6];</span>
+
+<span class="fc" id="L31">        reservationAttributes[0] = String.valueOf(reservation.getId());</span>
+<span class="fc" id="L32">        reservationAttributes[1] = DATE_TIME_FORMATTER.format(reservation.getStartDateTime());</span>
+<span class="fc" id="L33">        reservationAttributes[2] = DATE_TIME_FORMATTER.format(reservation.getEndDateTime());</span>
+<span class="fc" id="L34">        reservationAttributes[3] = reservation.getNote();</span>
+<span class="fc" id="L35">        reservationAttributes[4] = String.valueOf(reservation.getRentalItemId());</span>
+<span class="fc" id="L36">        reservationAttributes[5] = String.valueOf(reservation.getUserAccountId());</span>
+
+<span class="fc" id="L38">        return reservationAttributes;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

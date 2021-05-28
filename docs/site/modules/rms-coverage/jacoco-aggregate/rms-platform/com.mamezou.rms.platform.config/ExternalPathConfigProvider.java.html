@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ExternalPathConfigProvider.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.config</a> &gt; <span class="el_source">ExternalPathConfigProvider.java</span></div><h1>ExternalPathConfigProvider.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.config;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
+
+/**
+ * Read the YAML file of the specified path from the outside.
+ * There are two ways to specify the path from the outside, A and B, and
+ * if both are set,A has priority.&lt;br&gt;
+ * Also, since this class is instantiated by ServiceLoader, if you want to use it,
+ * define this class in `META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider`&lt;br&gt;
+ * The path specification method is as follows.
+ * &lt;p&gt;Path by system property&lt;/p&gt;
+ * &lt;pre&gt;
+ * $ java -Dext.config.path=/path/to/file MainClass
+ * &lt;pre&gt;
+ * &lt;p&gt;Path by Environment variable&lt;/p&gt;
+ * &lt;pre&gt;
+ * $ export EXT_CONFIG_PATH=/path/to/file
+ * $ java MainClass
+ * &lt;pre&gt;
+ * If the path is not specified, nothing is done.
+ */
+<span class="fc" id="L27">public class ExternalPathConfigProvider implements ConfigSourceProvider {</span>
+
+    public static final String PATH_PROP_NAME = &quot;ext.config.path&quot;;
+    public static final String PATH_ENV_NAME = &quot;EXT_CONFIG_PATH&quot;;
+
+    @Override
+    public Iterable&lt;ConfigSource&gt; getConfigSources(ClassLoader forClassLoader) {
+
+        // get path (priority is system property -&gt; environment variable)
+<span class="fc" id="L36">        String path = System.getProperty(PATH_PROP_NAME, null);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (path == null) {</span>
+<span class="fc" id="L38">            path = System.getenv(PATH_ENV_NAME);</span>
+        }
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (path == null) {</span>
+<span class="fc" id="L42">            return new ArrayList&lt;ConfigSource&gt;();</span>
+        }
+<span class="fc" id="L44">        return List.of(</span>
+<span class="fc" id="L45">                    MpConfigFactory.newInstance().createFromExternalPath(path)</span>
+                );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

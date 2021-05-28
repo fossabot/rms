@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>JwtSupplyResponseFilter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.jwt.filter</a> &gt; <span class="el_source">JwtSupplyResponseFilter.java</span></div><h1>JwtSupplyResponseFilter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.jwt.filter;
+
+import java.io.IOException;
+
+import javax.inject.Inject;
+import javax.ws.rs.ConstrainedTo;
+import javax.ws.rs.RuntimeType;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.core.HttpHeaders;
+
+import org.apache.commons.lang3.Range;
+
+import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator;
+import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator.UserClaims;
+import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator.UserClaimsFactory;
+import com.mamezou.rms.platform.jwt.JwtConfig;
+
+import lombok.extern.slf4j.Slf4j;
+
+@GenerateToken
+@ConstrainedTo(RuntimeType.SERVER)
+<span class="fc" id="L24">@Slf4j</span>
+public class JwtSupplyResponseFilter implements ContainerResponseFilter {
+
+<span class="fc" id="L27">    private static Range&lt;Integer&gt; SUCCESS_STATUS = Range.between(200, 299);</span>
+
+    private UserClaimsFactory userClaimsFactory;
+    private JsonWebTokenGenerator tokenGenerator;
+
+    @Inject
+<span class="fc" id="L33">    public JwtSupplyResponseFilter(UserClaimsFactory factory, JsonWebTokenGenerator generator) {</span>
+<span class="fc" id="L34">        this.userClaimsFactory = factory;</span>
+<span class="fc" id="L35">        this.tokenGenerator = generator;</span>
+<span class="fc" id="L36">    }</span>
+
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+
+        // 例外が発生した場合はExecptionMapperでレスポンスが設定されているので
+        // まずはHTTPステータスを見て成功か失敗かを判定
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (!SUCCESS_STATUS.contains(responseContext.getStatus())) {</span>
+<span class="fc" id="L44">            return;</span>
+        }
+
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (!responseContext.hasEntity()) {</span>
+<span class="nc" id="L48">            log.warn(&quot;ボディが設定されていません&quot;);</span>
+<span class="nc" id="L49">            return;</span>
+        }
+
+<span class="fc" id="L52">        Object entity = responseContext.getEntity();</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (!userClaimsFactory.canNewInstanceFrom(entity)) {</span>
+<span class="nc" id="L54">            log.warn(&quot;ボディのインスタンスが想定外です [class={}]&quot;, entity.getClass().getName());</span>
+<span class="nc" id="L55">            return;</span>
+        }
+
+        // JwtTokenの生成
+<span class="fc" id="L59">        UserClaims userClaims = userClaimsFactory.newInstanceFrom(entity);</span>
+<span class="fc" id="L60">        String jwtToken = tokenGenerator.generateToken(userClaims);</span>
+<span class="fc" id="L61">        log.info(&quot;Generated JWT-Token=&gt;[{}]&quot;, jwtToken); // ホントはログに書いちゃダメだけどネ</span>
+
+<span class="fc" id="L63">        var headers = responseContext.getHeaders();</span>
+<span class="fc" id="L64">        headers.add(HttpHeaders.AUTHORIZATION, JwtConfig.BEARER_MARK + &quot; &quot; + jwtToken);</span>
+<span class="fc" id="L65">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

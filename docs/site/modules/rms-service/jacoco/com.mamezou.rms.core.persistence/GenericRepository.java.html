@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence</a> &gt; <span class="el_source">GenericRepository.java</span></div><h1>GenericRepository.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import com.mamezou.rms.platform.validate.ValidateParam;
+
+/**
+ * 永続先に依らないリポジトリの共通操作
+ *
+ * @param &lt;T&gt; エンティティの型
+ */
+public interface GenericRepository&lt;T&gt; {
+
+    /**
+     * IDのエンティティを取得する。
+     *
+     * @param id ID
+     * @return エンティティ。該当なしはnull
+     */
+    T get(int id);
+
+    /**
+     * 永続化されているエンティティを全件取得する
+     *
+     * @return エンティティの全件リスト。該当なしは空リスト
+     */
+    List&lt;T&gt; findAll();
+
+    /**
+     * エンティティを追加する。
+     * 実装クラスもしくはメソッドに{@link ValidateParam}がアノテートすることでメソッド実行前に
+     * {@link Valid}によりオブジェクトのValidationが実行される。
+     *
+     * @param entity エンティティ
+     */
+    void add(T entity);
+
+    /**
+     * コンフィグ定数
+     */
+<span class="nc" id="L43">    static class ApiType {</span>
+        public static final String PROP_NAME =&quot;persistence.apiType&quot;;
+        public static final String FILE = &quot;file&quot;;
+        public static final String JPA = &quot;jpa&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

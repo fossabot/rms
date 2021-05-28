@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>PageNotFoundExceptionMapper.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.provider.mapper</a> &gt; <span class="el_source">PageNotFoundExceptionMapper.java</span></div><h1>PageNotFoundExceptionMapper.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.provider.mapper;
+
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.ExceptionMapper;
+
+import org.eclipse.microprofile.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Handle {@link NotFoundException} that occurs when status code is 404.
+ * The handle of unknown RuntimeException logs stacktrace, but I don't want to
+ * output stacktrace with 404, so NotFoundException is handled individually.
+ */
+@Produces(MediaType.APPLICATION_JSON)
+<span class="fc" id="L26">@Slf4j</span>
+public class PageNotFoundExceptionMapper implements ExceptionMapper&lt;NotFoundException&gt; {
+
+    private static final String UNHANDLE_404_PATHS_PROP = &quot;exception.mapper.unhandle.404.paths&quot;;
+
+    @Context
+    private UriInfo uriInfo;
+    private Unhandle404 unhandle404;
+
+    @Inject
+<span class="fc" id="L36">    public PageNotFoundExceptionMapper(Config config) {</span>
+<span class="fc" id="L37">        this.unhandle404 =new Unhandle404(config.getOptionalValue(UNHANDLE_404_PATHS_PROP, String[].class));</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * Static content registered in the configuration file does not handle anything.
+     *
+     * @param exception Occurrence exception
+     * @return {@link Response}
+     */
+    @Override
+    public Response toResponse(NotFoundException exception) {
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (!unhandle404.test(&quot;/&quot; + uriInfo.getPath())) {</span>
+<span class="fc" id="L49">            log.warn(exception.getMessage() + &quot; (path=&gt;{})&quot;, &quot;/&quot; + uriInfo.getPath());</span>
+        }
+<span class="fc" id="L51">        return exception.getResponse();</span>
+    }
+
+
+    // ----------------------------------------------------- inner class def
+
+    static class Unhandle404 implements Predicate&lt;String&gt; {
+        private String[] unhandlePaths;
+<span class="fc" id="L59">        public Unhandle404(Optional&lt;String[]&gt; paths) {</span>
+<span class="fc" id="L60">            this.unhandlePaths = paths.orElse(new String[0]);</span>
+<span class="fc" id="L61">        }</span>
+        @Override
+        public boolean test(String requestPath) {
+<span class="fc" id="L64">            return Stream.of(unhandlePaths).anyMatch((path) -&gt; requestPath.startsWith(path));</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

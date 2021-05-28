@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.jwt</a> &gt; <span class="el_source">JwtConfig.java</span></div><h1>JwtConfig.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.jwt;
+
+import java.security.Key;
+import java.util.function.Function;
+
+import org.eclipse.microprofile.config.Config;
+
+public class JwtConfig {
+
+    public static final String CONFIG_PREFIX = &quot;jwt.&quot;;
+    public static final String BEARER_MARK = &quot;Bearer&quot;;
+    private static final long ISSUED_AT_NOW = -1;
+
+    private Config config;
+
+    public static JwtConfig of(Config config) {
+<span class="fc" id="L17">        return new JwtConfig(config);</span>
+    }
+
+<span class="fc" id="L20">    JwtConfig(Config config) {</span>
+<span class="fc" id="L21">        this.config = config;</span>
+<span class="fc" id="L22">    }</span>
+
+    public String getSecretPhrase() {
+<span class="fc" id="L25">        return config.getValue(CONFIG_PREFIX + &quot;phrass&quot;, String.class);</span>
+    }
+    public Key getSecretKey(Function&lt;String, Key&gt; keyCreator) {
+<span class="fc" id="L28">        return keyCreator.apply(getSecretPhrase());</span>
+    }
+    public String getIssuer() {
+<span class="fc" id="L31">        return config.getValue(CONFIG_PREFIX + &quot;claim.issuer&quot;, String.class);</span>
+    }
+    public boolean isIssuedAtToNow() {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        return getIssuedAt() == ISSUED_AT_NOW;</span>
+    }
+    public long getIssuedAt() {
+<span class="fc" id="L37">        return config.getValue(CONFIG_PREFIX + &quot;claim.issuedAt&quot;, Long.class);</span>
+    }
+    public float getExpirationTime() {
+<span class="fc" id="L40">        return config.getValue(CONFIG_PREFIX + &quot;claim.exp&quot;, Float.class);</span>
+    }
+    public int getAllowedClockSeconds() {
+<span class="fc" id="L43">        return config.getValue(CONFIG_PREFIX + &quot;claim.allowedClockSeconds&quot;, Integer.class);</span>
+    }
+    public boolean enableFilter() {
+<span class="fc" id="L46">        return config.getValue(CONFIG_PREFIX + &quot;filter.enable&quot;, Boolean.class);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

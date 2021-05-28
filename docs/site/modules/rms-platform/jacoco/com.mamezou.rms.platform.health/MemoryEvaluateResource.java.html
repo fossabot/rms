@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MemoryEvaluateResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.health</a> &gt; <span class="el_source">MemoryEvaluateResource.java</span></div><h1>MemoryEvaluateResource.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.health;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+import com.mamezou.rms.platform.health.MemoryHealthCheck.MemoryLivenessEvaluator;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Path(&quot;/memeval&quot;)
+@ApplicationScoped
+<span class="fc" id="L24">@Slf4j</span>
+<span class="fc" id="L25">public class MemoryEvaluateResource {</span>
+
+    @Inject
+    private Event&lt;MemoryLivenessEvaluator&gt; event;
+
+    @GET
+    @Tag(name = &quot;SeverManagement API&quot;)
+    @Operation(
+        operationId = &quot;resetEvaluateMethod&quot;,
+        summary = &quot;memory-health-check-livenessのチェック方法の変更&quot;,
+        description = &quot;/health/readyによるReadinessProbeのmemory-health-check-livenessのチェック方法を変更する&quot;)
+    @Parameters({
+        @Parameter(name = &quot;method&quot;, description = &quot;評価方法。abs:絶対評価, rel:相対評価&quot;, required = true,
+            schema = @Schema(implementation = String.class)),
+        @Parameter(name = &quot;val&quot;,  description = &quot;閾値。絶対評価の場合は使用ヒープサイズ, 相対評価の場合はヒープの使用率、&quot;, required = true,
+            schema = @Schema(implementation = Long.class))
+    })
+    @APIResponse(
+        responseCode = &quot;200&quot;,
+        description = &quot;成功。常に\&quot;accepted.\&quot;を返す&quot;,
+        content = @Content(mediaType = &quot;application/text&quot;))
+    public String resetEvaluateMethod(@QueryParam(&quot;method&quot;) String method, @QueryParam(&quot;val&quot;) long val){
+<span class="fc" id="L47">        log.info(&quot;reset memory evaluate method. methdo={}, val={}&quot;, method, val);</span>
+<span class="fc" id="L48">        event.fire(MemoryLivenessEvaluator.of(method, val));</span>
+<span class="fc" id="L49">        return &quot;accepted.&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

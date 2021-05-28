@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileAccessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file.io</a> &gt; <span class="el_source">FileAccessor.java</span></div><h1>FileAccessor.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file.io;
+
+import static java.nio.file.StandardOpenOption.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+
+import com.mamezou.rms.core.persistence.file.IoSystemException;
+
+import lombok.Cleanup;
+
+/**
+ * ファイルアクセスクラス
+ */
+public class FileAccessor {
+
+    /** ファイルパス */
+    private Path filePath;
+
+    // ----------------------------------------------------- constructor methods
+
+    /**
+     * コンストラクタ
+     * &lt;p&gt;
+     * @param csvFilePath ファイルパス
+     */
+<span class="fc" id="L38">    public FileAccessor(Path csvFilePath) {</span>
+<span class="fc" id="L39">        this.filePath = csvFilePath;</span>
+<span class="fc" id="L40">    }</span>
+
+    // ----------------------------------------------------- public methods
+
+    /**
+     * ファイルパスを取得する。
+     * &lt;p&gt;
+     * @return ファイルパス
+     */
+    public Path getFilePath() {
+<span class="fc" id="L50">        return filePath;</span>
+    }
+
+    /**
+     * ファイルを読み込む。
+     * &lt;p&gt;
+     * @param dataList 読み込んだデータを埋めて返す(in/out)
+     * @return 読み込み件数
+     * @throws IOException 読み込みエラーが発生した場合
+     */
+    public int load(List&lt;String[]&gt; dataList) throws IOException {
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        @Cleanup CSVParser parser = CSVParser.parse(filePath, StandardCharsets.UTF_8, CSVFormat.RFC4180);</span>
+<span class="fc" id="L62">        parser.getRecords().stream()</span>
+<span class="fc" id="L63">                .map(record -&gt; StreamSupport.stream(record.spliterator(), false).collect(Collectors.toList()))</span>
+<span class="fc" id="L64">                .map(values -&gt; {</span>
+<span class="fc" id="L65">                    var array = new String[values.size()];</span>
+<span class="fc" id="L66">                    values.toArray(array);</span>
+<span class="fc" id="L67">                    return array;</span>
+                })
+<span class="fc" id="L69">                .forEach(dataList::add);</span>
+<span class="fc" id="L70">        return dataList.size();</span>
+    }
+
+    /**
+     * ファイルに書き込む。
+     * &lt;p&gt;
+     * @param targetData 書き込みデータ
+     * @throws IOException 読み込みエラーが発生した場合
+     */
+    public void save(String[] targetData) throws IOException {
+<span class="fc" id="L80">        List&lt;String&gt; singleLine = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L81">        singleLine.add(CSVFormat.RFC4180.format((Object[])targetData));</span>
+<span class="fc" id="L82">        Files.write(filePath, singleLine, StandardCharsets.UTF_8, WRITE, APPEND);</span>
+<span class="fc" id="L83">    }</span>
+
+    /**
+     * 全件をファイルに書き込む。
+     * ファイルに既にあるデータは削除される。
+     *
+     * @param allData 書き込みデータ
+     * @throws IOException 読み込みエラーが発生した場合
+     */
+    public void saveAll(List&lt;String[]&gt; allData) throws IOException {
+<span class="fc" id="L93">        Stream&lt;CharSequence&gt; allLines = allData.stream()</span>
+<span class="fc" id="L94">                .map(items -&gt; CSVFormat.RFC4180.format((Object[]) items)); // Memory-friendly and lazy stringification</span>
+<span class="fc" id="L95">        Files.write(filePath, allLines::iterator, StandardCharsets.UTF_8, CREATE, TRUNCATE_EXISTING);</span>
+<span class="fc" id="L96">    }</span>
+
+    /**
+     * 指定されたリソースファイルを一時ディレクトリにコピーする。
+     * &lt;p&gt;
+     * @param resourcePath リソースファイル
+     * @param resolver コピー先の一時ディレクトリが指定されたPathResolver
+     * @return 一時ディレクトリにコピーされたファイルのパス
+     * @throws IOException ファイル入出力エラーが発生した場合
+     */
+    public static Path copyResourceToRealPath(String resourcePath, PathResolver resolver) {
+<span class="fc" id="L107">        String[] resourcePathNodes = resourcePath.split(&quot;/&quot;);</span>
+<span class="fc" id="L108">        String outputFileName = resourcePathNodes[resourcePathNodes.length - 1];</span>
+<span class="fc" id="L109">        return copyResourceToRealPath(resourcePath, resolver, outputFileName);</span>
+    }
+
+    public static Path copyResourceToRealPath(String resourcePath, PathResolver resolver, String outputFileName) {
+<span class="fc" id="L113">        try (InputStream in = FileAccessor.class.getResourceAsStream(&quot;/&quot; + resourcePath)) {</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            if (!Files.exists(resolver.getBaseDir())) {</span>
+<span class="fc" id="L115">                Files.createDirectory(resolver.getBaseDir());</span>
+            }
+<span class="fc" id="L117">            Path outputFilePath = resolver.resolve(outputFileName);</span>
+<span class="fc" id="L118">            Files.copy(in, outputFilePath);</span>
+<span class="fc" id="L119">            return outputFilePath;</span>
+<span class="nc" id="L120">        } catch (IOException e) {</span>
+<span class="nc" id="L121">            throw new IoSystemException(e);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

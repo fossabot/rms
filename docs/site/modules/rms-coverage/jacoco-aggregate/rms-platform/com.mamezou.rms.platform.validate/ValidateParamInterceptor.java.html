@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ValidateParamInterceptor.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.validate</a> &gt; <span class="el_source">ValidateParamInterceptor.java</span></div><h1>ValidateParamInterceptor.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.validate;
+
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.*;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Qualifier;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
+import javax.interceptor.InvocationContext;
+import javax.validation.Configuration;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.executable.ExecutableValidator;
+import javax.validation.groups.Default;
+import javax.validation.metadata.BeanDescriptor;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+@Interceptor
+@Priority(Interceptor.Priority.APPLICATION)
+@ValidateParam
+<span class="fc" id="L33">public class ValidateParamInterceptor {</span>
+
+    @Inject
+    @InnerValidator
+    private Validator validator;
+
+    @AroundInvoke
+    public Object obj(InvocationContext ic) throws Exception {
+
+        // メソッド定義を優先してバリデーショングループの指定を取得
+<span class="fc" id="L43">        ValidateGroup methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.class);</span>
+<span class="fc" id="L44">        ValidateGroup classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.class);</span>
+        Class&lt;?&gt;[] groups;
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (methodValidateGroup != null) {</span>
+<span class="fc" id="L47">            groups = methodValidateGroup.groups();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        } else if (classValidateGroup != null){</span>
+<span class="fc" id="L49">            groups = classValidateGroup.groups();</span>
+        } else {
+<span class="fc" id="L51">            groups = null;</span>
+        }
+
+        // バリデーショングループにDefaultグループをデフォルトで追加してあげる
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        groups = (ArrayUtils.contains(groups, Default.class))</span>
+<span class="fc" id="L56">                ? groups</span>
+<span class="fc" id="L57">                : ArrayUtils.add(groups, Default.class);</span>
+
+        // Bean Validationのパラメータバリデーションの実行
+<span class="fc" id="L60">        ExecutableValidator executableValidator = validator.forExecutables();</span>
+<span class="fc" id="L61">        Set&lt;ConstraintViolation&lt;Object&gt;&gt; result = executableValidator.validateParameters(</span>
+<span class="fc" id="L62">                ic.getTarget(), ic.getMethod(), ic.getParameters(), groups);</span>
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (!result.isEmpty()) {</span>
+<span class="fc" id="L65">            throw new ConstraintViolationException(result);</span>
+        }
+
+<span class="fc" id="L68">        return ic.proceed();</span>
+    }
+
+
+    // ----------------------------------------------------- inner classes
+
+    /**
+     * CDIでValidatorをラップしたクラス。
+     * 以下の理由からCDI-BeanValidatorインテグレーション機能は使わず独自実装を行い、
+     * CDI-BeanValidatorインテグレーション機能がデフォルトで有効になっている環境でも取得可能なように
+     * 限定氏を付けている。
+     * &lt;ul&gt;
+     * &lt;li&gt;JavaEE の&quot;Method validation&quot;は広範に効きすぎなのでOFFにしたい
+     * &lt;li&gt;@InjectでValidatorインスタンスを取得するにはHibernateのValidatorExtensionを有効にする必要が
+     *     あるがJerseyとのvalidate機能も混在してライブラリと機能実態がカオスになる
+     * &lt;li&gt;Validatorインスタンスの@Injectによる取得はclassパス上にhibernate-validator-cdi.jarなどがあるか
+     *     によりポータビリティに難がある
+     * &lt;/ul&gt;
+     */
+    @ApplicationScoped
+    @InnerValidator
+<span class="fc" id="L89">    public static class InnerValidatorImpl implements Validator {</span>
+
+        private Validator delegate;
+
+        @PostConstruct
+        public void init() {
+<span class="fc" id="L95">            Configuration&lt;?&gt; config = Validation.byDefaultProvider().configure();</span>
+<span class="fc" id="L96">            ValidatorFactory factory = config.buildValidatorFactory();</span>
+<span class="fc" id="L97">            delegate = factory.getValidator();</span>
+<span class="fc" id="L98">            factory.close();</span>
+<span class="fc" id="L99">        }</span>
+
+        public &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validate(T object, Class&lt;?&gt;... groups) {
+<span class="nc" id="L102">            return delegate.validate(object, groups);</span>
+        }
+
+        public &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateProperty(T object, String propertyName, Class&lt;?&gt;... groups) {
+<span class="nc" id="L106">            return delegate.validateProperty(object, propertyName, groups);</span>
+        }
+
+        public &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateValue(Class&lt;T&gt; beanType, String propertyName, Object value, Class&lt;?&gt;... groups) {
+<span class="nc" id="L110">            return delegate.validateValue(beanType, propertyName, value, groups);</span>
+        }
+
+        public BeanDescriptor getConstraintsForClass(Class&lt;?&gt; clazz) {
+<span class="nc" id="L114">            return delegate.getConstraintsForClass(clazz);</span>
+        }
+
+        public &lt;T&gt; T unwrap(Class&lt;T&gt; type) {
+<span class="nc" id="L118">            return delegate.unwrap(type);</span>
+        }
+
+        public ExecutableValidator forExecutables() {
+<span class="fc" id="L122">            return delegate.forExecutables();</span>
+        }
+    }
+
+    @Qualifier
+    @Retention(RUNTIME)
+    @Target({ TYPE, METHOD, FIELD, CONSTRUCTOR })
+    public @interface InnerValidator {
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

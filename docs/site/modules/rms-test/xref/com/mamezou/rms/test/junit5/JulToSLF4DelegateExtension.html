@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>JulToSLF4DelegateExtension xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/com/mamezou/rms/test/junit5/JulToSLF4DelegateExtension.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.mamezou.rms.test.junit5;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.util.logging.LogManager;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.extension.BeforeAllCallback;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.extension.ExtensionContext;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.slf4j.bridge.SLF4JBridgeHandler;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * {@link java.util.logging.Logger JUL}に対する出力をSLF4Jにデリゲートさせる</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * JUnitExtension。</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * HelidonはSLF4J経由ではなくJULを使っているためSLF4Jへログ出力を集約するために</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * この処理が必要となる。</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="JulToSLF4DelegateExtension" href="../../../../../com/mamezou/rms/test/junit5/JulToSLF4DelegateExtension.html#JulToSLF4DelegateExtension">JulToSLF4DelegateExtension</a> <strong class="jxr_keyword">implements</strong> BeforeAllCallback {
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">static</strong> {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>          <em class="jxr_comment">// java.util.loggingの出力をSLF4Jへdelegate</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          LogManager.getLogManager().reset();
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          SLF4JBridgeHandler.removeHandlersForRootLogger();
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>          SLF4JBridgeHandler.install();
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      }
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      @Override
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> beforeAll(ExtensionContext context) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_comment">         * Helidonを起動するHelidonJunitExtensionもBeforeAllCallback#beforeAllのフックポイントを使っている</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_comment">         * HelidonのログをSLF4JへdelegateさせるにはHelidonが起動するまでにdelegate処理を実行する必要がある</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_comment">         * がJUnit5が用意する一番最初のフックポイントはbeforeAllののため確実にHelidonより早く呼び出せるポ</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_comment">         * イントがない。</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_comment">         * このため、beforeAllのコールバックを待たずにクラスがロードされた時点でSLF4Jへのdelegate処理を行っ</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_comment">         * ている。</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_comment">         * よって、このメソッドはstatic initializerが呼び出されるためのダミーなのでなにも行っていない。</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_comment">         */</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      }
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2021 <a href="https://www.mamezou.com/">Mamezou Co.,Ltd.</a>. All rights reserved.</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DtoFormatter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.ui</a> &gt; <span class="el_source">DtoFormatter.java</span></div><h1>DtoFormatter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.ui;
+
+import static com.mamezou.rms.client.console.ui.ClientConstants.*;
+
+import com.mamezou.rms.client.api.dto.RentalItemClientDto;
+import com.mamezou.rms.client.api.dto.ReservationClientDto;
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+
+public interface DtoFormatter&lt;T&gt; {
+
+    String format(T dto);
+
+<span class="nc" id="L13">    static class RentalItemFormatter implements DtoFormatter&lt;RentalItemClientDto&gt; {</span>
+        @Override
+        public String format(RentalItemClientDto dto) {
+<span class="nc" id="L16">            return String.format(&quot;[%s]%s シリアル番号：%s&quot;,</span>
+<span class="nc" id="L17">                    dto.getId(),</span>
+<span class="nc" id="L18">                    dto.getItemName(),</span>
+<span class="nc" id="L19">                    dto.getSerialNo());</span>
+        }
+    }
+
+<span class="nc" id="L23">    static class ReservationFormatter implements DtoFormatter&lt;ReservationClientDto&gt; {</span>
+        @Override
+        public String format(ReservationClientDto dto) {
+<span class="nc" id="L26">            return String.format(&quot;[%s] %s - %s %s %s %s&quot;,</span>
+<span class="nc" id="L27">                    dto.getId(),</span>
+<span class="nc" id="L28">                    DATETIME_FORMAT.format(dto.getStartDateTime()),</span>
+<span class="nc" id="L29">                    DATETIME_FORMAT.format(dto.getEndDateTime()),</span>
+<span class="nc" id="L30">                    dto.getRentalItemDto().getItemName(),</span>
+<span class="nc" id="L31">                    dto.getUserAccountDto().getUserName(),</span>
+<span class="nc" id="L32">                    dto.getNote());</span>
+        }
+    }
+
+<span class="nc" id="L36">    static class UserAccountFormatter implements DtoFormatter&lt;UserAccountClientDto&gt; {</span>
+        @Override
+        public String format(UserAccountClientDto dto) {
+<span class="nc" id="L39">            return String.format(&quot;[%s] %s/%s %s %s&quot;,</span>
+<span class="nc" id="L40">                    dto.getId(),</span>
+<span class="nc" id="L41">                    dto.getLoginId(),</span>
+<span class="nc" id="L42">                    dto.getPassword(),</span>
+<span class="nc" id="L43">                    dto.getUserName(),</span>
+<span class="nc" id="L44">                    dto.getUserType());</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

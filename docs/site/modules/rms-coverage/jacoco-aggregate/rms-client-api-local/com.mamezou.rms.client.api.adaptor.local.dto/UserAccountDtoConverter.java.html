@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>UserAccountDtoConverter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-client-api-local</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.api.adaptor.local.dto</a> &gt; <span class="el_source">UserAccountDtoConverter.java</span></div><h1>UserAccountDtoConverter.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.api.adaptor.local.dto;
+
+import com.mamezou.rms.client.api.dto.UserAccountClientDto;
+import com.mamezou.rms.client.api.dto.UserAccountClientDto.ClientUserType;
+import com.mamezou.rms.core.domain.UserAccount;
+import com.mamezou.rms.core.domain.UserAccount.UserType;
+
+<span class="nc" id="L8">public class UserAccountDtoConverter {</span>
+
+    public static UserAccountClientDto toDto(UserAccount user) {
+<span class="fc" id="L11">        UserAccountClientDto dto = new UserAccountClientDto();</span>
+<span class="fc" id="L12">        dto.setId(user.getId());</span>
+<span class="fc" id="L13">        dto.setLoginId(user.getLoginId());</span>
+<span class="fc" id="L14">        dto.setPassword(user.getPassword());</span>
+<span class="fc" id="L15">        dto.setUserName(user.getUserName());</span>
+<span class="fc" id="L16">        dto.setPhoneNumber(user.getPhoneNumber());</span>
+<span class="fc" id="L17">        dto.setContact(user.getContact());</span>
+<span class="fc" id="L18">        dto.setUserType(ClientUserType.valueOf(user.getUserType().name()));</span>
+<span class="fc" id="L19">        return dto;</span>
+    }
+
+    public static UserAccount toEntity(UserAccountClientDto dto) {
+<span class="fc" id="L23">        UserAccount user = new UserAccount();</span>
+<span class="fc" id="L24">        user.setId(dto.getId());</span>
+<span class="fc" id="L25">        user.setLoginId(dto.getLoginId());</span>
+<span class="fc" id="L26">        user.setPassword(dto.getPassword());</span>
+<span class="fc" id="L27">        user.setUserName(dto.getUserName());</span>
+<span class="fc" id="L28">        user.setPhoneNumber(dto.getPhoneNumber());</span>
+<span class="fc" id="L29">        user.setContact(dto.getContact());</span>
+<span class="fc" id="L30">        user.setUserType(UserType.valueOf(dto.getUserType().name()));</span>
+<span class="fc" id="L31">        return user;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationService.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.service</a> &gt; <span class="el_source">ReservationService.java</span></div><h1>ReservationService.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.service;
+
+import static com.mamezou.rms.core.exception.BusinessFlowException.CauseType.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import com.mamezou.rms.core.domain.Reservation;
+import com.mamezou.rms.core.exception.BusinessFlowException;
+import com.mamezou.rms.core.persistence.ReservationRepository;
+
+@ApplicationScoped
+public class ReservationService {
+
+    private ReservationRepository repository;
+
+    // ----------------------------------------------------- constructor methods
+
+    @Inject
+<span class="fc" id="L24">    public ReservationService(ReservationRepository reservationRepository) {</span>
+<span class="fc" id="L25">        this.repository = reservationRepository;</span>
+<span class="fc" id="L26">    }</span>
+
+
+    // ----------------------------------------------------- public methods
+
+    public List&lt;Reservation&gt; findByRentalItemAndStartDate(int rentalItemId, LocalDate startDate) {
+<span class="fc" id="L32">        return repository.findByRentalItemAndStartDate(rentalItemId, startDate);</span>
+    }
+
+    public List&lt;Reservation&gt; findByReserverId(int reserverId) {
+<span class="fc" id="L36">        return repository.findByReserverId(reserverId);</span>
+    }
+
+    public Reservation findOverlappedReservation(int rentalItemId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+<span class="fc" id="L40">        return repository.findOverlappedReservation(rentalItemId, startDateTime, endDateTime);</span>
+    }
+
+    public Reservation get(int reservationId) {
+<span class="fc" id="L44">        return repository.get(reservationId);</span>
+    }
+
+    public Reservation add(Reservation addReservation) throws BusinessFlowException {
+        // 重複チェック
+<span class="fc" id="L49">        Reservation reservation = findOverlappedReservation(addReservation.getRentalItemId(),</span>
+<span class="fc" id="L50">                addReservation.getStartDateTime(),</span>
+<span class="fc" id="L51">                addReservation.getEndDateTime());</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (reservation != null) {</span>
+<span class="fc" id="L53">            throw new BusinessFlowException(&quot;Already reserved.&quot;, DUPRICATE);</span>
+        }
+        // 登録
+<span class="fc" id="L56">        repository.add(addReservation);</span>
+<span class="fc" id="L57">        return this.get(addReservation.getId());</span>
+    }
+
+
+    public void cancel(int reservationId, int cancelUserId) throws BusinessFlowException {
+<span class="fc" id="L62">        var reservation = repository.get(reservationId);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (reservation == null) {</span>
+<span class="fc" id="L64">            throw new BusinessFlowException(&quot;Reservation does not exist for reservationId&quot;, NOT_FOUND);</span>
+        }
+        // キャンセルはレンタル品を予約した人しか取り消せないことのチェック
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (reservation.getUserAccountId() != cancelUserId) {</span>
+<span class="fc" id="L68">            throw new BusinessFlowException(</span>
+<span class="fc" id="L69">                    String.format(&quot;Others' reservations cannot be deleted. reserverId=%s, cancelUserId=%s&quot;,</span>
+<span class="fc" id="L70">                            reservation.getUserAccountId(),</span>
+<span class="fc" id="L71">                            cancelUserId),</span>
+                    FORBIDDEN);
+        }
+<span class="fc" id="L74">        repository.delete(reservation);</span>
+<span class="fc" id="L75">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

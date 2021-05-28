@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RmsIntInputReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-client-ui-console</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.client.console.ui.textio</a> &gt; <span class="el_source">RmsIntInputReader.java</span></div><h1>RmsIntInputReader.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.client.console.ui.textio;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.beryx.textio.InputReader;
+import org.beryx.textio.IntInputReader;
+import org.beryx.textio.TextTerminal;
+
+public class RmsIntInputReader extends IntInputReader {
+
+    private List&lt;Integer&gt; selectableValues;
+
+    public RmsIntInputReader(TextTerminal&lt;?&gt; textTerminalSupplier) {
+<span class="nc" id="L16">        super(() -&gt; textTerminalSupplier);</span>
+<span class="nc" id="L17">        valueCheckers.add((val, propName) -&gt; getSelectableValidationErrors(val));</span>
+<span class="nc" id="L18">    }</span>
+
+    public InputReader&lt;Integer, IntInputReader&gt; withSelectableValues(List&lt;Integer&gt; values, int excludeValue) {
+<span class="nc" id="L21">        values = new ArrayList&lt;Integer&gt;(values);</span>
+<span class="nc" id="L22">        values.add(excludeValue);</span>
+<span class="nc" id="L23">        return withSelectableValues(values);</span>
+    }
+
+    public InputReader&lt;Integer, IntInputReader&gt; withSelectableValues(List&lt;Integer&gt; values) {
+<span class="nc" id="L27">        selectableValues = values;</span>
+<span class="nc" id="L28">        return this;</span>
+    }
+
+    private List&lt;String&gt; getSelectableValidationErrors(Integer val) {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (!selectableValues.contains(val)) {</span>
+<span class="nc" id="L33">            return Collections.singletonList(&quot;Please enter a selectable value.&quot;);</span>
+        }
+<span class="nc" id="L35">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

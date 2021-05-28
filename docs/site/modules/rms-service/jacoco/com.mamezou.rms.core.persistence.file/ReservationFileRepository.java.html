@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationFileRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rms-service</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.core.persistence.file</a> &gt; <span class="el_source">ReservationFileRepository.java</span></div><h1>ReservationFileRepository.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.core.persistence.file;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import com.mamezou.rms.core.domain.Reservation;
+import com.mamezou.rms.core.domain.Reservation.DateTimePeriod;
+import com.mamezou.rms.core.persistence.ReservationRepository;
+import com.mamezou.rms.core.persistence.GenericRepository.ApiType;
+import com.mamezou.rms.core.persistence.file.converter.EntityArrayConverter;
+import com.mamezou.rms.core.persistence.file.io.FileAccessor;
+import com.mamezou.rms.platform.extension.EnabledIfRuntimeConfig;
+
+@ApplicationScoped
+@EnabledIfRuntimeConfig(propertyName = ApiType.PROP_NAME, value = ApiType.FILE)
+public class ReservationFileRepository extends AbstractFileRepository&lt;Reservation&gt; implements ReservationRepository {
+
+    @Inject
+    public ReservationFileRepository(FileAccessor fileAccessor, EntityArrayConverter&lt;Reservation&gt; converter) {
+<span class="fc" id="L25">        super(fileAccessor, converter);</span>
+<span class="fc" id="L26">    }</span>
+
+    @Override
+    public List&lt;Reservation&gt; findByRentalItemAndStartDate(int rentalItemId, LocalDate startDate) {
+<span class="fc" id="L30">        return this.load().stream()</span>
+<span class="fc" id="L31">                .map(this.getConverter()::toEntity)</span>
+<span class="fc" id="L32">                .filter(reservation -&gt; reservation.getStartDateTime().toLocalDate().equals(startDate))</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">                .filter(reservation -&gt; reservation.getRentalItemId() == rentalItemId)</span>
+<span class="fc" id="L34">                .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public List&lt;Reservation&gt; findByReserverId(int reserverId) {
+<span class="fc" id="L39">        return this.load().stream()</span>
+<span class="fc" id="L40">                .map(this.getConverter()::toEntity)</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                .filter(reservation -&gt; reservation.getUserAccountId() == reserverId)</span>
+<span class="fc" id="L42">                .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public Reservation findOverlappedReservation(int rentalItemId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+<span class="fc" id="L47">        DateTimePeriod conditionOfPeriod = new Reservation.DateTimePeriod(startDateTime, endDateTime);</span>
+<span class="fc" id="L48">        return this.load().stream()</span>
+<span class="fc" id="L49">                .map(this.getConverter()::toEntity)</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">                .filter(reservation -&gt; reservation.getRentalItemId() == rentalItemId)</span>
+<span class="fc" id="L51">                .filter(reservation -&gt; reservation.getReservePeriod().isOverlappedBy(conditionOfPeriod))</span>
+<span class="fc" id="L52">                .findFirst()</span>
+<span class="fc" id="L53">                .orElse(null);</span>
+    }
+
+    @Override
+    public void delete(Reservation reservation) {
+<span class="fc" id="L58">        this.delete(reservation.getId());</span>
+<span class="fc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
