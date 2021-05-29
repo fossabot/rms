@@ -83,11 +83,11 @@ public class InitFilePreparator {
 <span class="fc" id="L83">                String outputFileName = config.getValue(&quot;csv.permanent.fileName.&quot; + fileNameInConfigKey, String.class);</span>
 <span class="fc" id="L84">                return Pair.of(resoucePath, outputFileName);</span>
             })
-<span class="fc" id="L86">            .forEach(fileNames -&gt; {</span>
-<span class="fc" id="L87">                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight());</span>
-<span class="fc" id="L88">            });</span>
-<span class="fc" id="L89">        log.info(&quot;初期データを作成しました。${csv.type.temporary.fileName}&quot; + &quot;=&gt;&quot; + pathEnv.getBaseDir());</span>
-<span class="fc" id="L90">    }</span>
+<span class="nc" id="L86">            .forEach(fileNames -&gt; {</span>
+<span class="nc" id="L87">                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight());</span>
+<span class="nc" id="L88">            });</span>
+<span class="nc" id="L89">        log.info(&quot;初期データを作成しました。${csv.type.temporary.fileName}&quot; + &quot;=&gt;&quot; + pathEnv.getBaseDir());</span>
+<span class="nc" id="L90">    }</span>
 
     /**
      * ディレクトリをfromからtoにコピーする。

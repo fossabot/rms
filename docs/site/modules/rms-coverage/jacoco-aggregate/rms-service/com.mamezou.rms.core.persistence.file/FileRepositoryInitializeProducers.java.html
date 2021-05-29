@@ -57,10 +57,10 @@ import lombok.extern.slf4j.Slf4j;
 
         // フィルパスの取得
         Path filePath;
-<span class="pc bpc" id="L60" title="1 of 3 branches missed.">        switch (fileType) {</span>
+<span class="pc bpc" id="L60" title="2 of 3 branches missed.">        switch (fileType) {</span>
             case &quot;permanent&quot;:
-<span class="fc" id="L62">                filePath = new PathResolver.FixedDirPathResolver().resolve(fileName);</span>
-<span class="fc" id="L63">                break;</span>
+<span class="nc" id="L62">                filePath = new PathResolver.FixedDirPathResolver().resolve(fileName);</span>
+<span class="nc" id="L63">                break;</span>
             case &quot;temporary&quot;:
 <span class="fc" id="L65">                filePath =  FileAccessor.copyResourceToRealPath(fileName, new PathResolver.TempDirPathResolver());</span>
 <span class="fc" id="L66">                break;</span>
