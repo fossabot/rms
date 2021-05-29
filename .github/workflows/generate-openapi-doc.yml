@@ -1,4 +1,4 @@
-name: generateOas
+name: generate-openapi-doc
 
 on:
   workflow_dispatch:
