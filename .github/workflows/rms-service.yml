@@ -24,8 +24,8 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - name: Publish to GitHub Packages Apache Maven
+      shell: bash
       run: |
-        shell: bash
         mvn -B -Pcli deploy --file pom.xml
       working-directory: rms-service
       env:
