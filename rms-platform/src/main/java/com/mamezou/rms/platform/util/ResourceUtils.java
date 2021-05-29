@@ -1,5 +1,7 @@
 package com.mamezou.rms.platform.util;
 
+import static java.util.function.Predicate.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -18,6 +20,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
@@ -130,7 +133,7 @@ public class ResourceUtils {
             List<URL> urls = null;
             try (JarFile jar = new JarFile(jarFile)) {
                 urls = jar.stream()
-                    .filter(entry -> !entry.isDirectory())
+                    .filter(not(JarEntry::isDirectory))
                     .filter(entry -> entry.getName().startsWith(targetDir))
                     .filter(fileFilter)
                     .map(entry -> {
