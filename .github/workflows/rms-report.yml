@@ -10,7 +10,7 @@ jobs:
   os_matrix_test:
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -25,6 +25,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Execute Test
-        shell: bash
+        shell: cmd
         run: |
           mvn -B -Pcli,all clean test --file pom.xml
