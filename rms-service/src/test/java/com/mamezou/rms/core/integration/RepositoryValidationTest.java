@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import javax.enterprise.inject.spi.CDI;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,8 @@ import com.mamezou.rms.test.junit5.JulToSLF4DelegateExtension;
 import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
 
+@Disabled
+@ExtendWith(JulToSLF4DelegateExtension.class)
 public class RepositoryValidationTest {
 
     @Nested

@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.mamezou.rms.core.persistence.file.IoSystemException;
@@ -14,6 +15,7 @@ import com.mamezou.rms.test.junit5.JulToSLF4DelegateExtension;
 import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
 
+@Disabled
 @HelidonTest
 @AddConfig(key = "persistence.apiType", value = "file")
 @AddConfig(key = "csv.type", value = "permanent")
