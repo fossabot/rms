@@ -1,24 +1,24 @@
 #!/bin/bash
 
-if [ -e ./ers-service.jar ]; then
-  rm -f ./ers-service.jar
+if [ -e ./rms-service-server.jar ]; then
+  rm -f ./rms-service-server.jar
 fi
 
-if [ -e ./ersServiceApp ]; then
-  rm -rf ./ersServiceApp
+if [ -e ./rmsServiceApp ]; then
+  rm -rf ./rmsServiceApp
 fi
 
-mvn -PincludeJunit4Libs,copyLibs,product clean package -DskipTests=true
+mvn -Pcli,copy-libs,product clean package -DskipTests=true
 
-mkdir ersServiceApp
-cp ./target/ers-service.jar ./ersServiceApp
-cp -r ./target/libs ./ersServiceApp
-cp ./env/deployment/appspec.yml ./ersServiceApp
-cp ./env/deployment/logback-production.xml ./ersServiceApp
-cp -r ./env/deployment/scripts ./ersServiceApp
-cp -r ./env/init-data ./ersServiceApp
+mkdir rmsServiceApp
+cp ./target/rms-service-server.jar ./rmsServiceApp
+cp -r ./target/libs ./rmsServiceApp
+cp ./env/deployment/appspec.yml ./rmsServiceApp
+cp ./env/deployment/logback-production.xml ./rmsServiceApp
+cp -r ./env/deployment/scripts ./rmsServiceApp
+cp -r ./env/init-data ./rmsServiceApp
 
-ZIP_NAME="ersServiceApp/ersServiceApp-"`date "+%Y%m%d_%H%M%S"`.zip
+ZIP_NAME="rmsServiceApp/rmsServiceApp-"`date "+%Y%m%d_%H%M%S"`.zip
 
-aws deploy push --application-name ersServiceApplication --s3-location s3://ogiwarat-app-deployment/$ZIP_NAME --ignore-hidden-files --source ./ersServiceApp
-aws deploy create-deployment --application-name ersServiceApplication --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ersServiceApplicationGroup --s3-location bucket=ogiwarat-app-deployment,bundleType=zip,key=$ZIP_NAME
+aws deploy push --application-name rmsServiceApplication --s3-location s3://ogiwarat-app-deployment/$ZIP_NAME --ignore-hidden-files --source ./rmsServiceApp
+aws deploy create-deployment --application-name rmsServiceApplication --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name rmsServiceApplicationGroup --s3-location bucket=ogiwarat-app-deployment,bundleType=zip,key=$ZIP_NAME

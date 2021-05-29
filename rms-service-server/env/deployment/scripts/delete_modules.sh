@@ -1,4 +1,4 @@
 #!/bin/bash -x
-echo "[cicdSampleAppliction]DELETE MODULES"
-rm -rf /home/ec2-user/ersServiceApp
+echo "[rmsServiceAppliction]DELETE MODULES"
+rm -rf /home/ec2-user/rmsServiceApp
 exit $?
