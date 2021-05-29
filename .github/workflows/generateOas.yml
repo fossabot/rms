@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Java11
@@ -29,7 +27,7 @@ jobs:
     - name: Generate OAS File
       run: |
         mvn -B -Pcli,generateOas --file pom.xml
-      working-directory: ers-service-server
+      working-directory: rms-service-server
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Commit files
@@ -38,7 +36,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add ../docs/ && git diff --cached --exit-code --quiet || git commit -m "Add the regenerated file" -a
-      working-directory: ers-service-server
+      working-directory: rms-service-server
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
