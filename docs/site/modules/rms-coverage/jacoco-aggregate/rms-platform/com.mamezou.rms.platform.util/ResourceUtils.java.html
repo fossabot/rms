@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ResourceUtils.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">rms-coverage</a> &gt; <a href="../index.html" class="el_bundle">rms-platform</a> &gt; <a href="index.source.html" class="el_package">com.mamezou.rms.platform.util</a> &gt; <span class="el_source">ResourceUtils.java</span></div><h1>ResourceUtils.java</h1><pre class="source lang-java linenums">package com.mamezou.rms.platform.util;
 
+import static java.util.function.Predicate.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -18,13 +20,14 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
  * Class resource utility.
  */
-<span class="nc" id="L27">public class ResourceUtils {</span>
+<span class="nc" id="L30">public class ResourceUtils {</span>
 
     /**
      * Get the class resource under the path specified by the argument by URL.
@@ -49,10 +52,10 @@ import java.util.stream.Collectors;
      * @throws IOException IO error occurs.
      */
     public static List&lt;URL&gt; findResoucePathUnder(String targetDir) throws IOException {
-<span class="fc" id="L52">        return findResoucePathUnder(</span>
+<span class="fc" id="L55">        return findResoucePathUnder(</span>
                     targetDir,
-<span class="fc" id="L54">                    (t) -&gt; true, // NOP filter</span>
-<span class="fc" id="L55">                    Thread.currentThread().getContextClassLoader());</span>
+<span class="fc" id="L57">                    (t) -&gt; true, // NOP filter</span>
+<span class="fc" id="L58">                    Thread.currentThread().getContextClassLoader());</span>
     }
 
     /**
@@ -62,22 +65,22 @@ import java.util.stream.Collectors;
     public static List&lt;URL&gt; findResoucePathUnder(String targetDir, Predicate&lt;Object&gt; fileFilter, ClassLoader classLoader) throws IOException {
 
         // TargetDir search and Split URL by protocol
-<span class="fc" id="L65">        Enumeration&lt;URL&gt; dirs = classLoader.getResources(targetDir);</span>
-<span class="fc" id="L66">        Map&lt;String, List&lt;URL&gt;&gt; urlMap = Collections.list(dirs).stream()</span>
-<span class="fc" id="L67">                                            .collect(Collectors.groupingBy(URL::getProtocol));</span>
+<span class="fc" id="L68">        Enumeration&lt;URL&gt; dirs = classLoader.getResources(targetDir);</span>
+<span class="fc" id="L69">        Map&lt;String, List&lt;URL&gt;&gt; urlMap = Collections.list(dirs).stream()</span>
+<span class="fc" id="L70">                                            .collect(Collectors.groupingBy(URL::getProtocol));</span>
 
         // Search under the directory for each protocol
-<span class="fc" id="L70">        List&lt;URL&gt; targetUrls = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (urlMap.containsKey(&quot;jar&quot;)) {</span>
-<span class="fc" id="L72">            List&lt;URL&gt; tempUrls = findResourcePathUnderInJar(targetDir, urlMap.get(&quot;jar&quot;), fileFilter);</span>
-<span class="fc" id="L73">            targetUrls.addAll(tempUrls);</span>
+<span class="fc" id="L73">        List&lt;URL&gt; targetUrls = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (urlMap.containsKey(&quot;jar&quot;)) {</span>
+<span class="fc" id="L75">            List&lt;URL&gt; tempUrls = findResourcePathUnderInJar(targetDir, urlMap.get(&quot;jar&quot;), fileFilter);</span>
+<span class="fc" id="L76">            targetUrls.addAll(tempUrls);</span>
         }
-<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (urlMap.containsKey(&quot;file&quot;)) {</span>
-<span class="fc" id="L76">            List&lt;URL&gt; tempUrls = findResourcePathUnderInFileSystem(urlMap.get(&quot;file&quot;), fileFilter);</span>
-<span class="fc" id="L77">            targetUrls.addAll(tempUrls);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (urlMap.containsKey(&quot;file&quot;)) {</span>
+<span class="fc" id="L79">            List&lt;URL&gt; tempUrls = findResourcePathUnderInFileSystem(urlMap.get(&quot;file&quot;), fileFilter);</span>
+<span class="fc" id="L80">            targetUrls.addAll(tempUrls);</span>
         }
 
-<span class="fc" id="L80">        return targetUrls;</span>
+<span class="fc" id="L83">        return targetUrls;</span>
     }
 
     /**
@@ -86,7 +89,7 @@ import java.util.stream.Collectors;
      * @return File object in jar.
      */
     public static File toJarFileFromResourceUrl(URL resourceUrl) {
-<span class="fc" id="L89">        return  toFileFromUrlString(extractFilePathStringOfUrl(resourceUrl));</span>
+<span class="fc" id="L92">        return  toFileFromUrlString(extractFilePathStringOfUrl(resourceUrl));</span>
     }
 
     /**
@@ -95,7 +98,7 @@ import java.util.stream.Collectors;
      * @return String of FilePath.
      */
     public static String extractFilePathStringOfUrl(URL resourceUrl) {
-<span class="fc" id="L98">        return resourceUrl.getPath().substring(0, resourceUrl.getPath().indexOf('!'));</span>
+<span class="fc" id="L101">        return resourceUrl.getPath().substring(0, resourceUrl.getPath().indexOf('!'));</span>
     }
 
 
@@ -111,9 +114,9 @@ import java.util.stream.Collectors;
         // step3-&gt; new File(uri)
         // -----------------------
 
-<span class="fc" id="L114">        List&lt;File&gt; jarFiles = inJarUrls.stream()</span>
-<span class="fc" id="L115">                            .map(ResourceUtils::toJarFileFromResourceUrl)</span>
-<span class="fc" id="L116">                            .collect(Collectors.toList());</span>
+<span class="fc" id="L117">        List&lt;File&gt; jarFiles = inJarUrls.stream()</span>
+<span class="fc" id="L118">                            .map(ResourceUtils::toJarFileFromResourceUrl)</span>
+<span class="fc" id="L119">                            .collect(Collectors.toList());</span>
 
 
         // --- Scan in JarFile ---
@@ -124,28 +127,28 @@ import java.util.stream.Collectors;
         // step4-&gt; &quot;jar:file:/&quot; + &quot;C:/foo/bar/baz.jar&quot; + &quot;!/&quot; + &quot;META-INF/...&quot;
         // -----------------------
 
-<span class="fc" id="L127">        List&lt;URL&gt; targetUrls = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L130">        List&lt;URL&gt; targetUrls = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L129" title="All 2 branches covered.">        for (File jarFile : jarFiles) {</span>
-<span class="fc" id="L130">            List&lt;URL&gt; urls = null;</span>
-<span class="fc" id="L131">            try (JarFile jar = new JarFile(jarFile)) {</span>
-<span class="fc" id="L132">                urls = jar.stream()</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">                    .filter(entry -&gt; !entry.isDirectory())</span>
-<span class="fc" id="L134">                    .filter(entry -&gt; entry.getName().startsWith(targetDir))</span>
-<span class="fc" id="L135">                    .filter(fileFilter)</span>
-<span class="fc" id="L136">                    .map(entry -&gt; {</span>
-<span class="fc" id="L137">                        String filePath = jarFile.toString().replace(File.separator, &quot;/&quot;);</span>
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">                        if (!filePath.startsWith(&quot;/&quot;)) {</span>
-<span class="fc" id="L139">                            filePath = &quot;/&quot; + filePath; // for Windows</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        for (File jarFile : jarFiles) {</span>
+<span class="fc" id="L133">            List&lt;URL&gt; urls = null;</span>
+<span class="fc" id="L134">            try (JarFile jar = new JarFile(jarFile)) {</span>
+<span class="fc" id="L135">                urls = jar.stream()</span>
+<span class="fc" id="L136">                    .filter(not(JarEntry::isDirectory))</span>
+<span class="fc" id="L137">                    .filter(entry -&gt; entry.getName().startsWith(targetDir))</span>
+<span class="fc" id="L138">                    .filter(fileFilter)</span>
+<span class="fc" id="L139">                    .map(entry -&gt; {</span>
+<span class="fc" id="L140">                        String filePath = jarFile.toString().replace(File.separator, &quot;/&quot;);</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">                        if (!filePath.startsWith(&quot;/&quot;)) {</span>
+<span class="nc" id="L142">                            filePath = &quot;/&quot; + filePath; // for Windows</span>
                         }
-<span class="fc" id="L141">                        return &quot;jar:file:&quot; + filePath + &quot;!/&quot; + entry.getName();})</span>
-<span class="fc" id="L142">                    .map(ResourceUtils::toUrl)</span>
-<span class="fc" id="L143">                    .collect(Collectors.toList());</span>
+<span class="fc" id="L144">                        return &quot;jar:file:&quot; + filePath + &quot;!/&quot; + entry.getName();})</span>
+<span class="fc" id="L145">                    .map(ResourceUtils::toUrl)</span>
+<span class="fc" id="L146">                    .collect(Collectors.toList());</span>
             }
-<span class="fc" id="L145">            targetUrls.addAll(urls);</span>
-<span class="fc" id="L146">        }</span>
+<span class="fc" id="L148">            targetUrls.addAll(urls);</span>
+<span class="fc" id="L149">        }</span>
 
-<span class="fc" id="L148">        return targetUrls;</span>
+<span class="fc" id="L151">        return targetUrls;</span>
     }
 
     private static List&lt;URL&gt; findResourcePathUnderInFileSystem(List&lt;URL&gt; inFsUrls, Predicate&lt;Object&gt; fileFilter) throws IOException {
@@ -157,49 +160,49 @@ import java.util.stream.Collectors;
         // setp2-&gt; add files that match the filters to targetUrls
         // ---------------------------------------
 
-<span class="fc" id="L160">        List&lt;URL&gt; targetUrls = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L163">        List&lt;URL&gt; targetUrls = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        for (URL targetUrl : inFsUrls) {</span>
-<span class="fc" id="L163">            Path targetPath = Paths.get(toUrl(targetUrl));</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">            if (Files.isDirectory(targetPath)) {</span>
-<span class="fc" id="L165">                Files.walkFileTree(targetPath, new TargetFileCollector(targetUrls, fileFilter)); // targetUrl is IN/OUT Parameter.</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        for (URL targetUrl : inFsUrls) {</span>
+<span class="fc" id="L166">            Path targetPath = Paths.get(toUrl(targetUrl));</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            if (Files.isDirectory(targetPath)) {</span>
+<span class="fc" id="L168">                Files.walkFileTree(targetPath, new TargetFileCollector(targetUrls, fileFilter)); // targetUrl is IN/OUT Parameter.</span>
             } else {
-<span class="fc" id="L167">                targetUrls.add(toUrl(targetPath)); // targetPath is file.</span>
+<span class="fc" id="L170">                targetUrls.add(toUrl(targetPath)); // targetPath is file.</span>
             }
-<span class="fc" id="L169">        }</span>
+<span class="fc" id="L172">        }</span>
 
-<span class="fc" id="L171">        return targetUrls;</span>
+<span class="fc" id="L174">        return targetUrls;</span>
     }
 
     private static File toFileFromUrlString(String urlSpec) {
         try {
-<span class="fc" id="L176">            return new File(new URL(urlSpec).toURI());</span>
-<span class="nc" id="L177">        } catch (MalformedURLException | URISyntaxException e) {</span>
-<span class="nc" id="L178">            throw new IllegalStateException(e);</span>
+<span class="fc" id="L179">            return new File(new URL(urlSpec).toURI());</span>
+<span class="nc" id="L180">        } catch (MalformedURLException | URISyntaxException e) {</span>
+<span class="nc" id="L181">            throw new IllegalStateException(e);</span>
         }
     }
 
     private static URL toUrl(String urlSpec) {
         try {
-<span class="fc" id="L184">            return new URL(urlSpec);</span>
-<span class="nc" id="L185">        } catch (MalformedURLException e) {</span>
-<span class="nc" id="L186">            throw new IllegalStateException(e);</span>
+<span class="fc" id="L187">            return new URL(urlSpec);</span>
+<span class="nc" id="L188">        } catch (MalformedURLException e) {</span>
+<span class="nc" id="L189">            throw new IllegalStateException(e);</span>
         }
     }
 
     private static URL toUrl(Path path) {
         try {
-<span class="fc" id="L192">            return path.toUri().toURL();</span>
-<span class="nc" id="L193">        } catch (MalformedURLException e) {</span>
-<span class="nc" id="L194">            throw new IllegalStateException(e);</span>
+<span class="fc" id="L195">            return path.toUri().toURL();</span>
+<span class="nc" id="L196">        } catch (MalformedURLException e) {</span>
+<span class="nc" id="L197">            throw new IllegalStateException(e);</span>
         }
     }
 
     private static URI toUrl(URL url) {
         try {
-<span class="fc" id="L200">            return url.toURI();</span>
-<span class="nc" id="L201">        } catch (URISyntaxException e) {</span>
-<span class="nc" id="L202">            throw new IllegalStateException(e);</span>
+<span class="fc" id="L203">            return url.toURI();</span>
+<span class="nc" id="L204">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L205">            throw new IllegalStateException(e);</span>
         }
     }
 
@@ -208,17 +211,17 @@ import java.util.stream.Collectors;
         private List&lt;URL&gt; collectHolder;
         private Predicate&lt;Object&gt; fileFilter;
 
-<span class="fc" id="L211">        TargetFileCollector(List&lt;URL&gt; collectHolder, Predicate&lt;Object&gt; fileFilter) {</span>
-<span class="fc" id="L212">            this.collectHolder = collectHolder;</span>
-<span class="fc" id="L213">            this.fileFilter = fileFilter;</span>
-<span class="fc" id="L214">        }</span>
+<span class="fc" id="L214">        TargetFileCollector(List&lt;URL&gt; collectHolder, Predicate&lt;Object&gt; fileFilter) {</span>
+<span class="fc" id="L215">            this.collectHolder = collectHolder;</span>
+<span class="fc" id="L216">            this.fileFilter = fileFilter;</span>
+<span class="fc" id="L217">        }</span>
 
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-<span class="fc bfc" id="L218" title="All 2 branches covered.">            if (fileFilter.test(file)) {</span>
-<span class="fc" id="L219">                collectHolder.add(toUrl(file));</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">            if (fileFilter.test(file)) {</span>
+<span class="fc" id="L222">                collectHolder.add(toUrl(file));</span>
             }
-<span class="fc" id="L221">            return FileVisitResult.CONTINUE;</span>
+<span class="fc" id="L224">            return FileVisitResult.CONTINUE;</span>
         }
     }
 }

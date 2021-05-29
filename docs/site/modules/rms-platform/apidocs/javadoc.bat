@@ -1,1 +1,0 @@
-cmd.exe /X /C "C:\Java\jdk-11.0.5.10-hotspot\bin\javadoc.exe -J-Xmx256m @options @packages"
