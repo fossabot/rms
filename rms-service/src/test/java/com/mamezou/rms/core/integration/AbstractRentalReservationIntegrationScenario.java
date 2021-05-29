@@ -10,6 +10,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.mamezou.rms.core.RentalReservationApplication;
 import com.mamezou.rms.core.common.LoginUserUtils;
@@ -19,10 +22,6 @@ import com.mamezou.rms.core.domain.Reservation;
 import com.mamezou.rms.core.domain.UserAccount;
 import com.mamezou.rms.core.domain.UserAccount.UserType;
 import com.mamezou.rms.core.exception.BusinessFlowException;
-
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(OrderAnnotation.class)
 abstract class AbstractRentalReservationIntegrationScenario {
