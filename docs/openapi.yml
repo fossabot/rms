@@ -7,7 +7,7 @@ tags:
 - 
   name: Member API
 - 
-  name: SeverManagement  API
+  name: SeverManagement API
 components: 
   schemas:
     GenericErrorInfo: 
@@ -560,7 +560,7 @@ paths:
         schema: 
           format: int32
           type: integer
-      description: 指定されたユーザが予約者の予約を検索する
+      description: 指定されたユーザが予約者の予約を検索する。
       operationId: findReservationByReserverId
       responses:
         '400': 
