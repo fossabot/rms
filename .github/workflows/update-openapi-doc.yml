@@ -1,4 +1,4 @@
-name: generate-openapi-doc
+name: update-openapi-doc
 
 on:
   workflow_dispatch:
