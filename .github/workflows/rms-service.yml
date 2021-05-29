@@ -29,3 +29,4 @@ jobs:
       working-directory: rms-service
       env:
         GITHUB_TOKEN: ${{ github.token }}
+        RMS_CI_ENV: github
