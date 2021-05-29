@@ -43,6 +43,6 @@ class CopyInitDirToPermanetDirTest {
                 .map(path -> path.getFileName().toString())
                 .collect(Collectors.toList());
 
-        assertThat(fileNames).containsExactlyElementsOf(expected);
+        assertThat(fileNames).containsExactlyInAnyOrderElementsOf(expected);
     }
 }
