@@ -26,7 +26,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Generate OAS File
       run: |
-        mvn -B -Pcli,generate-openapi --file pom.xml
+        mvn -B -Pcli,generate-openapi test --file pom.xml
       working-directory: rms-service-server
       env:
         GITHUB_TOKEN: ${{ github.token }}
