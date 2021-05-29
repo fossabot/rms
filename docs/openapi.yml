@@ -7,7 +7,7 @@ tags:
 - 
   name: Member API
 - 
-  name: SeverManagement API
+  name: SeverManagement  API
 components: 
   schemas:
     GenericErrorInfo: 
