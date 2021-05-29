@@ -15,6 +15,15 @@ import com.mamezou.rms.test.junit5.JulToSLF4DelegateExtension;
 import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
 
+/**
+ * GitHubActionの実行環境でwindowsを選択すると環境的な問題でディレクトリ作成に
+ * 権限なしでエラーになるため実行抑止する場合はRMS_CI_ENVの変数を設定する。
+ * (設定例)
+ * <pre>
+ *   env:
+ *    RMS_CI_ENV: github
+ * </pre>
+ */
 @DisabledIfEnvironmentVariable(named = "RMS_CI_ENV", matches = "github")
 @HelidonTest
 @AddConfig(key = "persistence.apiType", value = "file")

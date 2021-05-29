@@ -1,16 +1,12 @@
-name: rms-service
+name: unit-rms-test
 
 on:
   workflow_dispatch:
     branches: [ main ]
-  push:
-    branches: [ main ]
-    paths: 
-      - 'rms-service/**'
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Java11
@@ -24,10 +20,8 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - name: Publish to GitHub Packages Apache Maven
-      shell: bash
       run: |
         mvn -B -Pcli deploy --file pom.xml
-      working-directory: rms-service
+      working-directory: rms-test
       env:
         GITHUB_TOKEN: ${{ github.token }}
-        RMS_CI_ENV: github
