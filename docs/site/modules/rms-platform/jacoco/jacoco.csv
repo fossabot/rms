@@ -41,11 +41,11 @@ rms-platform,com.mamezou.rms.platform.config,ResourcePathUnderConfigProvider,6,3
 rms-platform,com.mamezou.rms.platform.config,ExternalPathConfigProvider,0,23,0,4,0,8,0,4,0,2
 rms-platform,com.mamezou.rms.platform.config,MpConfigFactory,0,20,0,0,0,4,0,1,0,1
 rms-platform,com.mamezou.rms.platform.util,ResourceUtils.TargetFileCollector,0,22,0,2,0,7,0,3,0,2
-rms-platform,com.mamezou.rms.platform.util,ResourceUtils,27,209,1,11,9,49,2,18,1,13
+rms-platform,com.mamezou.rms.platform.util,ResourceUtils,30,206,1,11,10,48,2,18,1,13
+rms-platform,com.mamezou.rms.platform.role,RolesAllowedRequestFilter,0,60,0,4,0,14,0,5,0,3
+rms-platform,com.mamezou.rms.platform.role,RoleSecurityDynamicFeature,0,82,0,10,0,24,0,9,0,4
+rms-platform,com.mamezou.rms.platform.role,DenyAllRequestFilter,0,19,0,0,0,5,0,3,0,3
 rms-platform,com.mamezou.rms.platform.health,MemoryHealthCheck,0,87,0,0,0,23,0,7,0,7
 rms-platform,com.mamezou.rms.platform.health,MemoryHealthCheck.EvaluateHolder,0,28,0,0,0,8,0,4,0,4
 rms-platform,com.mamezou.rms.platform.health,MemoryEvaluateResource,0,21,0,0,0,5,0,3,0,3
 rms-platform,com.mamezou.rms.platform.health,MemoryHealthCheck.MemoryLivenessEvaluator,2,59,2,4,0,7,2,5,0,4
-rms-platform,com.mamezou.rms.platform.role,RolesAllowedRequestFilter,0,60,0,4,0,14,0,5,0,3
-rms-platform,com.mamezou.rms.platform.role,RoleSecurityDynamicFeature,0,82,0,10,0,24,0,9,0,4
-rms-platform,com.mamezou.rms.platform.role,DenyAllRequestFilter,0,19,0,0,0,5,0,3,0,3

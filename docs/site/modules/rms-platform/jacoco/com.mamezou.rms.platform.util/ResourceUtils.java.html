@@ -139,7 +139,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L139">                    .map(entry -&gt; {</span>
 <span class="fc" id="L140">                        String filePath = jarFile.toString().replace(File.separator, &quot;/&quot;);</span>
 <span class="pc bpc" id="L141" title="1 of 2 branches missed.">                        if (!filePath.startsWith(&quot;/&quot;)) {</span>
-<span class="fc" id="L142">                            filePath = &quot;/&quot; + filePath; // for Windows</span>
+<span class="nc" id="L142">                            filePath = &quot;/&quot; + filePath; // for Windows</span>
                         }
 <span class="fc" id="L144">                        return &quot;jar:file:&quot; + filePath + &quot;!/&quot; + entry.getName();})</span>
 <span class="fc" id="L145">                    .map(ResourceUtils::toUrl)</span>

@@ -112,13 +112,13 @@ public class FileAccessor {
     public static Path copyResourceToRealPath(String resourcePath, PathResolver resolver, String outputFileName) {
 <span class="fc" id="L113">        try (InputStream in = FileAccessor.class.getResourceAsStream(&quot;/&quot; + resourcePath)) {</span>
 <span class="fc bfc" id="L114" title="All 2 branches covered.">            if (!Files.exists(resolver.getBaseDir())) {</span>
-<span class="nc" id="L115">                Files.createDirectory(resolver.getBaseDir());</span>
+<span class="fc" id="L115">                Files.createDirectory(resolver.getBaseDir());</span>
             }
 <span class="fc" id="L117">            Path outputFilePath = resolver.resolve(outputFileName);</span>
 <span class="fc" id="L118">            Files.copy(in, outputFilePath);</span>
 <span class="fc" id="L119">            return outputFilePath;</span>
-<span class="fc" id="L120">        } catch (IOException e) {</span>
-<span class="fc" id="L121">            throw new IoSystemException(e);</span>
+<span class="nc" id="L120">        } catch (IOException e) {</span>
+<span class="nc" id="L121">            throw new IoSystemException(e);</span>
         }
     }
 
