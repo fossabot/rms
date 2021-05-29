@@ -7,11 +7,8 @@ on:
     - cron:  '0 18 * * *' # This time is UTC. 3:00 AM in JST
 
 jobs:
-  os_matrix_test:
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+  analysis_and_upload_to_github-pages:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up Java11
@@ -24,7 +21,12 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Execute Test
-        shell: cmd
+      - name: Analysis & Reporting & upload
+        shell: bash
         run: |
-          mvn -B -Pcli,all clean test --file pom.xml
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          mvn -B -Pcli,all clean site site:stage scm-publish:publish-scm --file pom.xml -Dusername=$ACTIONS_USER -Dpassword=$ACTIONS_TOKEN
+        env:
+          ACTIONS_USER: ${{ secrets.ACTIONS_USER }}
+          ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
