@@ -128,7 +128,7 @@ public interface EndPointSpec {
     @Operation(
         operationId = "findReservationByReserverId",
         summary = "指定されたユーザが予約者の予約を検索する",
-        description = "指定されたユーザが予約者の予約を検索する。")
+        description = "指定されたユーザが予約者の予約を検索する")
     @Parameters({
         @Parameter(name = "reserverId", description = "ユーザID", in = ParameterIn.PATH, required = true)
     })
