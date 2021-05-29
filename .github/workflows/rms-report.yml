@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     branches: [ main ]
   schedule:
-    - cron:  '0 18 * * *' # This time is UTC. 3:00 AM in JST
+    - cron:  '0 18 * * 6' # This time is UTC. 3:00 AM in JST
 
 jobs:
   analysis_and_upload_to_github-pages:

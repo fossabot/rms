@@ -6,7 +6,8 @@ on:
   push:
     branches: [ main ]
     paths: 
-      - '**'
+      # Suppressing push event activation. It won't work without `**`
+      #- '**'
       - '!.github/**'
       - '!docs/**'
       - '!**.md'
