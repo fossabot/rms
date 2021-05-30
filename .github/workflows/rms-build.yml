@@ -38,7 +38,7 @@ jobs:
     needs: [rms-application-parent]
     runs-on: ubuntu-latest
     steps:
-      - uses: ozytso/rms@v1
+      - uses: ozytso/rms@main
         with:
           module: rms-test
 
