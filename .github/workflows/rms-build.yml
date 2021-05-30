@@ -38,6 +38,7 @@ jobs:
     needs: [rms-application-parent]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ozytso/rms@main
         with:
           module: rms-test
