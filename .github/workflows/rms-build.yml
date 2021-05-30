@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ozytso/rms@v2
+      - uses: ozytso/rms/actions@main
         with:
           module: rms-test
 
