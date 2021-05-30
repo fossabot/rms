@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>目次の展開</summary>
+
+- [Rental Management System Reports](#rental-management-system-reports)
+
+</details>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 [![rms-build](https://github.com/ozytso/rms/actions/workflows/rms-build.yml/badge.svg)](https://github.com/ozytso/rms/actions/workflows/rms-build.yml)
 
 # Rental Management System Reports
