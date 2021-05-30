@@ -1,11 +1,11 @@
-[![all-test](https://github.com/ozytso/rms/actions/workflows/all-test.yml/badge.svg)](https://github.com/ozytso/rms/actions/workflows/all-test.yml)
+[![rms-build](https://github.com/ozytso/rms/actions/workflows/rms-build.yml/badge.svg)](https://github.com/ozytso/rms/actions/workflows/rms-build.yml)
 
 # Rental Management System Reports
 Rental Management Systemのビルドやテスト、APIドキュメントなどの情報一覧
 
 | module | information | report |
 | ------ | ------ | ---- |
-| rms-all | REST API Document | [Redoc](http://54.199.30.101/static/)|
+| rms-all | REST API Document | [Redoc](http://rms.ext-act.io/static/)|
 |  | Java API Document | [Javadoc](https://ozytso.github.io/rms/site/modules/apidocs/index.html) |
 |  | Code Coverage | [JaCoCo](https://ozytso.github.io/rms/site/modules/rms-coverage/jacoco-aggregate/index.html) |
 |  | Code Duplication | [CDC](https://ozytso.github.io/rms/site/modules/cpd.html) |
