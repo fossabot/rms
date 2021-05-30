@@ -39,6 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: ozytso/rms@v1
+        with:
+          module: rms-test
 
   rms-platform:
     needs: [rms-test]
