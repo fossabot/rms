@@ -27,3 +27,4 @@ ObjectStore
 
 # local
 *.log
+RmsConsole
