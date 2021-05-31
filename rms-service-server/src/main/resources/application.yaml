@@ -4,7 +4,6 @@
 rms:
   server.port: 7001
   server.tls.port: 7011
-  server.tls.passphrase: ${CLEAR=mamezou}
   sec.require.encrypt: false
   sec.aes.passphrase: override-by-secret-file
   h2.user: sa
@@ -18,18 +17,6 @@ server:
   sockets:
     - name: secure
       port: ${rms.server.tls.port}
-      tls:
-        #Truststore setup
-        trust.keystore:
-          passphrase: ${rms.server.tls.passphrase}
-          trust-store: true
-          resource:
-            resource-path: forTest.p12
-        #Keystore with private key and server certificate
-        private-key.keystore:
-          passphrase: ${rms.server.tls.passphrase}
-          resource:
-            resource-path: forTest.p12
   static.classpath:
     location: "/pages"
     welcome: redoc.html
