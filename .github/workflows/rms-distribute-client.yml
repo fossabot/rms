@@ -1,4 +1,4 @@
-name: rms-distributec-lient
+name: rms-distribute-client
 
 on:
   workflow_dispatch:
@@ -30,7 +30,6 @@ jobs:
           mvn -B -Pcli,client clean deploy --file pom.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: package
 
   package_client_for_win:
     runs-on: windows-latest
