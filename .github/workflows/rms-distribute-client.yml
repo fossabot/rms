@@ -55,7 +55,7 @@ jobs:
           rm -rf ./rms-client-ui-console
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add ./binary && git diff --cached --exit-code --quiet || git commit -m "Add the rebuild binary" -a
+          git add ./docs/binary && git diff --cached --exit-code --quiet || git commit -m "Add the rebuild binary" -a
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
