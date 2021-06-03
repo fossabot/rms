@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Java16
+      - name: Set up Java11
         uses: actions/setup-java@v1
         with:
-          java-version: 16 # jpackage required
+          java-version: 11
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
@@ -48,7 +48,7 @@ jobs:
       - name: Package app-image
         shell: bash
         run: |
-          mvn -B -Pcli,client clean deploy -DskipTests=true --file pom.xml
+          mvn -B -Pcli clean package -DskipTests=true --file pom.xml
           cp ./target/rms-client-ui-console.jar ./target/libs
           APP_NAME=RmsConsole
           MAIN_JAR=rms-client-ui-console.jar
