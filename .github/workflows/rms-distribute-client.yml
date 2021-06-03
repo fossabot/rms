@@ -43,6 +43,7 @@ jobs:
           BUIDL_TYPE=app-image
           JAVA_OPTION=-Dserver.url=https://rms.ext-act.io
           jpackage --name $APP_NAME --input target/libs --main-jar $MAIN_JAR --type $BUIDL_TYPE --java-options $JAVA_OPTION
+          ls -al .
         working-directory: rms-client-ui-console
         env:
           GITHUB_TOKEN: ${{ github.token }}
