@@ -53,7 +53,7 @@ jobs:
           git fetch
           git checkout github-pages
           test ${{ matrix.type-name }} = "win" && 7z a RmsConsoleWin.zip ./rms-client-ui-console/RmsConsole && mv ./RmsConsoleWin.zip ./docs/binary
-          test ${{ matrix.type-name }} = "mac" && zip -r RmsConsoleMac.zip ./rms-client-ui-console/RmsConsole && mv ./RmsConsoleMac.zip ./docs/binary
+          test ${{ matrix.type-name }} = "mac" && zip -r RmsConsoleMac.zip ./rms-client-ui-console/RmsConsole.app && mv ./RmsConsoleMac.zip ./docs/binary
           rm -rf ./rms-client-ui-console
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
