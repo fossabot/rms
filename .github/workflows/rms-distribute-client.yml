@@ -13,7 +13,7 @@ on:
 jobs:
   distribute_client:
     runs-on: windows-latest
-    needs: [build_client]
+    #needs: [build_client]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Java16
