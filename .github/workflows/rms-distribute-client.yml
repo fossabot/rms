@@ -39,12 +39,6 @@ jobs:
         working-directory: rms-client-ui-console
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Upload binary to Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: RmsConsoleForWin
-          path: rms-client-ui-console/RmsConsole
-          retention-days: 1
       - name: Commit to GitHubPages
         shell: bash
         run: |
