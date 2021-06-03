@@ -11,7 +11,28 @@ on:
       - rms-client-ui-console/**
 
 jobs:
+  build_client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build & Test & Deploy for client
+        run: |
+          mvn -B -Pcli,client clean deploy --file pom.xml
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
   distribute_client:
+    needs: [build_client]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -43,7 +64,6 @@ jobs:
           BUIDL_TYPE=app-image
           JAVA_OPTION=-Dserver.url=https://rms.ext-act.io
           jpackage --name $APP_NAME --input target/libs --main-jar $MAIN_JAR --type $BUIDL_TYPE --java-options $JAVA_OPTION
-          ls -al .
         working-directory: rms-client-ui-console
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -58,6 +78,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./docs/binary && git diff --cached --exit-code --quiet || git commit -m "Add the rebuild binary" -a
+          git pull
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
