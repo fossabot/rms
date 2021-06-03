@@ -31,8 +31,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-  package_client_for_win:
+  upload_binary_to_artifact:
     runs-on: windows-latest
+    needs: [client_build]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Java16
@@ -45,7 +46,7 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Package app-image
+      - name: Make app-image
         shell: bash
         run: |
           mvn -B -Pcli,copy-libs clean package -DskipTests=true --file pom.xml
@@ -58,9 +59,24 @@ jobs:
         working-directory: rms-client-ui-console
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Upload app-image Artifact
+      - name: Upload binary to Artifact
         uses: actions/upload-artifact@v2
         with:
           name: RmsConsoleForWin
           path: rms-client-ui-console/RmsConsole
           retention-days: 1
+      - name: Commit to GitHubPages
+        shell: bash
+        run: |
+          git checkout github-pages
+          zip -r RmsConsoleWin.zip ./rms-client-ui-console/RmsConsole
+          mv ./RmsConsoleWin.zip ./binary
+          rm -rf ./rms-client-ui-console
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./binary && git diff --cached --exit-code --quiet || git commit -m "Add the rebuild binary" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: github-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
