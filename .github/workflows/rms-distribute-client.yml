@@ -50,7 +50,7 @@ jobs:
         run: |
           git fetch
           git checkout github-pages
-          7z ./rms-client-ui-console/RmsConsole RmsConsoleWin.zip
+          7z a RmsConsoleWin.zip ./rms-client-ui-console/RmsConsole
           mv ./RmsConsoleWin.zip ./binary
           rm -rf ./rms-client-ui-console
           git config --local user.email "action@github.com"
