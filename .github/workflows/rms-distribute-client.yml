@@ -11,7 +11,7 @@ on:
       - rms-client-ui-console/**
 
 jobs:
-  client_build:
+  build_client:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,9 +31,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-  upload_binary_to_artifact:
+  distribute_client:
     runs-on: windows-latest
-    needs: [client_build]
+    needs: [build_client]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Java16
@@ -68,6 +68,7 @@ jobs:
       - name: Commit to GitHubPages
         shell: bash
         run: |
+          git fetch
           git checkout github-pages
           zip -r RmsConsoleWin.zip ./rms-client-ui-console/RmsConsole
           mv ./RmsConsoleWin.zip ./binary
