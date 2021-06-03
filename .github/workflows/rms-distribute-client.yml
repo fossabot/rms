@@ -48,7 +48,7 @@ jobs:
       - name: Package app-image
         shell: bash
         run: |
-          mvn -B -Pcli clean package -DskipTests=true --file pom.xml
+          mvn -B -Pcli,copy-libs clean package -DskipTests=true --file pom.xml
           cp ./target/rms-client-ui-console.jar ./target/libs
           APP_NAME=RmsConsole
           MAIN_JAR=rms-client-ui-console.jar
