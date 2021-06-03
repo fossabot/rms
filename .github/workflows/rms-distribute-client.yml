@@ -51,7 +51,7 @@ jobs:
           git fetch
           git checkout github-pages
           7z a RmsConsoleWin.zip ./rms-client-ui-console/RmsConsole
-          mv ./RmsConsoleWin.zip ./binary
+          mv ./RmsConsoleWin.zip ./docs/binary
           rm -rf ./rms-client-ui-console
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
