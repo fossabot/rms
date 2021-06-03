@@ -1,0 +1,67 @@
+name: rms-distributec-lient
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+    paths: 
+      - rms-client-api/**
+      - rms-client-api-remote/**
+      - rms-client-ui-console/**
+
+jobs:
+  client_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java16
+        uses: actions/setup-java@v1
+        with:
+          java-version: 16 # jpackage required
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build & Test & Deploy for client
+        run: |
+          mvn -B -Pcli,client clean deploy --file pom.xml
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: package
+
+  package_client_for_win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java16
+        uses: actions/setup-java@v1
+        with:
+          java-version: 16 # jpackage required
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Package app-image
+        shell: bash
+        run: |
+          mvn -B -Pcli,client clean deploy -DskipTests=true --file pom.xml
+          cp ./target/rms-client-ui-console.jar ./target/libs
+          APP_NAME=RmsConsole
+          MAIN_JAR=rms-client-ui-console.jar
+          BUIDL_TYPE=app-image
+          JAVA_OPTION=-Dserver.url=https://rms.ext-act.io
+          jpackage --name $APP_NAME --input target/libs --main-jar $MAIN_JAR --type $BUIDL_TYPE --java-options $JAVA_OPTION
+        working-directory: rms-client-ui-console
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Upload app-image Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: RmsConsoleForWin
+          path: rms-client-ui-console/RmsConsole
+          retention-days: 1

@@ -408,6 +408,25 @@
         <module>rms-coverage</module>
       </modules>
     </profile>
+    <profile>
+      <id>client</id>
+      <modules>
+        <module>rms-test</module>
+        <module>rms-platform</module>
+        <module>rms-client-api</module>
+        <module>rms-client-api-remote</module>
+        <module>rms-client-ui-console</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>server</id>
+      <modules>
+        <module>rms-test</module>
+        <module>rms-platform</module>
+        <module>rms-service</module>
+        <module>rms-service-server</module>
+      </modules>
+    </profile>
     <!--
       eclipseとcliは排他的なプロファイル
       EcliseからTestSuiteでまとめて実行する場合はJunit4のrunnerが必要だが、

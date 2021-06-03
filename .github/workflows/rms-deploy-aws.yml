@@ -1,4 +1,4 @@
-name: rms-deploy
+name: rms-deploy-aws
 
 on:
   workflow_dispatch:
@@ -19,9 +19,9 @@ jobs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
-    - name: Build & Test & Deploy
+    - name: Build & Test & Deploy for server
       run: |
-        mvn -B -Pcli,all clean deploy --file pom.xml
+        mvn -B -Pcli,server clean deploy --file pom.xml
       env:
         GITHUB_TOKEN: ${{ github.token }} # for deploy to GitHub Packages.
     - name: make deployment for rms-service-server
