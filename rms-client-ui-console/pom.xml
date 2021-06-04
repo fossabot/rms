@@ -17,6 +17,7 @@
 
   <properties>
     <mainClass>com.mamezou.rms.client.console.ConsoleMain</mainClass>
+    <target.env>develop</target.env>
   </properties>
 
   <dependencies>
@@ -111,6 +112,17 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>env/profile/${target.env}</directory>
+      </resource>
+    </resources>
+  </build>
+
   <profiles>
     <profile>
       <id>remote</id>
@@ -148,6 +160,12 @@
           <scope>test</scope>
         </dependency>
       </dependencies>
+    </profile>
+    <profile>
+      <id>product</id>
+      <properties>
+        <target.env>product</target.env>
+      </properties>
     </profile>
   </profiles>
 
