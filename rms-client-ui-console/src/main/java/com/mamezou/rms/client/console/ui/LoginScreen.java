@@ -11,6 +11,7 @@ import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
 import com.mamezou.rms.client.api.login.LoggedInEvent;
 import com.mamezou.rms.client.console.ui.TransitionMap.RmsScreen;
 import com.mamezou.rms.client.console.ui.TransitionMap.Transition;
+import com.mamezou.rms.platform.env.Environment;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,8 @@ public class LoginScreen implements RmsScreen {
         try {
             if (printHeader) {
                 // 認証画面のヘッダーを表示する
+                var jarInfo = Environment.getMainJarInfo();
+                println("Version:" + jarInfo.getVersion() + "/Build-Time:" + jarInfo.getBuildtimeInfo());
                 println(LOGIN_INFORMATION);
                 blankLine();
             }

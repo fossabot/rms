@@ -11,7 +11,6 @@ import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
 public class TextIoUtils {
 
     public static void printScreenHeader(UserAccountClientDto loginUser, String screenName) {
-
         var msg = System.lineSeparator()
                 + "===================================================" + System.lineSeparator()
                 + "レンタル予約システム － %s" + System.lineSeparator()

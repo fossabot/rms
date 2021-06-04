@@ -16,6 +16,11 @@ public class MainJarInfoTest {
         System.clearProperty(MAIN_MANIFEST_JAR_PROP);
     }
 
+    /*
+     * !!NOTE!!
+     * Eclipseでこのテストを実行する場合は/rms-platform/testdata/environment-test-normal.zipを
+     * 外部jarとして追加する（mavenから実行する場合はpomに設定を入れているので特別な手順は不要）
+     */
     @Test
     void tetGetMainJarInfo() {
 
@@ -69,6 +74,6 @@ public class MainJarInfoTest {
 
         Config config = ConfigProvider.getConfig();
         MainJarInfo mainJarInfo = MainJarInfo.builder().build(config);
-        assertThat(mainJarInfo.startupModuleInfo()).isEqualTo("unknown");
+        assertThat(mainJarInfo.startupModuleInfo()).isEqualTo("-");
     }
 }

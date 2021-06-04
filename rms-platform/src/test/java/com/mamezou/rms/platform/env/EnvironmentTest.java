@@ -33,10 +33,10 @@ public class EnvironmentTest {
         // "main.manifest.jar" prop non.
         MainJarInfo mainJarInfo = Environment.getMainJarInfo();
 
-        assertThat(mainJarInfo.getApplicationName()).isEqualTo("unknown");
-        assertThat(mainJarInfo.getJarName()).isEqualTo("unknown");
-        assertThat(mainJarInfo.getMainClassName()).isEqualTo("unknown");
-        assertThat(mainJarInfo.getVersion()).isEqualTo("unknown");
-        assertThat(mainJarInfo.getBuildtimeInfo()).isEqualTo("unknown");
+        assertThat(mainJarInfo.getApplicationName()).isEqualTo("-");
+        assertThat(mainJarInfo.getJarName()).isEqualTo("-");
+        assertThat(mainJarInfo.getMainClassName()).isEqualTo("-");
+        assertThat(mainJarInfo.getVersion()).isEqualTo("-");
+        assertThat(mainJarInfo.getBuildtimeInfo()).isEqualTo("-");
     }
 }
