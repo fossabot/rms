@@ -1,6 +1,15 @@
 [![rms-build](https://github.com/ozytso/rms/actions/workflows/rms-build.yml/badge.svg)](https://github.com/ozytso/rms/actions/workflows/rms-build.yml)
 
 # Rental Management System Reports
+アプリケーション
+ - サーバーアプリケーション
+   - REST API(Redoc)は[こちら](http://rms.ext-act.io/static/)
+ - クライアントアプリケーション
+   - REST APIを操作するコンソールアプリケーション。jpackageでOSごとの実行形式ファイルに変換している。zipファイルを解凍するだけで利用可能
+     - Windows版は[こちら](https://ozytso.github.io/rms/binary/RmsConsoleWin.zip)
+     - Mac版は[こちら](https://ozytso.github.io/rms/binary/RmsConsoleMac.zip)
+
+
 Rental Management Systemのビルドやテスト、APIドキュメントなどの情報一覧
 
 | module | information | report |
