@@ -6,15 +6,15 @@ package com.mamezou.rms.core.exception;
  */
 public abstract class RentalReservationServiceException extends RuntimeException {
 
-    public RentalReservationServiceException(String message, Throwable cause) {
+    protected RentalReservationServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public RentalReservationServiceException(String message) {
+    protected RentalReservationServiceException(String message) {
         super(message);
     }
 
-    public RentalReservationServiceException(Throwable cause) {
+    protected RentalReservationServiceException(Throwable cause) {
         super(cause.getMessage(), cause);
     }
 }

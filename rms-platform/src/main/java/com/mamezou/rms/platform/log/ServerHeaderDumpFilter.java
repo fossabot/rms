@@ -20,9 +20,9 @@ public class ServerHeaderDumpFilter implements ContainerRequestFilter, Container
         var builder = new StringBuilder();
         builder.append(requestContext.getMethod()).append(" ")
             .append("/" + requestContext.getUriInfo().getPath()).append(System.lineSeparator());
-        requestContext.getHeaders().forEach((key, values) -> {
-            builder.append(key + ":" + values + System.lineSeparator());
-        });
+        requestContext.getHeaders().forEach((key, values) ->
+            builder.append(key + ":" + values + System.lineSeparator())
+        );
         if (log.isDebugEnabled()) {
             log.debug("===> REQUEST" + System.lineSeparator() + builder.toString());
         }
@@ -33,9 +33,9 @@ public class ServerHeaderDumpFilter implements ContainerRequestFilter, Container
         var builder = new StringBuilder();
         builder.append(responseContext.getStatusInfo().getStatusCode())
             .append(" " + responseContext.getStatusInfo().getReasonPhrase()).append(System.lineSeparator());
-        responseContext.getHeaders().forEach((key, values) -> {
-            builder.append(key + ":" + values + System.lineSeparator());
-        });
+        responseContext.getHeaders().forEach((key, values) ->
+            builder.append(key + ":" + values + System.lineSeparator())
+        );
         if (log.isDebugEnabled()) {
             log.debug("<=== RESPONSE" + System.lineSeparator() + builder.toString());
         }

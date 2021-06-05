@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class ValidateClientException extends RentalReservationClientException {
 
-    private ValidationErrorMessage errorMessage;
+    private final transient ValidationErrorMessage errorMessage;
 
     public ValidateClientException(ValidationErrorMessage errorMessage) {
         super("サーバ側でバリデーションエラーが発生しました");

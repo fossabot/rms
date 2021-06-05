@@ -16,7 +16,7 @@ public class LocalDateTimeInputReader extends InputReader<LocalDateTime, LocalDa
 
     public LocalDateTimeInputReader(TextTerminal<?> textTerminal) {
         super(() -> textTerminal);
-        valueCheckers.add((val, propName) -> getFutureValidationErrors(val, propName));
+        valueCheckers.add(this::getFutureValidationErrors);
     }
 
     @Override

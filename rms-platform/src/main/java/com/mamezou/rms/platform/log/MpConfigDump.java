@@ -71,7 +71,7 @@ public class MpConfigDump {
         public boolean test(String name) {
             return filters.isEmpty()
                         ? true
-                        : filters.stream().anyMatch(filter -> name.startsWith(filter));
+                        : filters.stream().anyMatch(name::startsWith);
         }
     }
 }

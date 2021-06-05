@@ -83,9 +83,9 @@ public class InitFilePreparator {
                 var outputFileName = config.getValue("csv.permanent.fileName." + fileNameInConfigKey, String.class);
                 return Pair.of(resoucePath, outputFileName);
             })
-            .forEach(fileNames -> {
-                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight());
-            });
+            .forEach(fileNames ->
+                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight())
+            );
         log.info("初期データを作成しました。${csv.type.temporary.fileName}" + "=>" + pathEnv.getBaseDir());
     }
 

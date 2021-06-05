@@ -56,7 +56,7 @@ public class InquiryReservationScreen implements RmsScreen {
         // 照会の実行
         try {
             var results = clientApi.findReservationByRentalItemAndStartDate(selectedItem, inputedDate);
-            printResultList(loginUser, results);
+            printResultList(results);
             return Transition.MEMBER_MAIN;
 
         } catch (BusinessFlowClientException e) {
@@ -66,7 +66,7 @@ public class InquiryReservationScreen implements RmsScreen {
         }
     }
 
-    private void printResultList(UserAccountClientDto loginUser, List<ReservationClientDto> reservations) {
+    private void printResultList(List<ReservationClientDto> reservations) {
         blankLine();
         println("***** 予約検索結果 *****");
         println("選択レンタル品番号：" + reservations.get(0).getRentalItemId());

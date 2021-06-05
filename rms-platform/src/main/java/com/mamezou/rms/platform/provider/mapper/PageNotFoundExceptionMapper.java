@@ -61,7 +61,7 @@ public class PageNotFoundExceptionMapper implements ExceptionMapper<NotFoundExce
         }
         @Override
         public boolean test(String requestPath) {
-            return Stream.of(unhandlePaths).anyMatch((path) -> requestPath.startsWith(path));
+            return Stream.of(unhandlePaths).anyMatch(requestPath::startsWith);
         }
     }
 }

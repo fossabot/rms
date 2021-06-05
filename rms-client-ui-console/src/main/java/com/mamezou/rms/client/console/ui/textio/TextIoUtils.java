@@ -78,7 +78,7 @@ public class TextIoUtils {
     }
 
     public static <T extends Enum<T>> EnumInputReader<T> newEnumInputReader(Class<T> enumClass) {
-        return new EnumInputReader<T>(() -> TextIoFactory.getTextTerminal(), enumClass);
+        return new EnumInputReader<T>(TextIoFactory::getTextTerminal, enumClass);
     }
 
     public static boolean isBreak(String input) {

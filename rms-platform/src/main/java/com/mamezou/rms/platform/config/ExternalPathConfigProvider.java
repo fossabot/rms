@@ -39,7 +39,7 @@ public class ExternalPathConfigProvider implements ConfigSourceProvider {
         }
 
         if (path == null) {
-            return new ArrayList<ConfigSource>();
+            return new ArrayList<>();
         }
         return List.of(
                     MpConfigFactory.newInstance().createFromExternalPath(path)

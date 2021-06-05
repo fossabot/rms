@@ -18,7 +18,7 @@ public class RmsIntInputReader extends IntInputReader {
     }
 
     public InputReader<Integer, IntInputReader> withSelectableValues(List<Integer> values, int excludeValue) {
-        values = new ArrayList<Integer>(values);
+        values = new ArrayList<>(values);
         values.add(excludeValue);
         return withSelectableValues(values);
     }

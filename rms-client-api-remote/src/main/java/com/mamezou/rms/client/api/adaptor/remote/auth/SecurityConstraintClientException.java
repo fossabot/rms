@@ -6,7 +6,7 @@ import com.mamezou.rms.client.api.exception.RentalReservationClientException;
 
 public class SecurityConstraintClientException extends RentalReservationClientException {
 
-    private Response response;
+    private final transient Response response;
 
     public SecurityConstraintClientException(Response response) {
         super(getMessage(response));

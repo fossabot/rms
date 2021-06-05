@@ -78,10 +78,10 @@ public class MemoryHealthCheck {
     interface MemoryLivenessEvaluator {
 
         // メモリ使用量が閾値以下であることの評価
-        static final BiFunction<MemoryUsage, Long, Boolean> absoluteEvalute =
+        static final MemoryUsageFunction absoluteFunction =
                 (memoryUsage, threshold) -> memoryUsage.getUsed() < threshold * 1024 * 1024;
         // メモリ使用率が閾値以下であることの評価
-        static final BiFunction<MemoryUsage, Long, Boolean> relativeEvalute =
+        static final MemoryUsageFunction relativeFunction =
                 (memoryUsage, threshold) -> (memoryUsage.getUsed() / (double) memoryUsage.getMax()) * 100 < (double) threshold;
 
         String name();
@@ -91,10 +91,10 @@ public class MemoryHealthCheck {
         static MemoryLivenessEvaluator of(String method, long threshold) {
             switch (method) {
             case "abs":
-                return new EvaluateHolder("abs", absoluteEvalute, threshold);
+                return new EvaluateHolder("abs", absoluteFunction, threshold);
             case "rel":
             default:
-                return new EvaluateHolder("rel", relativeEvalute, threshold);
+                return new EvaluateHolder("rel", relativeFunction, threshold);
             }
         }
     }
@@ -102,12 +102,12 @@ public class MemoryHealthCheck {
     static class EvaluateHolder implements MemoryLivenessEvaluator {
 
         String name;
-        BiFunction<MemoryUsage, Long, Boolean> eval;
+        MemoryUsageFunction func;
         long threshold;
 
-        EvaluateHolder(String name, BiFunction<MemoryUsage, Long, Boolean> eval, long threshold) {
+        EvaluateHolder(String name, MemoryUsageFunction func, long threshold) {
             this.name = name;
-            this.eval = eval;
+            this.func = func;
             this.threshold = threshold;
         }
 
@@ -121,7 +121,14 @@ public class MemoryHealthCheck {
         }
         @Override
         public boolean liveness(MemoryUsage memoryUsage) {
-            return eval.apply(memoryUsage, threshold);
+            return func.evaluate(memoryUsage, threshold);
         }
     }
+
+    interface MemoryUsageFunction extends BiFunction<MemoryUsage, Long, Boolean> {
+        default boolean evaluate(MemoryUsage memoryUsage, long threshold) {
+            return apply(memoryUsage, threshold);
+        }
+    }
+
 }

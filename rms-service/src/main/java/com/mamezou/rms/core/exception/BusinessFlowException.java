@@ -5,7 +5,7 @@ package com.mamezou.rms.core.exception;
  */
 public class BusinessFlowException extends RentalReservationServiceException {
 
-    private CauseType causeType;
+    private final CauseType causeType;
 
     public BusinessFlowException(String message, CauseType causeType, Throwable cause) {
         super(message, cause);

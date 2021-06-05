@@ -11,7 +11,6 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -33,12 +32,10 @@ public class MemoryEvaluateResource {
         operationId = "resetEvaluateMethod",
         summary = "memory-health-check-livenessのチェック方法の変更",
         description = "/health/readyによるReadinessProbeのmemory-health-check-livenessのチェック方法を変更する")
-    @Parameters({
-        @Parameter(name = "method", description = "評価方法。abs:絶対評価, rel:相対評価", required = true,
-            schema = @Schema(implementation = String.class)),
-        @Parameter(name = "val",  description = "閾値。絶対評価の場合は使用ヒープサイズ, 相対評価の場合はヒープの使用率、", required = true,
-            schema = @Schema(implementation = Long.class))
-    })
+    @Parameter(name = "method", description = "評価方法。abs:絶対評価, rel:相対評価", required = true,
+        schema = @Schema(implementation = String.class))
+    @Parameter(name = "val",  description = "閾値。絶対評価の場合は使用ヒープサイズ, 相対評価の場合はヒープの使用率、", required = true,
+        schema = @Schema(implementation = Long.class))
     @APIResponse(
         responseCode = "200",
         description = "成功。常に\"accepted.\"を返す",

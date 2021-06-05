@@ -22,7 +22,6 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -56,12 +55,10 @@ public interface EndPointSpec {
         operationId = "authenticate",
         summary = "ユーザ認証を行う（curlのテスト用）",
         description = "ログイン名とパスワードに一致するユーザを取得する")
-    @Parameters({
-        @Parameter(name = "loginId", description = "ログインId", required = true,
-            schema = @Schema(implementation = String.class, minLength = 5, maxLength = 10)),
-        @Parameter(name = "password",  description = "パスワード", required = true,
-            schema = @Schema(implementation = String.class, minLength = 5, maxLength = 10))
-    })
+    @Parameter(name = "loginId", description = "ログインId", required = true,
+        schema = @Schema(implementation = String.class, minLength = 5, maxLength = 10))
+    @Parameter(name = "password",  description = "パスワード", required = true,
+        schema = @Schema(implementation = String.class, minLength = 5, maxLength = 10))
     @APIResponse(
         responseCode = "200",
         description = "認証成功",
@@ -104,11 +101,9 @@ public interface EndPointSpec {
         operationId = "findReservationByRentalItemAndStartDate",
         summary = "指定されたレンタル品と利用開始日で予約を検索する",
         description = "指定されたレンタル品と利用開始日に一致する予約を検索する")
-    @Parameters({
-        @Parameter(name = "itemId", description = "レンタル品ID", in = ParameterIn.PATH, required = true),
-        @Parameter(name = "startDate", description = "利用開始日", in = ParameterIn.PATH, required = true,
-            schema = @Schema(implementation = String.class, example = "20201230", format = "yyyyMMdd"))
-    })
+    @Parameter(name = "itemId", description = "レンタル品ID", in = ParameterIn.PATH, required = true)
+    @Parameter(name = "startDate", description = "利用開始日", in = ParameterIn.PATH, required = true,
+        schema = @Schema(implementation = String.class, example = "20201230", format = "yyyyMMdd"))
     @APIResponse(responseCode = "200",
         description = "検索結果",
         content = @Content(mediaType = "application/json", schema =
@@ -129,9 +124,7 @@ public interface EndPointSpec {
         operationId = "findReservationByReserverId",
         summary = "指定されたユーザが予約者の予約を検索する",
         description = "指定されたユーザが予約者の予約を検索する")
-    @Parameters({
-        @Parameter(name = "reserverId", description = "ユーザID", in = ParameterIn.PATH, required = true)
-    })
+    @Parameter(name = "reserverId", description = "ユーザID", in = ParameterIn.PATH, required = true)
     @APIResponse(responseCode = "200",
         description = "検索結果",
         content = @Content(mediaType = "application/json", schema =

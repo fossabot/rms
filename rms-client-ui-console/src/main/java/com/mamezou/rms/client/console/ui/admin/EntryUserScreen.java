@@ -72,7 +72,7 @@ public class EntryUserScreen implements RmsScreen {
         try {
             var addUserAccount = UserAccountClientDto.ofTransient(loginId, password, userName, phoneNumber, contact, userType);
             var newUserAccount = clientApi.addUserAccount(addUserAccount);
-            printResultInformation(loginUser, newUserAccount);
+            printResultInformation(newUserAccount);
             return Transition.ADMIN_MAIN;
 
         } catch (BusinessFlowClientException e) {
@@ -82,7 +82,7 @@ public class EntryUserScreen implements RmsScreen {
         }
     }
 
-    private void printResultInformation(UserAccountClientDto loginUser, UserAccountClientDto newUserAccount) {
+    private void printResultInformation(UserAccountClientDto newUserAccount) {
         blankLine();
         println("***** ユーザ登録結果 *****");
         println("ユーザ番号：" + newUserAccount.getId());
