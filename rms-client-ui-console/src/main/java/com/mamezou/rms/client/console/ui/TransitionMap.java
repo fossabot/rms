@@ -1,13 +1,13 @@
 package com.mamezou.rms.client.console.ui;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import com.mamezou.rms.client.api.dto.UserAccountClientDto;
 
 public class TransitionMap {
 
-    private Map<Transition, RmsScreen> transitionMap = new HashMap<>();
+    private Map<Transition, RmsScreen> transitionMap = new EnumMap<>(Transition.class);
 
     public enum Transition {
         LOGIN,

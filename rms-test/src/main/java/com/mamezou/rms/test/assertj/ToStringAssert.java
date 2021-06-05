@@ -23,7 +23,7 @@ public class ToStringAssert {
             } else {
                 return actual.toString().equals(other.toString());
             }
-        };
+        }
     };
 
 

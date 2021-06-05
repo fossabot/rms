@@ -53,7 +53,7 @@ public class EditUserScreen implements RmsScreen {
         var targetUser = users.stream()
                 .filter(user -> user.getId().equals(selectNumber))
                 .findFirst()
-                .get();
+                .orElse(null);
 
         // パスワードの入力
         var password = newStringInputReader()
@@ -94,7 +94,7 @@ public class EditUserScreen implements RmsScreen {
         // ユーザ情報の更新実行
         try {
             var updatedUser = clientApi.updateUserAccount(targetUser);
-            printResultInformation(loginUser, updatedUser);
+            printResultInformation(updatedUser);
             return Transition.ADMIN_MAIN;
 
         } catch (BusinessFlowClientException e) {
@@ -104,7 +104,7 @@ public class EditUserScreen implements RmsScreen {
         }
     }
 
-    private void printResultInformation(UserAccountClientDto loginUser, UserAccountClientDto updatedUserAccount) {
+    private void printResultInformation(UserAccountClientDto updatedUserAccount) {
         blankLine();
         println("***** ユーザ登録結果 *****");
         printf("[%s]のユーザ情報を更新しました", updatedUserAccount.getId());

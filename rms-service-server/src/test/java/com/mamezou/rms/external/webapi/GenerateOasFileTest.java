@@ -25,9 +25,9 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 @HelidonTest
 @AddConfig(key = "server.port", value = "7001")
 @ExtendWith(JulToSLF4DelegateExtension.class)
-class GenerateOasFile {
+class GenerateOasFileTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GenerateOasFile.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GenerateOasFileTest.class);
 
     public interface OpenApiEndPoint {
         @GET

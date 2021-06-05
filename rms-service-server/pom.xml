@@ -193,7 +193,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <includes>
-                <include>com.mamezou.rms.external.webapi.GenerateOasFile.java</include>
+                <include>com.mamezou.rms.external.webapi.GenerateOasFileTest.java</include>
               </includes>
             </configuration>
           </plugin>

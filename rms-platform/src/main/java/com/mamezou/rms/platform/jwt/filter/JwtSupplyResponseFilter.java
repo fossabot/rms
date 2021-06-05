@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtSupplyResponseFilter implements ContainerResponseFilter {
 
-    private static Range<Integer> SUCCESS_STATUS = Range.between(200, 299);
+    private static final Range<Integer> SUCCESS_STATUS = Range.between(200, 299);
 
     private UserClaimsFactory userClaimsFactory;
     private JsonWebTokenGenerator tokenGenerator;

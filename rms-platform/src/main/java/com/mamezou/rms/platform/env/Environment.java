@@ -6,7 +6,7 @@ public class Environment {
 
     private static MainJarInfo mainJarInfo;
 
-    public synchronized static MainJarInfo getMainJarInfo() {
+    public static synchronized MainJarInfo getMainJarInfo() {
         if (mainJarInfo == null) {
             var config = ConfigProvider.getConfig();
             mainJarInfo = MainJarInfo.builder().build(config);
@@ -14,7 +14,7 @@ public class Environment {
         return mainJarInfo == null ? MainJarInfo.UNKNOWN_INFO : mainJarInfo;
     }
 
-    synchronized static void clear() { // for TEST
+    static synchronized void clear() { // for TEST
         mainJarInfo = null;
     }
 }

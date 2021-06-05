@@ -1,7 +1,6 @@
 package com.mamezou.rms.platform.env;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ public class EnvironmentTest {
         MainJarInfo mainJarInfo1 = Environment.getMainJarInfo();
         MainJarInfo mainJarInfo2 = Environment.getMainJarInfo();
 
-        assertTrue(mainJarInfo1 == mainJarInfo2);
+        assertThat(mainJarInfo1).isSameAs(mainJarInfo2);
     }
 
     @Test

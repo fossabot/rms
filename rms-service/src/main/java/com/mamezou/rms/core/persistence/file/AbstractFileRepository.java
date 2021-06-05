@@ -70,7 +70,7 @@ public class AbstractFileRepository<T extends Transformable & IdAccessable> impl
         return load().stream()
                 .map(items -> Integer.parseInt(items[0]))
                 .collect(Collectors.maxBy(Integer::compareTo))
-                .get()
+                .orElse(0)
                 + 1;
     }
 

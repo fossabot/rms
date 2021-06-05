@@ -111,7 +111,7 @@ public class ResourceUtilsTest {
     @Test
     void testFindResoucePathUnderUnknownDir() throws IOException {
         List<URL> urls = ResourceUtils.findResoucePathUnder("unknown");
-        assertThat(urls).hasSize(0);
+        assertThat(urls).isEmpty();
     }
 
 

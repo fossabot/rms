@@ -16,7 +16,7 @@ import org.eclipse.microprofile.config.Config;
 
 public class ConfiguredCdiBeanBinder {
 
-    private static Map<String, Annotation> BEAN_SCOPES = Map.of(
+    private static final Map<String, Annotation> BEAN_SCOPES = Map.of(
             "application", ApplicationScoped.Literal.INSTANCE,
             "request", RequestScoped.Literal.INSTANCE,
             "dependent", Dependent.Literal.INSTANCE);
@@ -150,9 +150,9 @@ public class ConfiguredCdiBeanBinder {
 
         public List<ConfiguredCdiBean> bind() {
 
-            List<AliasKey> aliasKeys = List.of();
+            List<AliasKey> foundAliasKeys = List.of();
             if (parent.listAliasPrefix != null) {
-                aliasKeys = seekAliasKeys(parent.listAliasPrefix);
+                foundAliasKeys = seekAliasKeys(parent.listAliasPrefix);
             }
 
             // (by single config)
@@ -164,7 +164,7 @@ public class ConfiguredCdiBeanBinder {
             if (clazz.isPresent() || alias.isPresent()) {
                 ConfiguredCdiBean configCdiBean =
                         ConfiguredCdiBeanBinder.newBinder(config)
-                            .aliasKeys(aliasKeys)
+                            .aliasKeys(foundAliasKeys)
                             .key(parent.listRegisterPrefix)
                             .bind();
                 return List.of(configCdiBean);
@@ -188,7 +188,7 @@ public class ConfiguredCdiBeanBinder {
 
             List<ConfiguredCdiBean> configCdiBeans = new ArrayList<>();
             for (int i = 0; i < keys.size(); i++) {
-                configCdiBeans.add(ConfiguredCdiBeanBinder.newBinder(config).aliasKeys(aliasKeys).key(parent.listRegisterPrefix + "." + i).bind());
+                configCdiBeans.add(ConfiguredCdiBeanBinder.newBinder(config).aliasKeys(foundAliasKeys).key(parent.listRegisterPrefix + "." + i).bind());
             }
             return configCdiBeans;
         }

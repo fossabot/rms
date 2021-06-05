@@ -83,8 +83,7 @@ public class MemoryHealthCheckTest {
 
         // MemoryLivenessのチェックのデータ構造の確認
         JsonObject data = targetCheck.getJsonObject("data");
-        assertThat(data).isNotNull();
-        assertThat(data).hasSize(5);
+        assertThat(data).isNotNull().hasSize(5);
         assertThat(data.containsKey("init")).isTrue();
         assertThat(data.containsKey("max")).isTrue();
         assertThat(data.containsKey("method")).isTrue();

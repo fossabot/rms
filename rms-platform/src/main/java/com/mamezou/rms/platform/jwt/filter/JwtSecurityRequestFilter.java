@@ -74,7 +74,7 @@ public class JwtSecurityRequestFilter implements ContainerRequestFilter {
         var jwtSecurityContext = new JwtSecurityContext(
                     securityContext,
                     token,
-                    "https".equals(request.getUriInfo().getAbsolutePath().getScheme().toLowerCase())
+                    "https".equalsIgnoreCase(request.getUriInfo().getAbsolutePath().getScheme())
                 );
         request.setSecurityContext(jwtSecurityContext);
     }

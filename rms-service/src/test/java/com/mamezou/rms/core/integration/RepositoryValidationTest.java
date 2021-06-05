@@ -30,7 +30,7 @@ public class RepositoryValidationTest {
     @AddConfig(key = "persistence.apiType", value = "file")
     @AddConfig(key = "csv.type", value = "temporary")
     @ExtendWith(JulToSLF4DelegateExtension.class)
-    static class FileRepositoryValidationTest {
+    class FileRepositoryValidationTest {
 
         @Test
         void testAddValidate() {
@@ -47,7 +47,7 @@ public class RepositoryValidationTest {
     @HelidonTest(resetPerTest = true)
     @AddConfig(key = "persistence.apiType", value = "jpa")
     @ExtendWith(JulToSLF4DelegateExtension.class)
-    static class JpaRepositoryValidationTest {
+    class JpaRepositoryValidationTest {
 
         @Test
         void testAddValidate() {
