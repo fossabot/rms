@@ -1,5 +1,5 @@
 [![rms-build](https://github.com/ozytso/rms/actions/workflows/rms-build.yml/badge.svg)](https://github.com/ozytso/rms/actions/workflows/rms-build.yml)
-
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ozytso_rms&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ozytso_rms)
 # Rental Management System Reports
 アプリケーション
  - サーバーアプリケーション
