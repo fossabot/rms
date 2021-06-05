@@ -79,6 +79,7 @@
     
     <!-- sonarcloud setting -->
     <sonar.projectKey>ozytso_rms</sonar.projectKey>
+    <sonar.moduleKey>${artifactId}</sonar.moduleKey>
     <sonar.organization>ozytso</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
