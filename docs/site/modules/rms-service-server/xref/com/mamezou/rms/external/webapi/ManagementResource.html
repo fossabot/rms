@@ -34,7 +34,7 @@
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>      @SuppressFBWarnings(<span class="jxr_string">"DM_EXIT"</span>)
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">public</strong> String stopApplication(@Context HttpHeaders headers) {
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>          String host = headers.getHeaderString(<span class="jxr_string">"Host"</span>);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          <strong class="jxr_keyword">var</strong> host = headers.getHeaderString(<span class="jxr_string">"Host"</span>);
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>          <strong class="jxr_keyword">if</strong> (!host.toLowerCase().startsWith(<span class="jxr_string">"localhost"</span>)) {
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>              log.warn(<span class="jxr_string">"Ignore because it is a request from other than localhost.[host={}]"</span>, host);
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>              <strong class="jxr_keyword">return</strong> <span class="jxr_string">"failed"</span>;

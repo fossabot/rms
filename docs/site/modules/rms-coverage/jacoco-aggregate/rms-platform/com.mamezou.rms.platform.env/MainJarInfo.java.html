@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 <span class="fc" id="L22">@Slf4j</span>
 <span class="fc" id="L23">public class MainJarInfo {</span>
 
-    private static final String UNKNOWN_INFORMATION = &quot;unknown&quot;;
+    private static final String UNKNOWN_INFORMATION = &quot;-&quot;;
     private static final String MAIN_JAR_PROP = &quot;main.manifest.jar&quot;;
 
     static final MainJarInfo UNKNOWN_INFO;
@@ -65,7 +65,7 @@ import lombok.extern.slf4j.Slf4j;
 <span class="fc" id="L65">    static class MainJarInfoBuilder {</span>
 
         MainJarInfo build(Config config) {
-<span class="fc" id="L68">            URL manifestUrl = findTargetManifestUrl(config);</span>
+<span class="fc" id="L68">            var manifestUrl = findTargetManifestUrl(config);</span>
 <span class="fc" id="L69">            return buidFromManifestUrl(manifestUrl);</span>
         }
 
@@ -111,8 +111,8 @@ import lombok.extern.slf4j.Slf4j;
             }
 
             // resolve jarName from jarfile path
-<span class="fc" id="L114">            String jarFilePath = manifestUrl.toString().substring(0, manifestUrl.toString().indexOf('!'));</span>
-<span class="fc" id="L115">            String jarName = jarFilePath.substring(jarFilePath.lastIndexOf(&quot;/&quot;) + 1, jarFilePath.length());</span>
+<span class="fc" id="L114">            var jarFilePath = manifestUrl.toString().substring(0, manifestUrl.toString().indexOf('!'));</span>
+<span class="fc" id="L115">            var jarName = jarFilePath.substring(jarFilePath.lastIndexOf(&quot;/&quot;) + 1, jarFilePath.length());</span>
 
             // resolve manifest
             Manifest manifest;
@@ -129,7 +129,7 @@ import lombok.extern.slf4j.Slf4j;
 <span class="fc" id="L129">            String buildtime = getManifestValue(manifest, &quot;Build-Time&quot;, UNKNOWN_INFORMATION);</span>
 
             // setup MainJarInfo
-<span class="fc" id="L132">            MainJarInfo mainJarInfo = new MainJarInfo();</span>
+<span class="fc" id="L132">            var mainJarInfo = new MainJarInfo();</span>
 <span class="fc" id="L133">            mainJarInfo.applicationName = applicationName;</span>
 <span class="fc" id="L134">            mainJarInfo.jarName = jarName;</span>
 <span class="fc" id="L135">            mainJarInfo.mainClassName = mainClassName;</span>

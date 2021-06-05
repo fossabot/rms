@@ -69,9 +69,7 @@ public class MpConfigDump {
 
         @Override
         public boolean test(String name) {
-<span class="nc bnc" id="L72" title="All 2 branches missed.">            return filters.isEmpty()</span>
-<span class="nc" id="L73">                        ? true</span>
-<span class="nc" id="L74">                        : filters.stream().anyMatch(filter -&gt; name.startsWith(filter));</span>
+<span class="nc bnc" id="L72" title="All 4 branches missed.">            return filters.isEmpty() || filters.stream().anyMatch(name::startsWith);</span>
         }
     }
 }

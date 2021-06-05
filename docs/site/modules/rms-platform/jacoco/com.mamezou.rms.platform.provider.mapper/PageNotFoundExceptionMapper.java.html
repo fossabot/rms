@@ -61,7 +61,7 @@ public class PageNotFoundExceptionMapper implements ExceptionMapper&lt;NotFoundE
 <span class="nc" id="L61">        }</span>
         @Override
         public boolean test(String requestPath) {
-<span class="nc" id="L64">            return Stream.of(unhandlePaths).anyMatch((path) -&gt; requestPath.startsWith(path));</span>
+<span class="nc" id="L64">            return Stream.of(unhandlePaths).anyMatch(requestPath::startsWith);</span>
         }
     }
 }

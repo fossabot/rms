@@ -50,7 +50,7 @@ import com.mamezou.rms.client.api.exception.ValidateClientException.ValidationEr
         }
 
         // 例外クラス名がConstraintViolationExceptionならバリデーションエラー
-<span class="fc" id="L53">        String causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);</span>
+<span class="fc" id="L53">        var causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);</span>
 <span class="fc bfc" id="L54" title="All 2 branches covered.">        if (SERVER_VALIDATION_ERROR.equals(causeClassName)) {</span>
 <span class="fc" id="L55">            return toValidationException(response);</span>
         }

@@ -74,7 +74,7 @@
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>          String initDataPath = config.getOptionalValue(<span class="jxr_string">"csv.type.permanent.init.data"</span>, String.<strong class="jxr_keyword">class</strong>).orElse(<strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">if</strong> (initDataPath != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>              Path from = Paths.get(initDataPath);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>              <strong class="jxr_keyword">var</strong> from = Paths.get(initDataPath);
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>              RecursiveCopyCommand.from(from).to(pathEnv.getBaseDir()).copy();
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>              log.info(<span class="jxr_string">"初期データを作成しました。"</span> + from + <span class="jxr_string">"=&gt;"</span> + pathEnv.getBaseDir());
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>              <strong class="jxr_keyword">return</strong>;
@@ -86,14 +86,14 @@
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>          StreamSupport.stream(config.getPropertyNames().spliterator(), false)
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>              .filter(configKey -&gt; configKey.startsWith(temporaryFileConfigPrefix))
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>              .map(configKey -&gt; {
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>                  String fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + <span class="jxr_string">"."</span>).length()); <em class="jxr_comment">// csv.temporary.fileName.$1の$1部分を取得</em>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  String resoucePath = config.getValue(configKey, String.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>                  String outputFileName = config.getValue(<span class="jxr_string">"csv.permanent.fileName."</span> + fileNameInConfigKey, String.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>                  <strong class="jxr_keyword">var</strong> fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + <span class="jxr_string">"."</span>).length()); <em class="jxr_comment">// csv.temporary.fileName.$1の$1部分を取得</em>
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  <strong class="jxr_keyword">var</strong> resoucePath = config.getValue(configKey, String.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>                  <strong class="jxr_keyword">var</strong> outputFileName = config.getValue(<span class="jxr_string">"csv.permanent.fileName."</span> + fileNameInConfigKey, String.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>                  <strong class="jxr_keyword">return</strong> Pair.of(resoucePath, outputFileName);
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>              })
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>              .forEach(fileNames -&gt; {
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>                  FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight());
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>              });
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>              .forEach(fileNames -&gt;
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>                  FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight())
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>              );
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>          log.info(<span class="jxr_string">"初期データを作成しました。${csv.type.temporary.fileName}"</span> + <span class="jxr_string">"=&gt;"</span> + pathEnv.getBaseDir());
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>      }
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  
@@ -112,7 +112,7 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>         }
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> 
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> RecursiveCopyCommand from(Path from) {
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>             RecursiveCopyCommand command = <strong class="jxr_keyword">new</strong> RecursiveCopyCommand();
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>             <strong class="jxr_keyword">var</strong> command = <strong class="jxr_keyword">new</strong> RecursiveCopyCommand();
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>             command.from = from;
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>             <strong class="jxr_keyword">return</strong> command;
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         }

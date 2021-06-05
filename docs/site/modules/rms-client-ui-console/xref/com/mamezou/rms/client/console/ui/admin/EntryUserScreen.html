@@ -80,7 +80,7 @@
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>              <strong class="jxr_keyword">var</strong> addUserAccount = UserAccountClientDto.ofTransient(loginId, password, userName, phoneNumber, contact, userType);
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>              <strong class="jxr_keyword">var</strong> newUserAccount = clientApi.addUserAccount(addUserAccount);
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>              printResultInformation(loginUser, newUserAccount);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>              printResultInformation(newUserAccount);
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>              <strong class="jxr_keyword">return</strong> Transition.ADMIN_MAIN;
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>          } <strong class="jxr_keyword">catch</strong> (BusinessFlowClientException e) {
@@ -90,7 +90,7 @@
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>          }
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>      }
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultInformation(UserAccountClientDto loginUser, UserAccountClientDto newUserAccount) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultInformation(UserAccountClientDto newUserAccount) {
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>          blankLine();
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>          println(<span class="jxr_string">"***** ユーザ登録結果 *****"</span>);
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>          println(<span class="jxr_string">"ユーザ番号："</span> + newUserAccount.getId());

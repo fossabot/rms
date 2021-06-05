@@ -6,15 +6,15 @@
  */
 public abstract class RentalReservationServiceException extends RuntimeException {
 
-    public RentalReservationServiceException(String message, Throwable cause) {
+    protected RentalReservationServiceException(String message, Throwable cause) {
 <span class="nc" id="L10">        super(message, cause);</span>
 <span class="nc" id="L11">    }</span>
 
-    public RentalReservationServiceException(String message) {
+    protected RentalReservationServiceException(String message) {
 <span class="fc" id="L14">        super(message);</span>
 <span class="fc" id="L15">    }</span>
 
-    public RentalReservationServiceException(Throwable cause) {
+    protected RentalReservationServiceException(Throwable cause) {
 <span class="nc" id="L18">        super(cause.getMessage(), cause);</span>
 <span class="nc" id="L19">    }</span>
 }

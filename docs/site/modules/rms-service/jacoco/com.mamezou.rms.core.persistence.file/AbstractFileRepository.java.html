@@ -70,7 +70,7 @@ public class AbstractFileRepository&lt;T extends Transformable &amp; IdAccessabl
 <span class="fc" id="L70">        return load().stream()</span>
 <span class="fc" id="L71">                .map(items -&gt; Integer.parseInt(items[0]))</span>
 <span class="fc" id="L72">                .collect(Collectors.maxBy(Integer::compareTo))</span>
-<span class="fc" id="L73">                .get()</span>
+<span class="fc" id="L73">                .orElse(0)</span>
                 + 1;
     }
 

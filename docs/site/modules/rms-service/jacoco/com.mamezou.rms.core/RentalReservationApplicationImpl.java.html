@@ -106,11 +106,11 @@ public class RentalReservationApplicationImpl implements RentalReservationApplic
         }
 
         // 予約の登録
-<span class="fc" id="L109">        Reservation newReservation = reservationService.add(addReservation);</span>
+<span class="fc" id="L109">        var newReservation = reservationService.add(addReservation);</span>
 
         // 予約オブジェクトの再構成
-<span class="fc" id="L112">        newReservation.setRentalItem(rentalItem);</span>
-<span class="fc" id="L113">        UserAccount reserver = getUserAccount(addReservation.getUserAccountId());</span>
+<span class="fc" id="L112">        var reserver = getUserAccount(addReservation.getUserAccountId());</span>
+<span class="fc" id="L113">        newReservation.setRentalItem(rentalItem);</span>
 <span class="fc" id="L114">        newReservation.setUserAccount(reserver);</span>
 
 <span class="fc" id="L116">        return newReservation;</span>
@@ -140,9 +140,9 @@ public class RentalReservationApplicationImpl implements RentalReservationApplic
     // ----------------------------------------------------- private methods
 
     private Reservation toTraversedReservation(Reservation resavation) {
-<span class="fc" id="L143">        RentalItem rentalItems = getRentalItem(resavation.getRentalItemId());</span>
+<span class="fc" id="L143">        var rentalItems = getRentalItem(resavation.getRentalItemId());</span>
 <span class="fc" id="L144">        resavation.setRentalItem(rentalItems);</span>
-<span class="fc" id="L145">        UserAccount reservers = getUserAccount(resavation.getUserAccountId());</span>
+<span class="fc" id="L145">        var reservers = getUserAccount(resavation.getUserAccountId());</span>
 <span class="fc" id="L146">        resavation.setUserAccount(reservers);</span>
 <span class="fc" id="L147">        return resavation;</span>
     }

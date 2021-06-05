@@ -45,7 +45,7 @@ public class UserAccountService {
     public UserAccount add(UserAccount addUserAccount) throws BusinessFlowException {
 
         // ログイン名の重複チェック
-<span class="fc" id="L48">        UserAccount existingUserAccount = this.findByLoginId(addUserAccount.getLoginId());</span>
+<span class="fc" id="L48">        var existingUserAccount = this.findByLoginId(addUserAccount.getLoginId());</span>
 <span class="fc bfc" id="L49" title="All 2 branches covered.">        if (existingUserAccount != null) {</span>
 <span class="fc" id="L50">            throw new BusinessFlowException(&quot;loginId is already registered.&quot;, DUPRICATE);</span>
         }

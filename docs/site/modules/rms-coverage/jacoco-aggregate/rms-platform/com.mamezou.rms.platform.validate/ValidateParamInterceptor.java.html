@@ -20,7 +20,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
@@ -30,7 +29,7 @@ import org.apache.commons.lang3.ArrayUtils;
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
 @ValidateParam
-<span class="fc" id="L33">public class ValidateParamInterceptor {</span>
+<span class="fc" id="L32">public class ValidateParamInterceptor {</span>
 
     @Inject
     @InnerValidator
@@ -40,32 +39,32 @@ import org.apache.commons.lang3.ArrayUtils;
     public Object obj(InvocationContext ic) throws Exception {
 
         // メソッド定義を優先してバリデーショングループの指定を取得
-<span class="fc" id="L43">        ValidateGroup methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.class);</span>
-<span class="fc" id="L44">        ValidateGroup classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.class);</span>
+<span class="fc" id="L42">        var methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.class);</span>
+<span class="fc" id="L43">        var classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.class);</span>
         Class&lt;?&gt;[] groups;
-<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (methodValidateGroup != null) {</span>
-<span class="fc" id="L47">            groups = methodValidateGroup.groups();</span>
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        } else if (classValidateGroup != null){</span>
-<span class="fc" id="L49">            groups = classValidateGroup.groups();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (methodValidateGroup != null) {</span>
+<span class="fc" id="L46">            groups = methodValidateGroup.groups();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        } else if (classValidateGroup != null){</span>
+<span class="fc" id="L48">            groups = classValidateGroup.groups();</span>
         } else {
-<span class="fc" id="L51">            groups = null;</span>
+<span class="fc" id="L50">            groups = null;</span>
         }
 
         // バリデーショングループにDefaultグループをデフォルトで追加してあげる
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        groups = (ArrayUtils.contains(groups, Default.class))</span>
-<span class="fc" id="L56">                ? groups</span>
-<span class="fc" id="L57">                : ArrayUtils.add(groups, Default.class);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        groups = (ArrayUtils.contains(groups, Default.class))</span>
+<span class="fc" id="L55">                ? groups</span>
+<span class="fc" id="L56">                : ArrayUtils.add(groups, Default.class);</span>
 
         // Bean Validationのパラメータバリデーションの実行
-<span class="fc" id="L60">        ExecutableValidator executableValidator = validator.forExecutables();</span>
-<span class="fc" id="L61">        Set&lt;ConstraintViolation&lt;Object&gt;&gt; result = executableValidator.validateParameters(</span>
-<span class="fc" id="L62">                ic.getTarget(), ic.getMethod(), ic.getParameters(), groups);</span>
+<span class="fc" id="L59">        var executableValidator = validator.forExecutables();</span>
+<span class="fc" id="L60">        Set&lt;ConstraintViolation&lt;Object&gt;&gt; result = executableValidator.validateParameters(</span>
+<span class="fc" id="L61">                ic.getTarget(), ic.getMethod(), ic.getParameters(), groups);</span>
 
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (!result.isEmpty()) {</span>
-<span class="fc" id="L65">            throw new ConstraintViolationException(result);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!result.isEmpty()) {</span>
+<span class="fc" id="L64">            throw new ConstraintViolationException(result);</span>
         }
 
-<span class="fc" id="L68">        return ic.proceed();</span>
+<span class="fc" id="L67">        return ic.proceed();</span>
     }
 
 
@@ -86,40 +85,40 @@ import org.apache.commons.lang3.ArrayUtils;
      */
     @ApplicationScoped
     @InnerValidator
-<span class="fc" id="L89">    public static class InnerValidatorImpl implements Validator {</span>
+<span class="fc" id="L88">    public static class InnerValidatorImpl implements Validator {</span>
 
         private Validator delegate;
 
         @PostConstruct
         public void init() {
-<span class="fc" id="L95">            Configuration&lt;?&gt; config = Validation.byDefaultProvider().configure();</span>
-<span class="fc" id="L96">            ValidatorFactory factory = config.buildValidatorFactory();</span>
-<span class="fc" id="L97">            delegate = factory.getValidator();</span>
-<span class="fc" id="L98">            factory.close();</span>
-<span class="fc" id="L99">        }</span>
+<span class="fc" id="L94">            Configuration&lt;?&gt; config = Validation.byDefaultProvider().configure();</span>
+<span class="fc" id="L95">            var factory = config.buildValidatorFactory();</span>
+<span class="fc" id="L96">            delegate = factory.getValidator();</span>
+<span class="fc" id="L97">            factory.close();</span>
+<span class="fc" id="L98">        }</span>
 
         public &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validate(T object, Class&lt;?&gt;... groups) {
-<span class="nc" id="L102">            return delegate.validate(object, groups);</span>
+<span class="nc" id="L101">            return delegate.validate(object, groups);</span>
         }
 
         public &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateProperty(T object, String propertyName, Class&lt;?&gt;... groups) {
-<span class="nc" id="L106">            return delegate.validateProperty(object, propertyName, groups);</span>
+<span class="nc" id="L105">            return delegate.validateProperty(object, propertyName, groups);</span>
         }
 
         public &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateValue(Class&lt;T&gt; beanType, String propertyName, Object value, Class&lt;?&gt;... groups) {
-<span class="nc" id="L110">            return delegate.validateValue(beanType, propertyName, value, groups);</span>
+<span class="nc" id="L109">            return delegate.validateValue(beanType, propertyName, value, groups);</span>
         }
 
         public BeanDescriptor getConstraintsForClass(Class&lt;?&gt; clazz) {
-<span class="nc" id="L114">            return delegate.getConstraintsForClass(clazz);</span>
+<span class="nc" id="L113">            return delegate.getConstraintsForClass(clazz);</span>
         }
 
         public &lt;T&gt; T unwrap(Class&lt;T&gt; type) {
-<span class="nc" id="L118">            return delegate.unwrap(type);</span>
+<span class="nc" id="L117">            return delegate.unwrap(type);</span>
         }
 
         public ExecutableValidator forExecutables() {
-<span class="fc" id="L122">            return delegate.forExecutables();</span>
+<span class="fc" id="L121">            return delegate.forExecutables();</span>
         }
     }
 

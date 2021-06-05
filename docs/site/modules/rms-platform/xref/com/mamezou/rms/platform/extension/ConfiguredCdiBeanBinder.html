@@ -24,7 +24,7 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ConfiguredCdiBeanBinder" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBeanBinder.html#ConfiguredCdiBeanBinder">ConfiguredCdiBeanBinder</a> {
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Map&lt;String, Annotation&gt; BEAN_SCOPES = Map.of(
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Map&lt;String, Annotation&gt; BEAN_SCOPES = Map.of(
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>              <span class="jxr_string">"application"</span>, ApplicationScoped.Literal.INSTANCE,
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>              <span class="jxr_string">"request"</span>, RequestScoped.Literal.INSTANCE,
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>              <span class="jxr_string">"dependent"</span>, Dependent.Literal.INSTANCE);
@@ -37,7 +37,7 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>      <em class="jxr_comment">// ----------------------------------------------------- factory methods</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="ConfiguredCdiBeanBinder" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBeanBinder.html#ConfiguredCdiBeanBinder">ConfiguredCdiBeanBinder</a> newBinder(Config config) {
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>          <a name="ConfiguredCdiBeanBinder" href="../../../../../com/mamezou/rms/platform/<a name="ConfiguredCdiBeanBinder" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBeanBinder.html#ConfiguredCdiBeanBinder">ConfiguredCdiBeanBinder</a>BeanBinder.html#ConfiguredCdiBeanBinder">ConfiguredCdiBeanBinder</a> configBinder = <strong class="jxr_keyword">new</strong> <a name="ConfiguredCdiBeanBinder" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBeanBinder.html#ConfiguredCdiBeanBinder">ConfiguredCdiBeanBinder</a>();
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          <strong class="jxr_keyword">var</strong> configBinder = <strong class="jxr_keyword">new</strong> <a name="ConfiguredCdiBeanBinder" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBeanBinder.html#ConfiguredCdiBeanBinder">ConfiguredCdiBeanBinder</a>();
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>          configBinder.config = config;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>          <strong class="jxr_keyword">return</strong> configBinder;
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>      }
@@ -110,7 +110,7 @@
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>                 <strong class="jxr_keyword">return</strong> ConfiguredCdiBeanBinder.newBinder(config).key(aliasKey.aliasConfigKey).bind();
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>             }
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> 
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>             <a name="ConfiguredCdiBean" href="../../../../../com/mamezou/rms/platform/e<a name="ConfiguredCdiBean" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBean.html#ConfiguredCdiBean">ConfiguredCdiBean</a>edCdiBean.html#ConfiguredCdiBean">ConfiguredCdiBean</a> configCdiBean = <strong class="jxr_keyword">new</strong> <a name="ConfiguredCdiBean" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBean.html#ConfiguredCdiBean">ConfiguredCdiBean</a>();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>             <strong class="jxr_keyword">var</strong> configCdiBean = <strong class="jxr_keyword">new</strong> <a name="ConfiguredCdiBean" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBean.html#ConfiguredCdiBean">ConfiguredCdiBean</a>();
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>             configCdiBean.beanClass = config.getOptionalValue(registerPrefix + <span class="jxr_string">".class"</span>, Class.<strong class="jxr_keyword">class</strong>)
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>                     .orElseThrow(() -&gt; <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"class is required. ["</span> + registerPrefix + <span class="jxr_string">".class]"</span>)); <em class="jxr_comment">// class is required.</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 
@@ -158,9 +158,9 @@
 <a class="jxr_linenumber" name="L150" href="#L150">150</a> 
 <a class="jxr_linenumber" name="L151" href="#L151">151</a>         <strong class="jxr_keyword">public</strong> List&lt;ConfiguredCdiBean&gt; bind() {
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>             List&lt;AliasKey&gt; aliasKeys = List.of();
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>             List&lt;AliasKey&gt; foundAliasKeys = List.of();
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>             <strong class="jxr_keyword">if</strong> (parent.listAliasPrefix != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>                 aliasKeys = seekAliasKeys(parent.listAliasPrefix);
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>                 foundAliasKeys = seekAliasKeys(parent.listAliasPrefix);
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>             }
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>             <em class="jxr_comment">// (by single config)</em>
@@ -172,7 +172,7 @@
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>             <strong class="jxr_keyword">if</strong> (clazz.isPresent() || alias.isPresent()) {
 <a class="jxr_linenumber" name="L165" href="#L165">165</a>                 <a name="ConfiguredCdiBean" href="../../../../../com/mamezou/rms/platform/extension/ConfiguredCdiBean.html#ConfiguredCdiBean">ConfiguredCdiBean</a> configCdiBean =
 <a class="jxr_linenumber" name="L166" href="#L166">166</a>                         ConfiguredCdiBeanBinder.newBinder(config)
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>                             .aliasKeys(aliasKeys)
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                             .aliasKeys(foundAliasKeys)
 <a class="jxr_linenumber" name="L168" href="#L168">168</a>                             .key(parent.listRegisterPrefix)
 <a class="jxr_linenumber" name="L169" href="#L169">169</a>                             .bind();
 <a class="jxr_linenumber" name="L170" href="#L170">170</a>                 <strong class="jxr_keyword">return</strong> List.of(configCdiBean);
@@ -196,7 +196,7 @@
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> 
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>             List&lt;ConfiguredCdiBean&gt; configCdiBeans = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
 <a class="jxr_linenumber" name="L190" href="#L190">190</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; keys.size(); i++) {
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>                 configCdiBeans.add(ConfiguredCdiBeanBinder.newBinder(config).aliasKeys(aliasKeys).key(parent.listRegisterPrefix + <span class="jxr_string">"."</span> + i).bind());
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>                 configCdiBeans.add(ConfiguredCdiBeanBinder.newBinder(config).aliasKeys(foundAliasKeys).key(parent.listRegisterPrefix + <span class="jxr_string">"."</span> + i).bind());
 <a class="jxr_linenumber" name="L192" href="#L192">192</a>             }
 <a class="jxr_linenumber" name="L193" href="#L193">193</a>             <strong class="jxr_keyword">return</strong> configCdiBeans;
 <a class="jxr_linenumber" name="L194" href="#L194">194</a>         }

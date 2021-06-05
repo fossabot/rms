@@ -9,20 +9,20 @@ import com.mamezou.rms.core.domain.UserAccount.UserType;
 
     public UserAccount toEntity(String[] attributes) {
 
-<span class="fc" id="L12">        int id = Integer.parseInt(attributes[0]);</span>
-<span class="fc" id="L13">        String loginId = attributes[1];</span>
-<span class="fc" id="L14">        String password = attributes[2];</span>
-<span class="fc" id="L15">        String userName = attributes[3];</span>
-<span class="fc" id="L16">        String phoneNumber = attributes[4];</span>
-<span class="fc" id="L17">        String contact = attributes[5];</span>
-<span class="fc" id="L18">        UserType userType = UserType.valueOf(attributes[6]);</span>
+<span class="fc" id="L12">        var id = Integer.parseInt(attributes[0]);</span>
+<span class="fc" id="L13">        var loginId = attributes[1];</span>
+<span class="fc" id="L14">        var password = attributes[2];</span>
+<span class="fc" id="L15">        var userName = attributes[3];</span>
+<span class="fc" id="L16">        var phoneNumber = attributes[4];</span>
+<span class="fc" id="L17">        var contact = attributes[5];</span>
+<span class="fc" id="L18">        var userType = UserType.valueOf(attributes[6]);</span>
 
 <span class="fc" id="L20">        return UserAccount.of(id, loginId, password, userName, phoneNumber, contact, userType);</span>
     }
 
     public String[] toArray(UserAccount userAccount) {
 
-<span class="fc" id="L25">        String[] userAccountAttributes = new String[7];</span>
+<span class="fc" id="L25">        var userAccountAttributes = new String[7];</span>
 
 <span class="fc" id="L27">        userAccountAttributes[0] = String.valueOf(userAccount.getId());</span>
 <span class="fc" id="L28">        userAccountAttributes[1] = userAccount.getLoginId();</span>

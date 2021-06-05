@@ -122,7 +122,7 @@
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>             <strong class="jxr_keyword">if</strong> (!Files.exists(resolver.getBaseDir())) {
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>                 Files.createDirectory(resolver.getBaseDir());
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>             }
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>             Path outputFilePath = resolver.resolve(outputFileName);
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>             <strong class="jxr_keyword">var</strong> outputFilePath = resolver.resolve(outputFileName);
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>             Files.copy(in, outputFilePath);
 <a class="jxr_linenumber" name="L119" href="#L119">119</a>             <strong class="jxr_keyword">return</strong> outputFilePath;
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {

@@ -5,37 +5,36 @@ import java.util.logging.LogManager;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.mamezou.rms.platform.env.Environment;
-import com.mamezou.rms.platform.env.MainJarInfo;
 
 import lombok.extern.slf4j.Slf4j;
 
-<span class="nc" id="L12">@Slf4j</span>
-<span class="nc" id="L13">public class WebApiMain {</span>
+<span class="nc" id="L11">@Slf4j</span>
+<span class="nc" id="L12">public class WebApiMain {</span>
 
     public static void main(String[] args) throws Exception {
 
         // java.util.loggingの出力をSLF4Jへdelegate
-<span class="nc" id="L18">        LogManager.getLogManager().reset();</span>
-<span class="nc" id="L19">        SLF4JBridgeHandler.removeHandlersForRootLogger();</span>
-<span class="nc" id="L20">        SLF4JBridgeHandler.install();</span>
+<span class="nc" id="L17">        LogManager.getLogManager().reset();</span>
+<span class="nc" id="L18">        SLF4JBridgeHandler.removeHandlersForRootLogger();</span>
+<span class="nc" id="L19">        SLF4JBridgeHandler.install();</span>
 
         try {
-<span class="nc" id="L23">            io.helidon.microprofile.cdi.Main.main(args);</span>
-<span class="nc" id="L24">        } catch (Throwable e) {</span>
-<span class="nc" id="L25">            log.error(&quot;startup failed.&quot;, e);</span>
-<span class="nc" id="L26">            throw e;</span>
-<span class="nc" id="L27">        }</span>
+<span class="nc" id="L22">            io.helidon.microprofile.cdi.Main.main(args);</span>
+<span class="nc" id="L23">        } catch (Throwable e) {</span>
+<span class="nc" id="L24">            log.error(&quot;startup failed.&quot;, e);</span>
+<span class="nc" id="L25">            throw e;</span>
+<span class="nc" id="L26">        }</span>
 
-<span class="nc" id="L29">        startupLog();</span>
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L28">        startupLog();</span>
+<span class="nc" id="L29">    }</span>
 
     private static void startupLog() {
-<span class="nc" id="L33">        MainJarInfo mainJarInfo = Environment.getMainJarInfo();</span>
-<span class="nc" id="L34">        log.info(&quot;Main Jar Information=&gt;&quot; + System.lineSeparator() +</span>
-<span class="nc" id="L35">                &quot;Startup-Module:&quot; + mainJarInfo.startupModuleInfo() + System.lineSeparator() +</span>
-<span class="nc" id="L36">                &quot;Version:&quot; + mainJarInfo.getVersion() + System.lineSeparator() +</span>
-<span class="nc" id="L37">                &quot;Build-Time:&quot; + mainJarInfo.getBuildtimeInfo()</span>
+<span class="nc" id="L32">        var mainJarInfo = Environment.getMainJarInfo();</span>
+<span class="nc" id="L33">        log.info(&quot;Main Jar Information=&gt;&quot; + System.lineSeparator() +</span>
+<span class="nc" id="L34">                &quot;Startup-Module:&quot; + mainJarInfo.startupModuleInfo() + System.lineSeparator() +</span>
+<span class="nc" id="L35">                &quot;Version:&quot; + mainJarInfo.getVersion() + System.lineSeparator() +</span>
+<span class="nc" id="L36">                &quot;Build-Time:&quot; + mainJarInfo.getBuildtimeInfo()</span>
                 );
-<span class="nc" id="L39">    }</span>
+<span class="nc" id="L38">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

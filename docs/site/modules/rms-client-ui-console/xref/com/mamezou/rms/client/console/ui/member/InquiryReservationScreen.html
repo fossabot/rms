@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>          <em class="jxr_comment">// 照会の実行</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>              <strong class="jxr_keyword">var</strong> results = clientApi.findReservationByRentalItemAndStartDate(selectedItem, inputedDate);
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>              printResultList(loginUser, results);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>              printResultList(results);
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>              <strong class="jxr_keyword">return</strong> Transition.MEMBER_MAIN;
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>          } <strong class="jxr_keyword">catch</strong> (BusinessFlowClientException e) {
@@ -74,7 +74,7 @@
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>          }
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>      }
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultList(UserAccountClientDto loginUser, List&lt;ReservationClientDto&gt; reservations) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultList(List&lt;ReservationClientDto&gt; reservations) {
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          blankLine();
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          println(<span class="jxr_string">"***** 予約検索結果 *****"</span>);
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>          println(<span class="jxr_string">"選択レンタル品番号："</span> + reservations.get(0).getRentalItemId());

@@ -52,7 +52,7 @@ public class EntryRentalItemScreen implements RmsScreen {
         try {
 <span class="nc" id="L53">            var addItem = RentalItemClientDto.ofTransient(serialNo, itemName);</span>
 <span class="nc" id="L54">            var newItem = clientApi.addRentalItem(addItem);</span>
-<span class="nc" id="L55">            printResultInformation(loginUser, newItem);</span>
+<span class="nc" id="L55">            printResultInformation(newItem);</span>
 <span class="nc" id="L56">            return Transition.ADMIN_MAIN;</span>
 
 <span class="nc" id="L58">        } catch (BusinessFlowClientException e) {</span>
@@ -62,7 +62,7 @@ public class EntryRentalItemScreen implements RmsScreen {
         }
     }
 
-    private void printResultInformation(UserAccountClientDto loginUser, RentalItemClientDto newItem) {
+    private void printResultInformation(RentalItemClientDto newItem) {
 <span class="nc" id="L66">        println(&quot;***** レンタル品登録結果 *****&quot;);</span>
 <span class="nc" id="L67">        printf(ClientConstants.RENATL_ITEM_FORMAT.format(newItem));</span>
 <span class="nc" id="L68">        blankLine();</span>

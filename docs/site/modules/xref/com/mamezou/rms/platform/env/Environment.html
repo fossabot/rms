@@ -8,25 +8,24 @@
 <div id="overview"><a href="../../../../../../apidocs/com/mamezou/rms/platform/env/Environment.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.mamezou.rms.platform.env;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.config.Config;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.config.ConfigProvider;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="Environment" href="../../../../../com/mamezou/rms/platform/env/Environment.html#Environment">Environment</a> {
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>       <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> mainJarInfo;
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">synchronized</strong> <strong class="jxr_keyword">static</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> getMainJarInfo() {
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>          <strong class="jxr_keyword">if</strong> (mainJarInfo == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>              Config config = ConfigProvider.getConfig();
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>              mainJarInfo = MainJarInfo.builder().build(config);
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>          }
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>          <strong class="jxr_keyword">return</strong> mainJarInfo == <strong class="jxr_keyword">null</strong> ? MainJarInfo.UNKNOWN_INFO : mainJarInfo;
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>      }
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>      <strong class="jxr_keyword">synchronized</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> clear() { <em class="jxr_comment">// for TEST</em>
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>          mainJarInfo = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>      }
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  }
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.eclipse.microprofile.config.ConfigProvider;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="Environment" href="../../../../../com/mamezou/rms/platform/env/Environment.html#Environment">Environment</a> {
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>       <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> mainJarInfo;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>       <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">synchronized</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> getMainJarInfo() {
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>          <strong class="jxr_keyword">if</strong> (mainJarInfo == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>              <strong class="jxr_keyword">var</strong> config = ConfigProvider.getConfig();
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>              mainJarInfo = MainJarInfo.builder().build(config);
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>          }
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>          <strong class="jxr_keyword">return</strong> mainJarInfo == <strong class="jxr_keyword">null</strong> ? MainJarInfo.UNKNOWN_INFO : mainJarInfo;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>      }
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">synchronized</strong> <strong class="jxr_keyword">void</strong> clear() { <em class="jxr_comment">// for TEST</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>          mainJarInfo = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>      }
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2021 <a href="https://www.mamezou.com/">Mamezou Co.,Ltd.</a>. All rights reserved.</div>

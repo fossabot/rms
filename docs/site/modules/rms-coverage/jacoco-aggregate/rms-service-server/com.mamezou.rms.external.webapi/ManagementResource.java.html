@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
     @SuppressFBWarnings(&quot;DM_EXIT&quot;)
     public String stopApplication(@Context HttpHeaders headers) {
 
-<span class="nc" id="L29">        String host = headers.getHeaderString(&quot;Host&quot;);</span>
+<span class="nc" id="L29">        var host = headers.getHeaderString(&quot;Host&quot;);</span>
 <span class="nc bnc" id="L30" title="All 2 branches missed.">        if (!host.toLowerCase().startsWith(&quot;localhost&quot;)) {</span>
 <span class="nc" id="L31">            log.warn(&quot;Ignore because it is a request from other than localhost.[host={}]&quot;, host);</span>
 <span class="nc" id="L32">            return &quot;failed&quot;;</span>

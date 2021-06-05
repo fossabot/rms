@@ -39,7 +39,7 @@ import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
         }
 
 <span class="fc bfc" id="L41" title="All 2 branches covered.">        if (path == null) {</span>
-<span class="fc" id="L42">            return new ArrayList&lt;ConfigSource&gt;();</span>
+<span class="fc" id="L42">            return new ArrayList&lt;&gt;();</span>
         }
 <span class="fc" id="L44">        return List.of(</span>
 <span class="fc" id="L45">                    MpConfigFactory.newInstance().createFromExternalPath(path)</span>

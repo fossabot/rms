@@ -45,15 +45,15 @@ import lombok.extern.slf4j.Slf4j;
     public FileAccessor creteFileAccessor(InjectionPoint injectionPoint) throws IOException {
 
         // 1%sの文字列取得
-<span class="fc" id="L48">        String fileType = config.getValue(FILE_TYPE_CONFIG_KEY, String.class);</span>
+<span class="fc" id="L48">        var fileType = config.getValue(FILE_TYPE_CONFIG_KEY, String.class);</span>
 
         // 2%sの文字列取得
 <span class="fc" id="L51">        Class&lt;?&gt; beanClass = injectionPoint.getBean().getBeanClass();</span>
-<span class="fc" id="L52">        String fileNameTypeConfigKey = FILE_NAME_TYPE_CONFIG_KEY_MAP.get(beanClass);</span>
+<span class="fc" id="L52">        var fileNameTypeConfigKey = FILE_NAME_TYPE_CONFIG_KEY_MAP.get(beanClass);</span>
 
         // ファイル名のConfigKeyの決定
-<span class="fc" id="L55">        String fileNameConfigKey = String.format(FILE_NAME_CONFIG_KEY_FORMAT, fileType, fileNameTypeConfigKey);</span>
-<span class="fc" id="L56">        String fileName = config.getValue(fileNameConfigKey, String.class);</span>
+<span class="fc" id="L55">        var fileNameConfigKey = String.format(FILE_NAME_CONFIG_KEY_FORMAT, fileType, fileNameTypeConfigKey);</span>
+<span class="fc" id="L56">        var fileName = config.getValue(fileNameConfigKey, String.class);</span>
 
         // フィルパスの取得
         Path filePath;

@@ -46,32 +46,33 @@ public class ReservationService {
 
     public Reservation add(Reservation addReservation) throws BusinessFlowException {
         // 重複チェック
-<span class="fc" id="L49">        Reservation reservation = findOverlappedReservation(addReservation.getRentalItemId(),</span>
-<span class="fc" id="L50">                addReservation.getStartDateTime(),</span>
-<span class="fc" id="L51">                addReservation.getEndDateTime());</span>
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (reservation != null) {</span>
-<span class="fc" id="L53">            throw new BusinessFlowException(&quot;Already reserved.&quot;, DUPRICATE);</span>
+<span class="fc" id="L49">        var reservation = findOverlappedReservation(</span>
+<span class="fc" id="L50">                addReservation.getRentalItemId(),</span>
+<span class="fc" id="L51">                addReservation.getStartDateTime(),</span>
+<span class="fc" id="L52">                addReservation.getEndDateTime());</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (reservation != null) {</span>
+<span class="fc" id="L54">            throw new BusinessFlowException(&quot;Already reserved.&quot;, DUPRICATE);</span>
         }
         // 登録
-<span class="fc" id="L56">        repository.add(addReservation);</span>
-<span class="fc" id="L57">        return this.get(addReservation.getId());</span>
+<span class="fc" id="L57">        repository.add(addReservation);</span>
+<span class="fc" id="L58">        return this.get(addReservation.getId());</span>
     }
 
 
     public void cancel(int reservationId, int cancelUserId) throws BusinessFlowException {
-<span class="fc" id="L62">        var reservation = repository.get(reservationId);</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (reservation == null) {</span>
-<span class="fc" id="L64">            throw new BusinessFlowException(&quot;Reservation does not exist for reservationId&quot;, NOT_FOUND);</span>
+<span class="fc" id="L63">        var reservation = repository.get(reservationId);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (reservation == null) {</span>
+<span class="fc" id="L65">            throw new BusinessFlowException(&quot;Reservation does not exist for reservationId&quot;, NOT_FOUND);</span>
         }
         // キャンセルはレンタル品を予約した人しか取り消せないことのチェック
-<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (reservation.getUserAccountId() != cancelUserId) {</span>
-<span class="fc" id="L68">            throw new BusinessFlowException(</span>
-<span class="fc" id="L69">                    String.format(&quot;Others' reservations cannot be deleted. reserverId=%s, cancelUserId=%s&quot;,</span>
-<span class="fc" id="L70">                            reservation.getUserAccountId(),</span>
-<span class="fc" id="L71">                            cancelUserId),</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (reservation.getUserAccountId() != cancelUserId) {</span>
+<span class="fc" id="L69">            throw new BusinessFlowException(</span>
+<span class="fc" id="L70">                    String.format(&quot;Others' reservations cannot be deleted. reserverId=%s, cancelUserId=%s&quot;,</span>
+<span class="fc" id="L71">                            reservation.getUserAccountId(),</span>
+<span class="fc" id="L72">                            cancelUserId),</span>
                     FORBIDDEN);
         }
-<span class="fc" id="L74">        repository.delete(reservation);</span>
-<span class="fc" id="L75">    }</span>
+<span class="fc" id="L75">        repository.delete(reservation);</span>
+<span class="fc" id="L76">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

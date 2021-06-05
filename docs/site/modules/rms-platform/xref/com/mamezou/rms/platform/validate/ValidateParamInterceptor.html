@@ -28,116 +28,115 @@
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> javax.validation.ConstraintViolationException;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> javax.validation.Validation;
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> javax.validation.Validator;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> javax.validation.ValidatorFactory;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> javax.validation.executable.ExecutableValidator;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> javax.validation.groups.Default;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> javax.validation.metadata.BeanDescriptor;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.ArrayUtils;
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  @Interceptor
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  @Priority(Interceptor.Priority.APPLICATION)
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  @ValidateParam
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ValidateParamInterceptor" href="../../../../../com/mamezou/rms/platform/validate/ValidateParamInterceptor.html#ValidateParamInterceptor">ValidateParamInterceptor</a> {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>      @Inject
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>      @InnerValidator
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">private</strong> Validator validator;
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>      @AroundInvoke
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">public</strong> Object obj(InvocationContext ic) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>          <em class="jxr_comment">// メソッド定義を優先してバリデーショングループの指定を取得</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>          ValidateGroup methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>          ValidateGroup classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>          Class&lt;?&gt;[] groups;
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">if</strong> (methodValidateGroup != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>              groups = methodValidateGroup.groups();
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (classValidateGroup != <strong class="jxr_keyword">null</strong>){
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>              groups = classValidateGroup.groups();
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>          } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>              groups = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>          }
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>          <em class="jxr_comment">// バリデーショングループにDefaultグループをデフォルトで追加してあげる</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>          groups = (ArrayUtils.contains(groups, Default.<strong class="jxr_keyword">class</strong>))
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>                  ? groups
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>                  : ArrayUtils.add(groups, Default.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>          <em class="jxr_comment">// Bean Validationのパラメータバリデーションの実行</em>
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>          ExecutableValidator executableValidator = validator.forExecutables();
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>          Set&lt;ConstraintViolation&lt;Object&gt;&gt; result = executableValidator.validateParameters(
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>                  ic.getTarget(), ic.getMethod(), ic.getParameters(), groups);
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>          <strong class="jxr_keyword">if</strong> (!result.isEmpty()) {
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ConstraintViolationException(result);
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>          }
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">return</strong> ic.proceed();
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>      }
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> javax.validation.executable.ExecutableValidator;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> javax.validation.groups.Default;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> javax.validation.metadata.BeanDescriptor;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.ArrayUtils;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  @Interceptor
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  @Priority(Interceptor.Priority.APPLICATION)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  @ValidateParam
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ValidateParamInterceptor" href="../../../../../com/mamezou/rms/platform/validate/ValidateParamInterceptor.html#ValidateParamInterceptor">ValidateParamInterceptor</a> {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      @Inject
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      @InnerValidator
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      <strong class="jxr_keyword">private</strong> Validator validator;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      @AroundInvoke
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      <strong class="jxr_keyword">public</strong> Object obj(InvocationContext ic) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          <em class="jxr_comment">// メソッド定義を優先してバリデーショングループの指定を取得</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>          <strong class="jxr_keyword">var</strong> methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <strong class="jxr_keyword">var</strong> classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          Class&lt;?&gt;[] groups;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">if</strong> (methodValidateGroup != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>              groups = methodValidateGroup.groups();
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (classValidateGroup != <strong class="jxr_keyword">null</strong>){
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>              groups = classValidateGroup.groups();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>              groups = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>          }
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          <em class="jxr_comment">// バリデーショングループにDefaultグループをデフォルトで追加してあげる</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>          groups = (ArrayUtils.contains(groups, Default.<strong class="jxr_keyword">class</strong>))
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>                  ? groups
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>                  : ArrayUtils.add(groups, Default.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          <em class="jxr_comment">// Bean Validationのパラメータバリデーションの実行</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          <strong class="jxr_keyword">var</strong> executableValidator = validator.forExecutables();
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          Set&lt;ConstraintViolation&lt;Object&gt;&gt; result = executableValidator.validateParameters(
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>                  ic.getTarget(), ic.getMethod(), ic.getParameters(), groups);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>          <strong class="jxr_keyword">if</strong> (!result.isEmpty()) {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ConstraintViolationException(result);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>          }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <strong class="jxr_keyword">return</strong> ic.proceed();
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      }
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <em class="jxr_comment">// ----------------------------------------------------- inner classes</em>
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     * CDIでValidatorをラップしたクラス。</em>
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     * 以下の理由からCDI-BeanValidatorインテグレーション機能は使わず独自実装を行い、</em>
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     * CDI-BeanValidatorインテグレーション機能がデフォルトで有効になっている環境でも取得可能なように</em>
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">     * 限定氏を付けている。</em>
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;JavaEE の"Method validation"は広範に効きすぎなのでOFFにしたい</em>
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;@InjectでValidatorインスタンスを取得するにはHibernateのValidatorExtensionを有効にする必要が</em>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">     *     あるがJerseyとのvalidate機能も混在してライブラリと機能実態がカオスになる</em>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;Validatorインスタンスの@Injectによる取得はclassパス上にhibernate-validator-cdi.jarなどがあるか</em>
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment">     *     によりポータビリティに難がある</em>
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">     * &lt;/ul&gt;</em>
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>      @ApplicationScoped
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>      @InnerValidator
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> InnerValidatorImpl <strong class="jxr_keyword">implements</strong> Validator {
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>  
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>          <strong class="jxr_keyword">private</strong> Validator delegate;
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>          @PostConstruct
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>          <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> init() {
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>              Configuration&lt;?&gt; config = Validation.byDefaultProvider().configure();
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>              ValidatorFactory factory = config.buildValidatorFactory();
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>              delegate = factory.getValidator();
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>              factory.close();
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>          }
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validate(T object, Class&lt;?&gt;... groups) {
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>             <strong class="jxr_keyword">return</strong> delegate.validate(object, groups);
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>         }
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateProperty(T object, String propertyName, Class&lt;?&gt;... groups) {
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>             <strong class="jxr_keyword">return</strong> delegate.validateProperty(object, propertyName, groups);
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>         }
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateValue(Class&lt;T&gt; beanType, String propertyName, Object value, Class&lt;?&gt;... groups) {
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>             <strong class="jxr_keyword">return</strong> delegate.validateValue(beanType, propertyName, value, groups);
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>         }
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <strong class="jxr_keyword">public</strong> BeanDescriptor getConstraintsForClass(Class&lt;?&gt; clazz) {
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>             <strong class="jxr_keyword">return</strong> delegate.getConstraintsForClass(clazz);
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>         }
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; T unwrap(Class&lt;T&gt; type) {
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>             <strong class="jxr_keyword">return</strong> delegate.unwrap(type);
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>         }
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>         <strong class="jxr_keyword">public</strong> ExecutableValidator forExecutables() {
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>             <strong class="jxr_keyword">return</strong> delegate.forExecutables();
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>         }
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>     }
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> 
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>     @Qualifier
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>     @Retention(RUNTIME)
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>     @Target({ TYPE, METHOD, FIELD, CONSTRUCTOR })
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>     <strong class="jxr_keyword">public</strong> @<strong class="jxr_keyword">interface</strong> InnerValidator {
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>     }
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> }
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <em class="jxr_comment">// ----------------------------------------------------- inner classes</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">     * CDIでValidatorをラップしたクラス。</em>
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     * 以下の理由からCDI-BeanValidatorインテグレーション機能は使わず独自実装を行い、</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     * CDI-BeanValidatorインテグレーション機能がデフォルトで有効になっている環境でも取得可能なように</em>
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     * 限定氏を付けている。</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;JavaEE の"Method validation"は広範に効きすぎなのでOFFにしたい</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;@InjectでValidatorインスタンスを取得するにはHibernateのValidatorExtensionを有効にする必要が</em>
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">     *     あるがJerseyとのvalidate機能も混在してライブラリと機能実態がカオスになる</em>
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;Validatorインスタンスの@Injectによる取得はclassパス上にhibernate-validator-cdi.jarなどがあるか</em>
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">     *     によりポータビリティに難がある</em>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment">     * &lt;/ul&gt;</em>
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      @ApplicationScoped
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      @InnerValidator
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> InnerValidatorImpl <strong class="jxr_keyword">implements</strong> Validator {
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">private</strong> Validator delegate;
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          @PostConstruct
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>          <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> init() {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>              Configuration&lt;?&gt; config = Validation.byDefaultProvider().configure();
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>              <strong class="jxr_keyword">var</strong> factory = config.buildValidatorFactory();
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>              delegate = factory.getValidator();
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>              factory.close();
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          }
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validate(T object, Class&lt;?&gt;... groups) {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>             <strong class="jxr_keyword">return</strong> delegate.validate(object, groups);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>         }
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateProperty(T object, String propertyName, Class&lt;?&gt;... groups) {
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>             <strong class="jxr_keyword">return</strong> delegate.validateProperty(object, propertyName, groups);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         }
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateValue(Class&lt;T&gt; beanType, String propertyName, Object value, Class&lt;?&gt;... groups) {
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>             <strong class="jxr_keyword">return</strong> delegate.validateValue(beanType, propertyName, value, groups);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         }
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         <strong class="jxr_keyword">public</strong> BeanDescriptor getConstraintsForClass(Class&lt;?&gt; clazz) {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>             <strong class="jxr_keyword">return</strong> delegate.getConstraintsForClass(clazz);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>         }
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>         <strong class="jxr_keyword">public</strong> &lt;T&gt; T unwrap(Class&lt;T&gt; type) {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>             <strong class="jxr_keyword">return</strong> delegate.unwrap(type);
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         }
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>         <strong class="jxr_keyword">public</strong> ExecutableValidator forExecutables() {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>             <strong class="jxr_keyword">return</strong> delegate.forExecutables();
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>         }
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>     }
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>     @Qualifier
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>     @Retention(RUNTIME)
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     @Target({ TYPE, METHOD, FIELD, CONSTRUCTOR })
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>     <strong class="jxr_keyword">public</strong> @<strong class="jxr_keyword">interface</strong> InnerValidator {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>     }
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2021 <a href="https://www.mamezou.com/">Mamezou Co.,Ltd.</a>. All rights reserved.</div>

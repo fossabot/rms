@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 <span class="nc" id="L20">        var builder = new StringBuilder();</span>
 <span class="nc" id="L21">        builder.append(requestContext.getMethod()).append(&quot; &quot;)</span>
 <span class="nc" id="L22">            .append(&quot;/&quot; + requestContext.getUriInfo().getPath()).append(System.lineSeparator());</span>
-<span class="nc" id="L23">        requestContext.getHeaders().forEach((key, values) -&gt; {</span>
-<span class="nc" id="L24">            builder.append(key + &quot;:&quot; + values + System.lineSeparator());</span>
-<span class="nc" id="L25">        });</span>
+<span class="nc" id="L23">        requestContext.getHeaders().forEach((key, values) -&gt;</span>
+<span class="nc" id="L24">            builder.append(key + &quot;:&quot; + values + System.lineSeparator())</span>
+        );
 <span class="nc bnc" id="L26" title="All 2 branches missed.">        if (log.isDebugEnabled()) {</span>
 <span class="nc" id="L27">            log.debug(&quot;===&gt; REQUEST&quot; + System.lineSeparator() + builder.toString());</span>
         }
@@ -33,9 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 <span class="nc" id="L33">        var builder = new StringBuilder();</span>
 <span class="nc" id="L34">        builder.append(responseContext.getStatusInfo().getStatusCode())</span>
 <span class="nc" id="L35">            .append(&quot; &quot; + responseContext.getStatusInfo().getReasonPhrase()).append(System.lineSeparator());</span>
-<span class="nc" id="L36">        responseContext.getHeaders().forEach((key, values) -&gt; {</span>
-<span class="nc" id="L37">            builder.append(key + &quot;:&quot; + values + System.lineSeparator());</span>
-<span class="nc" id="L38">        });</span>
+<span class="nc" id="L36">        responseContext.getHeaders().forEach((key, values) -&gt;</span>
+<span class="nc" id="L37">            builder.append(key + &quot;:&quot; + values + System.lineSeparator())</span>
+        );
 <span class="nc bnc" id="L39" title="All 2 branches missed.">        if (log.isDebugEnabled()) {</span>
 <span class="nc" id="L40">            log.debug(&quot;&lt;=== RESPONSE&quot; + System.lineSeparator() + builder.toString());</span>
         }

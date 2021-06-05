@@ -11,6 +11,7 @@ import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
 import com.mamezou.rms.client.api.login.LoggedInEvent;
 import com.mamezou.rms.client.console.ui.TransitionMap.RmsScreen;
 import com.mamezou.rms.client.console.ui.TransitionMap.Transition;
+import com.mamezou.rms.platform.env.Environment;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
  * アプリケーション開始画面。
  * 開始処理としてのログインを担う
  */
-<span class="nc" id="L21">@RequiredArgsConstructor</span>
+<span class="nc" id="L22">@RequiredArgsConstructor</span>
 public class LoginScreen implements RmsScreen {
 
     private final RentalReservationClientApi clientApi;
@@ -27,39 +28,41 @@ public class LoginScreen implements RmsScreen {
     @Override
     public Transition play(UserAccountClientDto dummy, boolean printHeader) {
         try {
-<span class="nc bnc" id="L30" title="All 2 branches missed.">            if (printHeader) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">            if (printHeader) {</span>
                 // 認証画面のヘッダーを表示する
-<span class="nc" id="L32">                println(LOGIN_INFORMATION);</span>
-<span class="nc" id="L33">                blankLine();</span>
+<span class="nc" id="L33">                var jarInfo = Environment.getMainJarInfo();</span>
+<span class="nc" id="L34">                println(&quot;Version:&quot; + jarInfo.getVersion() + &quot;/Build-Time:&quot; + jarInfo.getBuildtimeInfo());</span>
+<span class="nc" id="L35">                println(LOGIN_INFORMATION);</span>
+<span class="nc" id="L36">                blankLine();</span>
             }
 
-<span class="nc" id="L36">            var loginId = newStringInputReader()</span>
-<span class="nc" id="L37">                    .withMinLength(5)</span>
-<span class="nc" id="L38">                    .withMaxLength(10)</span>
-<span class="nc" id="L39">                    .withDefaultValue(&quot;member1&quot;)</span>
-<span class="nc" id="L40">                    .read(&quot;ログインID&quot;);</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (loginId.equals(SCREEN_BREAK_KEY)) {</span>
-<span class="nc" id="L42">                return Transition.END;</span>
+<span class="nc" id="L39">            var loginId = newStringInputReader()</span>
+<span class="nc" id="L40">                    .withMinLength(5)</span>
+<span class="nc" id="L41">                    .withMaxLength(10)</span>
+<span class="nc" id="L42">                    .withDefaultValue(&quot;member1&quot;)</span>
+<span class="nc" id="L43">                    .read(&quot;ログインID&quot;);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            if (loginId.equals(SCREEN_BREAK_KEY)) {</span>
+<span class="nc" id="L45">                return Transition.END;</span>
             }
 
-<span class="nc" id="L45">            var password = newStringInputReader()</span>
-<span class="nc" id="L46">                    .withMinLength(5)</span>
-<span class="nc" id="L47">                    .withMaxLength(10)</span>
-<span class="nc" id="L48">                    .withDefaultValue(&quot;member1&quot;)</span>
-<span class="nc" id="L49">                    .withInputMasking(true)</span>
-<span class="nc" id="L50">                    .read(&quot;パスワード&quot;);</span>
+<span class="nc" id="L48">            var password = newStringInputReader()</span>
+<span class="nc" id="L49">                    .withMinLength(5)</span>
+<span class="nc" id="L50">                    .withMaxLength(10)</span>
+<span class="nc" id="L51">                    .withDefaultValue(&quot;member1&quot;)</span>
+<span class="nc" id="L52">                    .withInputMasking(true)</span>
+<span class="nc" id="L53">                    .read(&quot;パスワード&quot;);</span>
 
             // ログイン実行
-<span class="nc" id="L53">            var nowLoginUser = clientApi.authenticate(loginId, password);</span>
+<span class="nc" id="L56">            var nowLoginUser = clientApi.authenticate(loginId, password);</span>
 
             // 成功したのでログインユーザをbroadcast
-<span class="nc" id="L56">            loggedInEvent.fire(new LoggedInEvent(nowLoginUser));</span>
+<span class="nc" id="L59">            loggedInEvent.fire(new LoggedInEvent(nowLoginUser));</span>
 
-<span class="nc bnc" id="L58" title="All 2 branches missed.">            return nowLoginUser.getUserType().isAdmin() ? Transition.ADMIN_MAIN : Transition.MEMBER_MAIN;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            return nowLoginUser.getUserType().isAdmin() ? Transition.ADMIN_MAIN : Transition.MEMBER_MAIN;</span>
 
-<span class="nc" id="L60">        } catch (BusinessFlowClientException e) {</span>
-<span class="nc" id="L61">            printServerError(e);</span>
-<span class="nc" id="L62">            return play(dummy, false);</span>
+<span class="nc" id="L63">        } catch (BusinessFlowClientException e) {</span>
+<span class="nc" id="L64">            printServerError(e);</span>
+<span class="nc" id="L65">            return play(dummy, false);</span>
 
         }
     }

@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
         public Response toResponse(BusinessFlowException exception) {
 <span class="fc" id="L35">            log.warn(&quot;exception occured. message={}&quot;, exception.getMessage());</span>
 
-<span class="fc" id="L37">            GenericErrorInfo errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());</span>
+<span class="fc" id="L37">            var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());</span>
 
             Status status;
 <span class="pc bpc" id="L40" title="1 of 4 branches missed.">            switch (exception.getCauseType()) {</span>
@@ -66,40 +66,38 @@ import lombok.extern.slf4j.Slf4j;
         @Override
         public Response toResponse(RmsSystemException exception) {
 <span class="nc" id="L68">            log.warn(&quot;exception occured. message={}&quot;, exception.getMessage());</span>
-
-<span class="nc" id="L70">            GenericErrorInfo errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());</span>
-
-<span class="nc" id="L72">            return Response</span>
-<span class="nc" id="L73">                        .status(Status.INTERNAL_SERVER_ERROR)</span>
-<span class="nc" id="L74">                        .header(RMS_EXCEPTION_HEAD, RmsSystemException.class.getSimpleName())</span>
-<span class="nc" id="L75">                        .entity(errorInfo)</span>
-<span class="nc" id="L76">                        .build();</span>
+<span class="nc" id="L69">            var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());</span>
+<span class="nc" id="L70">            return Response</span>
+<span class="nc" id="L71">                        .status(Status.INTERNAL_SERVER_ERROR)</span>
+<span class="nc" id="L72">                        .header(RMS_EXCEPTION_HEAD, RmsSystemException.class.getSimpleName())</span>
+<span class="nc" id="L73">                        .entity(errorInfo)</span>
+<span class="nc" id="L74">                        .build();</span>
         }
     }
 
     // Provider Class
     @Produces(MediaType.APPLICATION_JSON)
-<span class="fc" id="L82">    public static class ConstraintExceptionMapper implements ExceptionMapper&lt;ConstraintViolationException&gt; {</span>
+<span class="fc" id="L80">    public static class ConstraintExceptionMapper implements ExceptionMapper&lt;ConstraintViolationException&gt; {</span>
 
         @Override
         public Response toResponse(ConstraintViolationException exception) {
-<span class="fc" id="L86">            log.warn(&quot;exception occured. message={}&quot;, exception.getMessage());</span>
+<span class="fc" id="L84">            log.warn(&quot;exception occured. message={}&quot;, exception.getMessage());</span>
 
-<span class="fc" id="L88">            Set&lt;ConstraintViolation&lt;?&gt;&gt; constraintViolations = exception.getConstraintViolations();</span>
-<span class="fc" id="L89">            List&lt;ValidationErrorItem&gt; errorItems = constraintViolations.stream()</span>
-<span class="fc" id="L90">                    .map(v -&gt; new ValidationErrorItem(v.getPropertyPath().toString(), v.getMessage()))</span>
-<span class="fc" id="L91">                    .collect(Collectors.toList());</span>
+<span class="fc" id="L86">            Set&lt;ConstraintViolation&lt;?&gt;&gt; constraintViolations = exception.getConstraintViolations();</span>
+<span class="fc" id="L87">            List&lt;ValidationErrorItem&gt; errorItems = constraintViolations.stream()</span>
+<span class="fc" id="L88">                    .map(v -&gt; new ValidationErrorItem(v.getPropertyPath().toString(), v.getMessage()))</span>
+<span class="fc" id="L89">                    .collect(Collectors.toList());</span>
 
-<span class="fc" id="L93">            ValidationErrorInfo validationErrorInfo = new ValidationErrorInfo(</span>
-<span class="fc" id="L94">                    exception.getClass().getSimpleName(),</span>
+<span class="fc" id="L91">            var validationErrorInfo = new ValidationErrorInfo(</span>
+<span class="fc" id="L92">                    exception.getClass().getSimpleName(),</span>
                     &quot;validation error occurred.&quot;,
                     errorItems);
 
-<span class="fc" id="L98">            return Response</span>
-<span class="fc" id="L99">                        .status(Response.Status.BAD_REQUEST)</span>
-<span class="fc" id="L100">                        .header(RMS_EXCEPTION_HEAD, exception.getClass().getSimpleName())</span>
-<span class="fc" id="L101">                        .entity(validationErrorInfo)</span>
-<span class="fc" id="L102">                        .build();</span>
+<span class="fc" id="L96">            return Response</span>
+<span class="fc" id="L97">                        .status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L98">                        .header(RMS_EXCEPTION_HEAD, exception.getClass().getSimpleName())</span>
+<span class="fc" id="L99">                        .entity(validationErrorInfo)</span>
+<span class="fc" id="L100">                        .build();</span>
         }
     }
 }

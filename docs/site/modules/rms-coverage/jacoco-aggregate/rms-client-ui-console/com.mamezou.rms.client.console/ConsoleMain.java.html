@@ -11,12 +11,11 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import com.mamezou.rms.client.console.ui.ScreenController;
 import com.mamezou.rms.client.console.ui.textio.TextIoUtils;
 import com.mamezou.rms.platform.env.Environment;
-import com.mamezou.rms.platform.env.MainJarInfo;
 
 import lombok.extern.slf4j.Slf4j;
 
-<span class="nc" id="L18">@Slf4j</span>
-<span class="nc" id="L19">public class ConsoleMain {</span>
+<span class="nc" id="L17">@Slf4j</span>
+<span class="nc" id="L18">public class ConsoleMain {</span>
 
     public static void main(String[] args) throws Exception {
 
@@ -28,34 +27,34 @@ import lombok.extern.slf4j.Slf4j;
 //        System.err.println(&quot;★あと宛先アドレスはlocalhostではなくFQCN指定の方に変えてね！&quot;);
 
         // java.util.loggingの出力をSLF4Jへdelegate
-<span class="nc" id="L31">        LogManager.getLogManager().reset();</span>
-<span class="nc" id="L32">        SLF4JBridgeHandler.removeHandlersForRootLogger();</span>
-<span class="nc" id="L33">        SLF4JBridgeHandler.install();</span>
+<span class="nc" id="L30">        LogManager.getLogManager().reset();</span>
+<span class="nc" id="L31">        SLF4JBridgeHandler.removeHandlersForRootLogger();</span>
+<span class="nc" id="L32">        SLF4JBridgeHandler.install();</span>
 
         // CDIコンテナの起動
-<span class="nc" id="L36">        io.helidon.microprofile.cdi.Main.main(args);</span>
+<span class="nc" id="L35">        io.helidon.microprofile.cdi.Main.main(args);</span>
 
         // Startup Logging
-<span class="nc" id="L39">        startupLog();</span>
+<span class="nc" id="L38">        startupLog();</span>
 
-<span class="nc" id="L41">        ScreenController controller = CDI.current().select(ScreenController.class).get();</span>
+<span class="nc" id="L40">        ScreenController controller = CDI.current().select(ScreenController.class).get();</span>
         while (true) {
             try {
-<span class="nc" id="L44">                controller.start(args); // 処理開始</span>
-<span class="nc" id="L45">            } catch (Exception e) {</span>
-<span class="nc" id="L46">                log.error(&quot;Back to start..&quot;, e);</span>
-<span class="nc" id="L47">                TextIoUtils.printErrorInformation(UNKNOWN_ERROR_INFORMATION);</span>
-<span class="nc" id="L48">            }</span>
+<span class="nc" id="L43">                controller.start(args); // 処理開始</span>
+<span class="nc" id="L44">            } catch (Exception e) {</span>
+<span class="nc" id="L45">                log.error(&quot;Back to start..&quot;, e);</span>
+<span class="nc" id="L46">                TextIoUtils.printErrorInformation(UNKNOWN_ERROR_INFORMATION);</span>
+<span class="nc" id="L47">            }</span>
         }
     }
 
     private static void startupLog() {
-<span class="nc" id="L53">        MainJarInfo mainJarInfo = Environment.getMainJarInfo();</span>
-<span class="nc" id="L54">        log.info(System.lineSeparator() +</span>
-<span class="nc" id="L55">                &quot;Startup-Module:&quot; + mainJarInfo.startupModuleInfo() + System.lineSeparator() +</span>
-<span class="nc" id="L56">                &quot;Version:&quot; + mainJarInfo.getVersion() + System.lineSeparator() +</span>
-<span class="nc" id="L57">                &quot;Build-Time:&quot; + mainJarInfo.getBuildtimeInfo()</span>
+<span class="nc" id="L52">        var mainJarInfo = Environment.getMainJarInfo();</span>
+<span class="nc" id="L53">        log.info(System.lineSeparator() +</span>
+<span class="nc" id="L54">                &quot;Startup-Module:&quot; + mainJarInfo.startupModuleInfo() + System.lineSeparator() +</span>
+<span class="nc" id="L55">                &quot;Version:&quot; + mainJarInfo.getVersion() + System.lineSeparator() +</span>
+<span class="nc" id="L56">                &quot;Build-Time:&quot; + mainJarInfo.getBuildtimeInfo()</span>
                 );
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L58">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

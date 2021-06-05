@@ -35,7 +35,7 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>              context.register(<strong class="jxr_keyword">new</strong> <a name="DenyAllRequestFilter" href="../../../../../com/mamezou/rms/platform/role/DenyAllRequestFilter.html#DenyAllRequestFilter">DenyAllRequestFilter</a>());
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>              <strong class="jxr_keyword">return</strong>;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>          }
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>          RolesAllowed  rolesAllowed = method.getAnnotation(RolesAllowed.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          <strong class="jxr_keyword">var</strong>  rolesAllowed = method.getAnnotation(RolesAllowed.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>          <strong class="jxr_keyword">if</strong> (rolesAllowed != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>              context.register(<strong class="jxr_keyword">new</strong> <a name="RolesAllowedRequestFilter" href="../../../../../com/mamezou/rms/platform/role/RolesAllowedRequestFilter.html#RolesAllowedRequestFilter">RolesAllowedRequestFilter</a>(rolesAllowed));
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>              <strong class="jxr_keyword">return</strong>;

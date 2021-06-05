@@ -77,12 +77,10 @@
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          @Override
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> test(String name) {
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>              <strong class="jxr_keyword">return</strong> filters.isEmpty()
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>                          ? <strong class="jxr_keyword">true</strong>
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>                          : filters.stream().anyMatch(filter -&gt; name.startsWith(filter));
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>          }
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      }
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  }
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>              <strong class="jxr_keyword">return</strong> filters.isEmpty() || filters.stream().anyMatch(name::startsWith);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          }
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2021 <a href="https://www.mamezou.com/">Mamezou Co.,Ltd.</a>. All rights reserved.</div>

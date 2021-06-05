@@ -114,7 +114,7 @@ public class FileAccessor {
 <span class="fc bfc" id="L114" title="All 2 branches covered.">            if (!Files.exists(resolver.getBaseDir())) {</span>
 <span class="fc" id="L115">                Files.createDirectory(resolver.getBaseDir());</span>
             }
-<span class="fc" id="L117">            Path outputFilePath = resolver.resolve(outputFileName);</span>
+<span class="fc" id="L117">            var outputFilePath = resolver.resolve(outputFileName);</span>
 <span class="fc" id="L118">            Files.copy(in, outputFilePath);</span>
 <span class="fc" id="L119">            return outputFilePath;</span>
 <span class="nc" id="L120">        } catch (IOException e) {</span>

@@ -42,7 +42,7 @@ public class LocalDateTimeSerializers {
 <span class="nc" id="L42">    public class LocaDateTimeDeserializer implements JsonbDeserializer&lt;LocalDateTime&gt; {</span>
         @Override
         public LocalDateTime deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
-<span class="nc" id="L45">            String value = parser.getString();</span>
+<span class="nc" id="L45">            var value = parser.getString();</span>
 <span class="nc" id="L46">            return LocalDateTime.parse(value, dateTimeFormatter);</span>
         }
     }

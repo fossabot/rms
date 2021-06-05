@@ -30,7 +30,7 @@
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  @Slf4j
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> {
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String UNKNOWN_INFORMATION = <span class="jxr_string">"unknown"</span>;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String UNKNOWN_INFORMATION = <span class="jxr_string">"-"</span>;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String MAIN_JAR_PROP = <span class="jxr_string">"main.manifest.jar"</span>;
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> UNKNOWN_INFO;
@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> MainJarInfoBuilder {
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>          <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a> build(Config config) {
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>              URL manifestUrl = findTargetManifestUrl(config);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>              <strong class="jxr_keyword">var</strong> manifestUrl = findTargetManifestUrl(config);
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>              <strong class="jxr_keyword">return</strong> buidFromManifestUrl(manifestUrl);
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          }
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  
@@ -119,8 +119,8 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>             }
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> 
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>             <em class="jxr_comment">// resolve jarName from jarfile path</em>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>             String jarFilePath = manifestUrl.toString().substring(0, manifestUrl.toString().indexOf('!'));
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>             String jarName = jarFilePath.substring(jarFilePath.lastIndexOf(<span class="jxr_string">"/"</span>) + 1, jarFilePath.length());
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>             <strong class="jxr_keyword">var</strong> jarFilePath = manifestUrl.toString().substring(0, manifestUrl.toString().indexOf('!'));
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>             <strong class="jxr_keyword">var</strong> jarName = jarFilePath.substring(jarFilePath.lastIndexOf(<span class="jxr_string">"/"</span>) + 1, jarFilePath.length());
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> 
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>             <em class="jxr_comment">// resolve manifest</em>
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>             Manifest manifest;
@@ -137,7 +137,7 @@
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>             String buildtime = getManifestValue(manifest, <span class="jxr_string">"Build-Time"</span>, UNKNOWN_INFORMATION);
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 
 <a class="jxr_linenumber" name="L131" href="#L131">131</a>             <em class="jxr_comment">// setup MainJarInfo</em>
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>             <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform<a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a>rInfo.html#MainJarInfo">MainJarInfo</a> mainJarInfo = <strong class="jxr_keyword">new</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a>();
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>             <strong class="jxr_keyword">var</strong> mainJarInfo = <strong class="jxr_keyword">new</strong> <a name="MainJarInfo" href="../../../../../com/mamezou/rms/platform/env/MainJarInfo.html#MainJarInfo">MainJarInfo</a>();
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>             mainJarInfo.applicationName = applicationName;
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>             mainJarInfo.jarName = jarName;
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>             mainJarInfo.mainClassName = mainClassName;

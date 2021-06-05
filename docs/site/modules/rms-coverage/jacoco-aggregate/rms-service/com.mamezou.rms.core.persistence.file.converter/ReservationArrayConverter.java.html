@@ -13,12 +13,12 @@ import com.mamezou.rms.core.domain.Reservation;
     @Override
     public Reservation toEntity(String[] attributes) {
 
-<span class="fc" id="L16">        int reservationId = Integer.parseInt(attributes[0]);</span>
-<span class="fc" id="L17">        LocalDateTime startDateTime = LocalDateTime.parse(attributes[1], DATE_TIME_FORMATTER);</span>
-<span class="fc" id="L18">        LocalDateTime endDateTime = LocalDateTime.parse(attributes[2], DATE_TIME_FORMATTER);</span>
-<span class="fc" id="L19">        String note = attributes[3];</span>
-<span class="fc" id="L20">        int rentalItemId = Integer.parseInt(attributes[4]);</span>
-<span class="fc" id="L21">        int userAccountId = Integer.parseInt(attributes[5]);</span>
+<span class="fc" id="L16">        var reservationId = Integer.parseInt(attributes[0]);</span>
+<span class="fc" id="L17">        var startDateTime = LocalDateTime.parse(attributes[1], DATE_TIME_FORMATTER);</span>
+<span class="fc" id="L18">        var endDateTime = LocalDateTime.parse(attributes[2], DATE_TIME_FORMATTER);</span>
+<span class="fc" id="L19">        var note = attributes[3];</span>
+<span class="fc" id="L20">        var rentalItemId = Integer.parseInt(attributes[4]);</span>
+<span class="fc" id="L21">        var userAccountId = Integer.parseInt(attributes[5]);</span>
 
 <span class="fc" id="L23">        return Reservation.of(reservationId, startDateTime, endDateTime, note, rentalItemId, userAccountId);</span>
     }
@@ -26,7 +26,7 @@ import com.mamezou.rms.core.domain.Reservation;
     @Override
     public String[] toArray(Reservation reservation) {
 
-<span class="fc" id="L29">        String[] reservationAttributes = new String[6];</span>
+<span class="fc" id="L29">        var reservationAttributes = new String[6];</span>
 
 <span class="fc" id="L31">        reservationAttributes[0] = String.valueOf(reservation.getId());</span>
 <span class="fc" id="L32">        reservationAttributes[1] = DATE_TIME_FORMATTER.format(reservation.getStartDateTime());</span>

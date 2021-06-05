@@ -66,7 +66,7 @@ public class InitFilePreparator {
 
 <span class="fc" id="L67">        String initDataPath = config.getOptionalValue(&quot;csv.type.permanent.init.data&quot;, String.class).orElse(null);</span>
 <span class="fc bfc" id="L68" title="All 2 branches covered.">        if (initDataPath != null) {</span>
-<span class="fc" id="L69">            Path from = Paths.get(initDataPath);</span>
+<span class="fc" id="L69">            var from = Paths.get(initDataPath);</span>
 <span class="fc" id="L70">            RecursiveCopyCommand.from(from).to(pathEnv.getBaseDir()).copy();</span>
 <span class="fc" id="L71">            log.info(&quot;初期データを作成しました。&quot; + from + &quot;=&gt;&quot; + pathEnv.getBaseDir());</span>
 <span class="fc" id="L72">            return;</span>
@@ -78,14 +78,14 @@ public class InitFilePreparator {
 <span class="fc" id="L78">        StreamSupport.stream(config.getPropertyNames().spliterator(), false)</span>
 <span class="fc" id="L79">            .filter(configKey -&gt; configKey.startsWith(temporaryFileConfigPrefix))</span>
 <span class="fc" id="L80">            .map(configKey -&gt; {</span>
-<span class="fc" id="L81">                String fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + &quot;.&quot;).length()); // csv.temporary.fileName.$1の$1部分を取得</span>
-<span class="fc" id="L82">                String resoucePath = config.getValue(configKey, String.class);</span>
-<span class="fc" id="L83">                String outputFileName = config.getValue(&quot;csv.permanent.fileName.&quot; + fileNameInConfigKey, String.class);</span>
+<span class="fc" id="L81">                var fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + &quot;.&quot;).length()); // csv.temporary.fileName.$1の$1部分を取得</span>
+<span class="fc" id="L82">                var resoucePath = config.getValue(configKey, String.class);</span>
+<span class="fc" id="L83">                var outputFileName = config.getValue(&quot;csv.permanent.fileName.&quot; + fileNameInConfigKey, String.class);</span>
 <span class="fc" id="L84">                return Pair.of(resoucePath, outputFileName);</span>
             })
-<span class="fc" id="L86">            .forEach(fileNames -&gt; {</span>
-<span class="fc" id="L87">                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight());</span>
-<span class="fc" id="L88">            });</span>
+<span class="fc" id="L86">            .forEach(fileNames -&gt;</span>
+<span class="fc" id="L87">                FileAccessor.copyResourceToRealPath(fileNames.getLeft(), pathEnv, fileNames.getRight())</span>
+            );
 <span class="fc" id="L89">        log.info(&quot;初期データを作成しました。${csv.type.temporary.fileName}&quot; + &quot;=&gt;&quot; + pathEnv.getBaseDir());</span>
 <span class="fc" id="L90">    }</span>
 
@@ -104,7 +104,7 @@ public class InitFilePreparator {
         }
 
         public static RecursiveCopyCommand from(Path from) {
-<span class="fc" id="L107">            RecursiveCopyCommand command = new RecursiveCopyCommand();</span>
+<span class="fc" id="L107">            var command = new RecursiveCopyCommand();</span>
 <span class="fc" id="L108">            command.from = from;</span>
 <span class="fc" id="L109">            return command;</span>
         }

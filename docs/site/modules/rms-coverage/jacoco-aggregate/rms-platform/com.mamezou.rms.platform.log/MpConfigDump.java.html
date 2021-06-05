@@ -43,7 +43,7 @@ public class MpConfigDump {
         }
 
 <span class="fc" id="L45">        List&lt;String&gt; filters = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (config.getOptionalValue(&quot;configdump.filter-enable&quot;, Boolean.class).orElse(false)) {</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if (config.getOptionalValue(&quot;configdump.filter-enable&quot;, Boolean.class).orElse(false)) {</span>
 <span class="fc" id="L47">            filters = StreamSupport.stream(config.getPropertyNames().spliterator(), false)</span>
 <span class="fc" id="L48">                    .filter(s -&gt; s.startsWith(&quot;configdump.filters&quot;))</span>
 <span class="fc" id="L49">                    .map(s -&gt; config.getValue(s, String.class))</span>
@@ -69,9 +69,7 @@ public class MpConfigDump {
 
         @Override
         public boolean test(String name) {
-<span class="fc bfc" id="L72" title="All 2 branches covered.">            return filters.isEmpty()</span>
-<span class="fc" id="L73">                        ? true</span>
-<span class="fc" id="L74">                        : filters.stream().anyMatch(filter -&gt; name.startsWith(filter));</span>
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">            return filters.isEmpty() || filters.stream().anyMatch(name::startsWith);</span>
         }
     }
 }

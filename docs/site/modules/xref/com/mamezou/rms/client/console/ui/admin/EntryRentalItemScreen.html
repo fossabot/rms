@@ -60,7 +60,7 @@
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>              <strong class="jxr_keyword">var</strong> addItem = RentalItemClientDto.ofTransient(serialNo, itemName);
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>              <strong class="jxr_keyword">var</strong> newItem = clientApi.addRentalItem(addItem);
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>              printResultInformation(loginUser, newItem);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>              printResultInformation(newItem);
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>              <strong class="jxr_keyword">return</strong> Transition.ADMIN_MAIN;
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>          } <strong class="jxr_keyword">catch</strong> (<a name="BusinessFlowClientException" href="../../../../../../../com/mamezou/rms/client/api/exception/BusinessFlowClientException.html#BusinessFlowClientException">BusinessFlowClientException</a> e) {
@@ -70,7 +70,7 @@
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>          }
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>      }
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultInformation(<a name="UserAccountClientDto" href="../../../../../../../com/mamezou/rms/client/api/dto/UserAccountClientDto.html#UserAccountClientDto">UserAccountClientDto</a> loginUser, <a name="RentalItemClientDto" href="../../../../../../../com/mamezou/rms/client/api/dto/RentalItemClientDto.html#RentalItemClientDto">RentalItemClientDto</a> newItem) {
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultInformation(<a name="RentalItemClientDto" href="../../../../../../../com/mamezou/rms/client/api/dto/RentalItemClientDto.html#RentalItemClientDto">RentalItemClientDto</a> newItem) {
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>          println(<span class="jxr_string">"***** レンタル品登録結果 *****"</span>);
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>          printf(ClientConstants.RENATL_ITEM_FORMAT.format(newItem));
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>          blankLine();

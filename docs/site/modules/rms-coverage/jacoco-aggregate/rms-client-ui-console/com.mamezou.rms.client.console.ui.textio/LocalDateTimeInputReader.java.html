@@ -16,7 +16,7 @@ public class LocalDateTimeInputReader extends InputReader&lt;LocalDateTime, Loca
 
     public LocalDateTimeInputReader(TextTerminal&lt;?&gt; textTerminal) {
 <span class="nc" id="L18">        super(() -&gt; textTerminal);</span>
-<span class="nc" id="L19">        valueCheckers.add((val, propName) -&gt; getFutureValidationErrors(val, propName));</span>
+<span class="nc" id="L19">        valueCheckers.add(this::getFutureValidationErrors);</span>
 <span class="nc" id="L20">    }</span>
 
     @Override

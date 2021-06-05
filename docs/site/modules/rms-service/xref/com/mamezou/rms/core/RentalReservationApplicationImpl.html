@@ -114,11 +114,11 @@
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>         }
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> 
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         <em class="jxr_comment">// 予約の登録</em>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>         <a name="Reservation" href="../../../../com/mamezou/rms/core/domain/Reservation.html#Reservation">Reservation</a> newReservation = reservationService.add(addReservation);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>         <strong class="jxr_keyword">var</strong> newReservation = reservationService.add(addReservation);
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>         <em class="jxr_comment">// 予約オブジェクトの再構成</em>
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>         newReservation.setRentalItem(rentalItem);
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <a name="UserAccount" href="../../../../com/mamezou/rms/core/domain/UserAccount.html#UserAccount">UserAccount</a> reserver = getUserAccount(addReservation.getUserAccountId());
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         <strong class="jxr_keyword">var</strong> reserver = getUserAccount(addReservation.getUserAccountId());
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>         newReservation.setRentalItem(rentalItem);
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>         newReservation.setUserAccount(reserver);
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>         <strong class="jxr_keyword">return</strong> newReservation;
@@ -148,9 +148,9 @@
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>     <em class="jxr_comment">// ----------------------------------------------------- private methods</em>
 <a class="jxr_linenumber" name="L141" href="#L141">141</a> 
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>     <strong class="jxr_keyword">private</strong> <a name="Reservation" href="../../.<a name="Reservation" href="../../../../com/mamezou/rms/core/domain/Reservation.html#Reservation">Reservation</a>mezou/rms/core/domain/Reservation.html#Reservation">Reservation</a> toTraversedReservation(<a name="Reservation" href="../../../../com/mamezou/rms/core/domain/Reservation.html#Reservation">Reservation</a> resavation) {
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <a name="RentalItem" href="../../../../com/mamezou/rms/core/domain/RentalItem.html#RentalItem">RentalItem</a> rentalItems = getRentalItem(resavation.getRentalItemId());
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <strong class="jxr_keyword">var</strong> rentalItems = getRentalItem(resavation.getRentalItemId());
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>         resavation.setRentalItem(rentalItems);
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <a name="UserAccount" href="../../../../com/mamezou/rms/core/domain/UserAccount.html#UserAccount">UserAccount</a> reservers = getUserAccount(resavation.getUserAccountId());
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <strong class="jxr_keyword">var</strong> reservers = getUserAccount(resavation.getUserAccountId());
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>         resavation.setUserAccount(reservers);
 <a class="jxr_linenumber" name="L147" href="#L147">147</a>         <strong class="jxr_keyword">return</strong> resavation;
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>     }

@@ -24,7 +24,7 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">public</strong> <a name="LocalDateTimeInputReader" href="../../../../../../../com/mamezou/rms/client/console/ui/textio/LocalDateTimeInputReader.html#LocalDateTimeInputReader">LocalDateTimeInputReader</a>(TextTerminal&lt;?&gt; textTerminal) {
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>          <strong class="jxr_keyword">super</strong>(() -&gt; textTerminal);
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>          valueCheckers.add((val, propName) -&gt; getFutureValidationErrors(val, propName));
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          valueCheckers.add(<strong class="jxr_keyword">this</strong>::getFutureValidationErrors);
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>      }
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>      @Override

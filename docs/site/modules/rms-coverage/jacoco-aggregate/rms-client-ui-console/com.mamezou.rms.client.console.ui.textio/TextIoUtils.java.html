@@ -11,82 +11,81 @@ import com.mamezou.rms.client.api.exception.BusinessFlowClientException;
 <span class="nc" id="L11">public class TextIoUtils {</span>
 
     public static void printScreenHeader(UserAccountClientDto loginUser, String screenName) {
+<span class="nc" id="L14">        var msg = System.lineSeparator()</span>
+<span class="nc" id="L15">                + &quot;===================================================&quot; + System.lineSeparator()</span>
+<span class="nc" id="L16">                + &quot;レンタル予約システム － %s&quot; + System.lineSeparator()</span>
+<span class="nc" id="L17">                + &quot;===================================================&quot; + System.lineSeparator()</span>
+<span class="nc" id="L18">                + &quot;ログイン：%s&quot; + System.lineSeparator()</span>
+<span class="nc" id="L19">                + System.lineSeparator();</span>
 
-<span class="nc" id="L15">        var msg = System.lineSeparator()</span>
-<span class="nc" id="L16">                + &quot;===================================================&quot; + System.lineSeparator()</span>
-<span class="nc" id="L17">                + &quot;レンタル予約システム － %s&quot; + System.lineSeparator()</span>
-<span class="nc" id="L18">                + &quot;===================================================&quot; + System.lineSeparator()</span>
-<span class="nc" id="L19">                + &quot;ログイン：%s&quot; + System.lineSeparator()</span>
-<span class="nc" id="L20">                + System.lineSeparator();</span>
-
-<span class="nc" id="L22">        var terminal = TextIoFactory.getTextIO().getTextTerminal();</span>
-<span class="nc" id="L23">        terminal.printf(msg, screenName, loginUser.getUserName());</span>
-<span class="nc" id="L24">    }</span>
+<span class="nc" id="L21">        var terminal = TextIoFactory.getTextIO().getTextTerminal();</span>
+<span class="nc" id="L22">        terminal.printf(msg, screenName, loginUser.getUserName());</span>
+<span class="nc" id="L23">    }</span>
 
     public static void waitPressEnter() {
-<span class="nc" id="L27">        TextIoFactory.getTextIO().newStringInputReader()</span>
-<span class="nc" id="L28">            .withDefaultValue(&quot;ENTER&quot;)</span>
-<span class="nc" id="L29">            .read(&quot;Please press enter.&quot;);</span>
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L26">        TextIoFactory.getTextIO().newStringInputReader()</span>
+<span class="nc" id="L27">            .withDefaultValue(&quot;ENTER&quot;)</span>
+<span class="nc" id="L28">            .read(&quot;Please press enter.&quot;);</span>
+<span class="nc" id="L29">    }</span>
 
     public static void printServerError(BusinessFlowClientException e) {
-<span class="nc" id="L33">        TextIoFactory.getTextTerminal().executeWithPropertiesConfigurator(</span>
-<span class="nc" id="L34">                props -&gt; props.setPromptColor(&quot;red&quot;),</span>
-<span class="nc" id="L35">                t -&gt; t.println(e.getMessage() + System.lineSeparator())</span>
+<span class="nc" id="L32">        TextIoFactory.getTextTerminal().executeWithPropertiesConfigurator(</span>
+<span class="nc" id="L33">                props -&gt; props.setPromptColor(&quot;red&quot;),</span>
+<span class="nc" id="L34">                t -&gt; t.println(e.getMessage() + System.lineSeparator())</span>
         );
-<span class="nc" id="L37">    }</span>
+<span class="nc" id="L36">    }</span>
 
     public static void printErrorInformation(String msg) {
-<span class="nc" id="L40">        TextIoFactory.getTextTerminal().executeWithPropertiesConfigurator(</span>
-<span class="nc" id="L41">                props -&gt; props.setPromptColor(&quot;red&quot;),</span>
-<span class="nc" id="L42">                t -&gt; t.println(msg + System.lineSeparator())</span>
+<span class="nc" id="L39">        TextIoFactory.getTextTerminal().executeWithPropertiesConfigurator(</span>
+<span class="nc" id="L40">                props -&gt; props.setPromptColor(&quot;red&quot;),</span>
+<span class="nc" id="L41">                t -&gt; t.println(msg + System.lineSeparator())</span>
         );
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L43">    }</span>
 
     public static void printWarningInformation(String msg) {
-<span class="nc" id="L47">        TextIoFactory.getTextTerminal().executeWithPropertiesConfigurator(</span>
-<span class="nc" id="L48">                props -&gt; props.setPromptColor(&quot;yellow&quot;),</span>
-<span class="nc" id="L49">                t -&gt; t.println(msg + System.lineSeparator())</span>
+<span class="nc" id="L46">        TextIoFactory.getTextTerminal().executeWithPropertiesConfigurator(</span>
+<span class="nc" id="L47">                props -&gt; props.setPromptColor(&quot;yellow&quot;),</span>
+<span class="nc" id="L48">                t -&gt; t.println(msg + System.lineSeparator())</span>
         );
-<span class="nc" id="L51">    }</span>
+<span class="nc" id="L50">    }</span>
 
     public static void blankLine() {
-<span class="nc" id="L54">        TextIoFactory.getTextTerminal().println();</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L53">        TextIoFactory.getTextTerminal().println();</span>
+<span class="nc" id="L54">    }</span>
 
     public static void println(String msg) {
-<span class="nc" id="L58">        TextIoFactory.getTextTerminal().println(msg);</span>
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L57">        TextIoFactory.getTextTerminal().println(msg);</span>
+<span class="nc" id="L58">    }</span>
 
     public static void printf(String format, Object... args) {
-<span class="nc" id="L62">        TextIoFactory.getTextTerminal().printf(format, args);</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L61">        TextIoFactory.getTextTerminal().printf(format, args);</span>
+<span class="nc" id="L62">    }</span>
 
     public static RmsStringInputReader newStringInputReader() {
-<span class="nc" id="L66">        return new RmsStringInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
+<span class="nc" id="L65">        return new RmsStringInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
     }
 
     public static RmsIntInputReader newIntInputReader() {
-<span class="nc" id="L70">        return new RmsIntInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
+<span class="nc" id="L69">        return new RmsIntInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
     }
 
     public static LocalDateInputReader newLocalDateReader() {
-<span class="nc" id="L74">        return new LocalDateInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
+<span class="nc" id="L73">        return new LocalDateInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
     }
 
     public static LocalDateTimeInputReader newLocalDateTimeReader() {
-<span class="nc" id="L78">        return new LocalDateTimeInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
+<span class="nc" id="L77">        return new LocalDateTimeInputReader(TextIoFactory.getTextIO().getTextTerminal());</span>
     }
 
     public static &lt;T extends Enum&lt;T&gt;&gt; EnumInputReader&lt;T&gt; newEnumInputReader(Class&lt;T&gt; enumClass) {
-<span class="nc" id="L82">        return new EnumInputReader&lt;T&gt;(() -&gt; TextIoFactory.getTextTerminal(), enumClass);</span>
+<span class="nc" id="L81">        return new EnumInputReader&lt;T&gt;(TextIoFactory::getTextTerminal, enumClass);</span>
     }
 
     public static boolean isBreak(String input) {
-<span class="nc bnc" id="L86" title="All 4 branches missed.">        return input != null &amp;&amp; input.equals(SCREEN_BREAK_KEY);</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        return input != null &amp;&amp; input.equals(SCREEN_BREAK_KEY);</span>
     }
     public static boolean isBreak(int input) {
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        return input == SCREEN_BREAK_VALUE;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        return input == SCREEN_BREAK_VALUE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

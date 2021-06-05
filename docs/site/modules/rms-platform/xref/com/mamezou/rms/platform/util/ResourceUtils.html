@@ -139,7 +139,7 @@
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> 
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>         <strong class="jxr_keyword">for</strong> (File jarFile : jarFiles) {
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>             List&lt;URL&gt; urls = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>             <strong class="jxr_keyword">try</strong> (JarFile jar = <strong class="jxr_keyword">new</strong> JarFile(jarFile)) {
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>             <strong class="jxr_keyword">try</strong> (<strong class="jxr_keyword">var</strong> jar = <strong class="jxr_keyword">new</strong> JarFile(jarFile)) {
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>                 urls = jar.stream()
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>                     .filter(not(JarEntry::isDirectory))
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>                     .filter(entry -&gt; entry.getName().startsWith(targetDir))
@@ -170,8 +170,8 @@
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> 
 <a class="jxr_linenumber" name="L163" href="#L163">163</a>         List&lt;URL&gt; targetUrls = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
 <a class="jxr_linenumber" name="L164" href="#L164">164</a> 
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>         <strong class="jxr_keyword">for</strong> (URL targetUrl : inFsUrls) {
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>             Path targetPath = Paths.get(toUrl(targetUrl));
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">var</strong> targetUrl : inFsUrls) {
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>             <strong class="jxr_keyword">var</strong> targetPath = Paths.get(toUrl(targetUrl));
 <a class="jxr_linenumber" name="L167" href="#L167">167</a>             <strong class="jxr_keyword">if</strong> (Files.isDirectory(targetPath)) {
 <a class="jxr_linenumber" name="L168" href="#L168">168</a>                 Files.walkFileTree(targetPath, <strong class="jxr_keyword">new</strong> TargetFileCollector(targetUrls, fileFilter)); <em class="jxr_comment">// targetUrl is IN/OUT Parameter.</em>
 <a class="jxr_linenumber" name="L169" href="#L169">169</a>             } <strong class="jxr_keyword">else</strong> {

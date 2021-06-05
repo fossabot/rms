@@ -16,7 +16,7 @@ import org.eclipse.microprofile.config.Config;
 
 <span class="fc" id="L17">public class ConfiguredCdiBeanBinder {</span>
 
-<span class="fc" id="L19">    private static Map&lt;String, Annotation&gt; BEAN_SCOPES = Map.of(</span>
+<span class="fc" id="L19">    private static final Map&lt;String, Annotation&gt; BEAN_SCOPES = Map.of(</span>
             &quot;application&quot;, ApplicationScoped.Literal.INSTANCE,
             &quot;request&quot;, RequestScoped.Literal.INSTANCE,
             &quot;dependent&quot;, Dependent.Literal.INSTANCE);
@@ -29,7 +29,7 @@ import org.eclipse.microprofile.config.Config;
     // ----------------------------------------------------- factory methods
 
     public static ConfiguredCdiBeanBinder newBinder(Config config) {
-<span class="fc" id="L32">        ConfiguredCdiBeanBinder configBinder = new ConfiguredCdiBeanBinder();</span>
+<span class="fc" id="L32">        var configBinder = new ConfiguredCdiBeanBinder();</span>
 <span class="fc" id="L33">        configBinder.config = config;</span>
 <span class="fc" id="L34">        return configBinder;</span>
     }
@@ -102,7 +102,7 @@ import org.eclipse.microprofile.config.Config;
 <span class="fc" id="L102">                return ConfiguredCdiBeanBinder.newBinder(config).key(aliasKey.aliasConfigKey).bind();</span>
             }
 
-<span class="fc" id="L105">            ConfiguredCdiBean configCdiBean = new ConfiguredCdiBean();</span>
+<span class="fc" id="L105">            var configCdiBean = new ConfiguredCdiBean();</span>
 <span class="fc" id="L106">            configCdiBean.beanClass = config.getOptionalValue(registerPrefix + &quot;.class&quot;, Class.class)</span>
 <span class="fc" id="L107">                    .orElseThrow(() -&gt; new IllegalArgumentException(&quot;class is required. [&quot; + registerPrefix + &quot;.class]&quot;)); // class is required.</span>
 
@@ -150,9 +150,9 @@ import org.eclipse.microprofile.config.Config;
 
         public List&lt;ConfiguredCdiBean&gt; bind() {
 
-<span class="fc" id="L153">            List&lt;AliasKey&gt; aliasKeys = List.of();</span>
+<span class="fc" id="L153">            List&lt;AliasKey&gt; foundAliasKeys = List.of();</span>
 <span class="fc bfc" id="L154" title="All 2 branches covered.">            if (parent.listAliasPrefix != null) {</span>
-<span class="fc" id="L155">                aliasKeys = seekAliasKeys(parent.listAliasPrefix);</span>
+<span class="fc" id="L155">                foundAliasKeys = seekAliasKeys(parent.listAliasPrefix);</span>
             }
 
             // (by single config)
@@ -164,7 +164,7 @@ import org.eclipse.microprofile.config.Config;
 <span class="fc bfc" id="L164" title="All 4 branches covered.">            if (clazz.isPresent() || alias.isPresent()) {</span>
 <span class="fc" id="L165">                ConfiguredCdiBean configCdiBean =</span>
 <span class="fc" id="L166">                        ConfiguredCdiBeanBinder.newBinder(config)</span>
-<span class="fc" id="L167">                            .aliasKeys(aliasKeys)</span>
+<span class="fc" id="L167">                            .aliasKeys(foundAliasKeys)</span>
 <span class="fc" id="L168">                            .key(parent.listRegisterPrefix)</span>
 <span class="fc" id="L169">                            .bind();</span>
 <span class="fc" id="L170">                return List.of(configCdiBean);</span>
@@ -188,7 +188,7 @@ import org.eclipse.microprofile.config.Config;
 
 <span class="fc" id="L189">            List&lt;ConfiguredCdiBean&gt; configCdiBeans = new ArrayList&lt;&gt;();</span>
 <span class="fc bfc" id="L190" title="All 2 branches covered.">            for (int i = 0; i &lt; keys.size(); i++) {</span>
-<span class="fc" id="L191">                configCdiBeans.add(ConfiguredCdiBeanBinder.newBinder(config).aliasKeys(aliasKeys).key(parent.listRegisterPrefix + &quot;.&quot; + i).bind());</span>
+<span class="fc" id="L191">                configCdiBeans.add(ConfiguredCdiBeanBinder.newBinder(config).aliasKeys(foundAliasKeys).key(parent.listRegisterPrefix + &quot;.&quot; + i).bind());</span>
             }
 <span class="fc" id="L193">            return configCdiBeans;</span>
         }

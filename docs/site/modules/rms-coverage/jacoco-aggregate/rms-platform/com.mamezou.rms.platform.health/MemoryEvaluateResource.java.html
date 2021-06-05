@@ -11,7 +11,6 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -21,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Path(&quot;/memeval&quot;)
 @ApplicationScoped
-<span class="fc" id="L24">@Slf4j</span>
-<span class="fc" id="L25">public class MemoryEvaluateResource {</span>
+<span class="fc" id="L23">@Slf4j</span>
+<span class="fc" id="L24">public class MemoryEvaluateResource {</span>
 
     @Inject
     private Event&lt;MemoryLivenessEvaluator&gt; event;
@@ -33,20 +32,18 @@ import lombok.extern.slf4j.Slf4j;
         operationId = &quot;resetEvaluateMethod&quot;,
         summary = &quot;memory-health-check-livenessのチェック方法の変更&quot;,
         description = &quot;/health/readyによるReadinessProbeのmemory-health-check-livenessのチェック方法を変更する&quot;)
-    @Parameters({
-        @Parameter(name = &quot;method&quot;, description = &quot;評価方法。abs:絶対評価, rel:相対評価&quot;, required = true,
-            schema = @Schema(implementation = String.class)),
-        @Parameter(name = &quot;val&quot;,  description = &quot;閾値。絶対評価の場合は使用ヒープサイズ, 相対評価の場合はヒープの使用率、&quot;, required = true,
-            schema = @Schema(implementation = Long.class))
-    })
+    @Parameter(name = &quot;method&quot;, description = &quot;評価方法。abs:絶対評価, rel:相対評価&quot;, required = true,
+        schema = @Schema(implementation = String.class))
+    @Parameter(name = &quot;val&quot;,  description = &quot;閾値。絶対評価の場合は使用ヒープサイズ, 相対評価の場合はヒープの使用率、&quot;, required = true,
+        schema = @Schema(implementation = Long.class))
     @APIResponse(
         responseCode = &quot;200&quot;,
         description = &quot;成功。常に\&quot;accepted.\&quot;を返す&quot;,
         content = @Content(mediaType = &quot;application/text&quot;))
     public String resetEvaluateMethod(@QueryParam(&quot;method&quot;) String method, @QueryParam(&quot;val&quot;) long val){
-<span class="fc" id="L47">        log.info(&quot;reset memory evaluate method. methdo={}, val={}&quot;, method, val);</span>
-<span class="fc" id="L48">        event.fire(MemoryLivenessEvaluator.of(method, val));</span>
-<span class="fc" id="L49">        return &quot;accepted.&quot;;</span>
+<span class="fc" id="L44">        log.info(&quot;reset memory evaluate method. methdo={}, val={}&quot;, method, val);</span>
+<span class="fc" id="L45">        event.fire(MemoryLivenessEvaluator.of(method, val));</span>
+<span class="fc" id="L46">        return &quot;accepted.&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

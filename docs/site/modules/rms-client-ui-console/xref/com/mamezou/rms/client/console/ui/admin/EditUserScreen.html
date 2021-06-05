@@ -102,7 +102,7 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>          <em class="jxr_comment">// ユーザ情報の更新実行</em>
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>              <strong class="jxr_keyword">var</strong> updatedUser = clientApi.updateUserAccount(targetUser);
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>              printResultInformation(loginUser, updatedUser);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>              printResultInformation(updatedUser);
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>              <strong class="jxr_keyword">return</strong> Transition.ADMIN_MAIN;
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  
 <a class="jxr_linenumber" name="L100" href="#L100">100</a>         } <strong class="jxr_keyword">catch</strong> (BusinessFlowClientException e) {
@@ -112,7 +112,7 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>         }
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>     }
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultInformation(UserAccountClientDto loginUser, UserAccountClientDto updatedUserAccount) {
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printResultInformation(UserAccountClientDto updatedUserAccount) {
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         blankLine();
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>         println(<span class="jxr_string">"***** ユーザ登録結果 *****"</span>);
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         printf(<span class="jxr_string">"[%s]のユーザ情報を更新しました"</span>, updatedUserAccount.getId());

@@ -9,16 +9,16 @@ import com.mamezou.rms.core.exception.RmsSystemException;
 
     public RentalItem toEntity(String[] attributes) throws RmsSystemException {
 
-<span class="fc" id="L12">        int id = Integer.parseInt(attributes[0]);</span>
-<span class="fc" id="L13">        String serialNo = attributes[1];</span>
-<span class="fc" id="L14">        String itemName = attributes[2];</span>
+<span class="fc" id="L12">        var id = Integer.parseInt(attributes[0]);</span>
+<span class="fc" id="L13">        var serialNo = attributes[1];</span>
+<span class="fc" id="L14">        var itemName = attributes[2];</span>
 
 <span class="fc" id="L16">        return RentalItem.of(id, serialNo, itemName);</span>
     }
 
     public String[] toArray(RentalItem rentalItem) {
 
-<span class="fc" id="L21">        String[] itemAttributes = new String[3];</span>
+<span class="fc" id="L21">        var itemAttributes = new String[3];</span>
 
 <span class="fc" id="L23">        itemAttributes[0] = String.valueOf(rentalItem.getId());</span>
 <span class="fc" id="L24">        itemAttributes[1] = rentalItem.getSerialNo();</span>

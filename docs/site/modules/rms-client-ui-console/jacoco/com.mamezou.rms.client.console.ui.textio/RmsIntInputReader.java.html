@@ -18,7 +18,7 @@ public class RmsIntInputReader extends IntInputReader {
 <span class="nc" id="L18">    }</span>
 
     public InputReader&lt;Integer, IntInputReader&gt; withSelectableValues(List&lt;Integer&gt; values, int excludeValue) {
-<span class="nc" id="L21">        values = new ArrayList&lt;Integer&gt;(values);</span>
+<span class="nc" id="L21">        values = new ArrayList&lt;&gt;(values);</span>
 <span class="nc" id="L22">        values.add(excludeValue);</span>
 <span class="nc" id="L23">        return withSelectableValues(values);</span>
     }

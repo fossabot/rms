@@ -78,10 +78,10 @@ public class MemoryHealthCheck {
     interface MemoryLivenessEvaluator {
 
         // メモリ使用量が閾値以下であることの評価
-<span class="fc" id="L81">        static final BiFunction&lt;MemoryUsage, Long, Boolean&gt; absoluteEvalute =</span>
+<span class="fc" id="L81">        static final MemoryUsageFunction absoluteFunction =</span>
 <span class="pc bpc" id="L82" title="1 of 2 branches missed.">                (memoryUsage, threshold) -&gt; memoryUsage.getUsed() &lt; threshold * 1024 * 1024;</span>
         // メモリ使用率が閾値以下であることの評価
-<span class="fc" id="L84">        static final BiFunction&lt;MemoryUsage, Long, Boolean&gt; relativeEvalute =</span>
+<span class="fc" id="L84">        static final MemoryUsageFunction relativeFunction =</span>
 <span class="pc bpc" id="L85" title="1 of 2 branches missed.">                (memoryUsage, threshold) -&gt; (memoryUsage.getUsed() / (double) memoryUsage.getMax()) * 100 &lt; (double) threshold;</span>
 
         String name();
@@ -91,10 +91,10 @@ public class MemoryHealthCheck {
         static MemoryLivenessEvaluator of(String method, long threshold) {
 <span class="fc bfc" id="L92" title="All 2 branches covered.">            switch (method) {</span>
             case &quot;abs&quot;:
-<span class="fc" id="L94">                return new EvaluateHolder(&quot;abs&quot;, absoluteEvalute, threshold);</span>
+<span class="fc" id="L94">                return new EvaluateHolder(&quot;abs&quot;, absoluteFunction, threshold);</span>
             case &quot;rel&quot;:
             default:
-<span class="fc" id="L97">                return new EvaluateHolder(&quot;rel&quot;, relativeEvalute, threshold);</span>
+<span class="fc" id="L97">                return new EvaluateHolder(&quot;rel&quot;, relativeFunction, threshold);</span>
             }
         }
     }
@@ -102,12 +102,12 @@ public class MemoryHealthCheck {
     static class EvaluateHolder implements MemoryLivenessEvaluator {
 
         String name;
-        BiFunction&lt;MemoryUsage, Long, Boolean&gt; eval;
+        MemoryUsageFunction func;
         long threshold;
 
-<span class="fc" id="L108">        EvaluateHolder(String name, BiFunction&lt;MemoryUsage, Long, Boolean&gt; eval, long threshold) {</span>
+<span class="fc" id="L108">        EvaluateHolder(String name, MemoryUsageFunction func, long threshold) {</span>
 <span class="fc" id="L109">            this.name = name;</span>
-<span class="fc" id="L110">            this.eval = eval;</span>
+<span class="fc" id="L110">            this.func = func;</span>
 <span class="fc" id="L111">            this.threshold = threshold;</span>
 <span class="fc" id="L112">        }</span>
 
@@ -121,8 +121,15 @@ public class MemoryHealthCheck {
         }
         @Override
         public boolean liveness(MemoryUsage memoryUsage) {
-<span class="fc" id="L124">            return eval.apply(memoryUsage, threshold);</span>
+<span class="fc" id="L124">            return func.evaluate(memoryUsage, threshold);</span>
         }
     }
+
+    interface MemoryUsageFunction extends BiFunction&lt;MemoryUsage, Long, Boolean&gt; {
+        default boolean evaluate(MemoryUsage memoryUsage, long threshold) {
+<span class="fc" id="L130">            return apply(memoryUsage, threshold);</span>
+        }
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

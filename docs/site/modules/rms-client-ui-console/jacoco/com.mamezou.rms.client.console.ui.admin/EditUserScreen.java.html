@@ -94,7 +94,7 @@ public class EditUserScreen implements RmsScreen {
         // ユーザ情報の更新実行
         try {
 <span class="nc" id="L96">            var updatedUser = clientApi.updateUserAccount(targetUser);</span>
-<span class="nc" id="L97">            printResultInformation(loginUser, updatedUser);</span>
+<span class="nc" id="L97">            printResultInformation(updatedUser);</span>
 <span class="nc" id="L98">            return Transition.ADMIN_MAIN;</span>
 
 <span class="nc" id="L100">        } catch (BusinessFlowClientException e) {</span>
@@ -104,7 +104,7 @@ public class EditUserScreen implements RmsScreen {
         }
     }
 
-    private void printResultInformation(UserAccountClientDto loginUser, UserAccountClientDto updatedUserAccount) {
+    private void printResultInformation(UserAccountClientDto updatedUserAccount) {
 <span class="nc" id="L108">        blankLine();</span>
 <span class="nc" id="L109">        println(&quot;***** ユーザ登録結果 *****&quot;);</span>
 <span class="nc" id="L110">        printf(&quot;[%s]のユーザ情報を更新しました&quot;, updatedUserAccount.getId());</span>
