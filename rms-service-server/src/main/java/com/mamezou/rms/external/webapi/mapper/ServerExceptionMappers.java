@@ -34,7 +34,7 @@ public class ServerExceptionMappers {
         public Response toResponse(BusinessFlowException exception) {
             log.warn("exception occured. message={}", exception.getMessage());
 
-            GenericErrorInfo errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
+            var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
 
             Status status;
             switch (exception.getCauseType()) {
@@ -66,9 +66,7 @@ public class ServerExceptionMappers {
         @Override
         public Response toResponse(RmsSystemException exception) {
             log.warn("exception occured. message={}", exception.getMessage());
-
-            GenericErrorInfo errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
-
+            var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
             return Response
                         .status(Status.INTERNAL_SERVER_ERROR)
                         .header(RMS_EXCEPTION_HEAD, RmsSystemException.class.getSimpleName())
@@ -90,7 +88,7 @@ public class ServerExceptionMappers {
                     .map(v -> new ValidationErrorItem(v.getPropertyPath().toString(), v.getMessage()))
                     .collect(Collectors.toList());
 
-            ValidationErrorInfo validationErrorInfo = new ValidationErrorInfo(
+            var validationErrorInfo = new ValidationErrorInfo(
                     exception.getClass().getSimpleName(),
                     "validation error occurred.",
                     errorItems);

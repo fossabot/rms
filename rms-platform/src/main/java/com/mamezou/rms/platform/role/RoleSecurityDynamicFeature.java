@@ -27,7 +27,7 @@ public class RoleSecurityDynamicFeature implements DynamicFeature {
             context.register(new DenyAllRequestFilter());
             return;
         }
-        RolesAllowed  rolesAllowed = method.getAnnotation(RolesAllowed.class);
+        var  rolesAllowed = method.getAnnotation(RolesAllowed.class);
         if (rolesAllowed != null) {
             context.register(new RolesAllowedRequestFilter(rolesAllowed));
             return;

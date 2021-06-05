@@ -5,7 +5,6 @@ import java.util.logging.LogManager;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.mamezou.rms.platform.env.Environment;
-import com.mamezou.rms.platform.env.MainJarInfo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +29,7 @@ public class WebApiMain {
     }
 
     private static void startupLog() {
-        MainJarInfo mainJarInfo = Environment.getMainJarInfo();
+        var mainJarInfo = Environment.getMainJarInfo();
         log.info("Main Jar Information=>" + System.lineSeparator() +
                 "Startup-Module:" + mainJarInfo.startupModuleInfo() + System.lineSeparator() +
                 "Version:" + mainJarInfo.getVersion() + System.lineSeparator() +

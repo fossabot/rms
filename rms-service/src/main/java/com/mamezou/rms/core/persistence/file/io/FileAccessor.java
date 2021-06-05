@@ -114,7 +114,7 @@ public class FileAccessor {
             if (!Files.exists(resolver.getBaseDir())) {
                 Files.createDirectory(resolver.getBaseDir());
             }
-            Path outputFilePath = resolver.resolve(outputFileName);
+            var outputFilePath = resolver.resolve(outputFileName);
             Files.copy(in, outputFilePath);
             return outputFilePath;
         } catch (IOException e) {

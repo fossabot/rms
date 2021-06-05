@@ -9,9 +9,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.mamezou.rms.core.domain.Reservation;
-import com.mamezou.rms.core.domain.Reservation.DateTimePeriod;
-import com.mamezou.rms.core.persistence.ReservationRepository;
 import com.mamezou.rms.core.persistence.GenericRepository.ApiType;
+import com.mamezou.rms.core.persistence.ReservationRepository;
 import com.mamezou.rms.core.persistence.file.converter.EntityArrayConverter;
 import com.mamezou.rms.core.persistence.file.io.FileAccessor;
 import com.mamezou.rms.platform.extension.EnabledIfRuntimeConfig;
@@ -44,7 +43,7 @@ public class ReservationFileRepository extends AbstractFileRepository<Reservatio
 
     @Override
     public Reservation findOverlappedReservation(int rentalItemId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        DateTimePeriod conditionOfPeriod = new Reservation.DateTimePeriod(startDateTime, endDateTime);
+        var conditionOfPeriod = new Reservation.DateTimePeriod(startDateTime, endDateTime);
         return this.load().stream()
                 .map(this.getConverter()::toEntity)
                 .filter(reservation -> reservation.getRentalItemId() == rentalItemId)

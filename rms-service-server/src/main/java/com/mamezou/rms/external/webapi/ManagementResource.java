@@ -26,7 +26,7 @@ public class ManagementResource {
     @SuppressFBWarnings("DM_EXIT")
     public String stopApplication(@Context HttpHeaders headers) {
 
-        String host = headers.getHeaderString("Host");
+        var host = headers.getHeaderString("Host");
         if (!host.toLowerCase().startsWith("localhost")) {
             log.warn("Ignore because it is a request from other than localhost.[host={}]", host);
             return "failed";

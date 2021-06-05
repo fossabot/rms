@@ -11,7 +11,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -51,7 +50,7 @@ public class JwtSecurityRequestFilter implements ContainerRequestFilter {
         }
 
         // HeaderからBearerを取得
-        String bearerString = request.getHeaderString(HttpHeaders.AUTHORIZATION);
+        var bearerString = request.getHeaderString(HttpHeaders.AUTHORIZATION);
         log.debug("bearer value=>[{}]", bearerString);
         if (bearerString == null || !bearerString.startsWith(JwtConfig.BEARER_MARK)) {
             log.warn("Authorizationヘッダの値が正しくありません。value=[{}]", bearerString);
@@ -62,7 +61,7 @@ public class JwtSecurityRequestFilter implements ContainerRequestFilter {
         // Bearerを検証してPricipalオブジェクトに復号化
         JsonWebToken token;
         try {
-            String bearerToken = bearerString.substring(7); // "Bearer xxxxxx"のxxxxxの部分を取得
+            var bearerToken = bearerString.substring(7); // "Bearer xxxxxx"のxxxxxの部分を取得
             token = validateToken(bearerToken);
         } catch (JwtValidateException e) {
             log.warn(String.format("不正なトークンです。value=[{%s}]", bearerString), e);
@@ -71,8 +70,8 @@ public class JwtSecurityRequestFilter implements ContainerRequestFilter {
         }
 
         // 後続の処理で使えるようにSecurityContextを入れ替える
-        SecurityContext securityContext = request.getSecurityContext();
-        JwtSecurityContext jwtSecurityContext = new JwtSecurityContext(
+        var securityContext = request.getSecurityContext();
+        var jwtSecurityContext = new JwtSecurityContext(
                     securityContext,
                     token,
                     "https".equals(request.getUriInfo().getAbsolutePath().getScheme().toLowerCase())

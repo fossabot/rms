@@ -9,20 +9,20 @@ public class UserAccountArrayConverter implements EntityArrayConverter<UserAccou
 
     public UserAccount toEntity(String[] attributes) {
 
-        int id = Integer.parseInt(attributes[0]);
-        String loginId = attributes[1];
-        String password = attributes[2];
-        String userName = attributes[3];
-        String phoneNumber = attributes[4];
-        String contact = attributes[5];
-        UserType userType = UserType.valueOf(attributes[6]);
+        var id = Integer.parseInt(attributes[0]);
+        var loginId = attributes[1];
+        var password = attributes[2];
+        var userName = attributes[3];
+        var phoneNumber = attributes[4];
+        var contact = attributes[5];
+        var userType = UserType.valueOf(attributes[6]);
 
         return UserAccount.of(id, loginId, password, userName, phoneNumber, contact, userType);
     }
 
     public String[] toArray(UserAccount userAccount) {
 
-        String[] userAccountAttributes = new String[7];
+        var userAccountAttributes = new String[7];
 
         userAccountAttributes[0] = String.valueOf(userAccount.getId());
         userAccountAttributes[1] = userAccount.getLoginId();

@@ -106,11 +106,11 @@ public class RentalReservationApplicationImpl implements RentalReservationApplic
         }
 
         // 予約の登録
-        Reservation newReservation = reservationService.add(addReservation);
+        var newReservation = reservationService.add(addReservation);
 
         // 予約オブジェクトの再構成
+        var reserver = getUserAccount(addReservation.getUserAccountId());
         newReservation.setRentalItem(rentalItem);
-        UserAccount reserver = getUserAccount(addReservation.getUserAccountId());
         newReservation.setUserAccount(reserver);
 
         return newReservation;
@@ -140,9 +140,9 @@ public class RentalReservationApplicationImpl implements RentalReservationApplic
     // ----------------------------------------------------- private methods
 
     private Reservation toTraversedReservation(Reservation resavation) {
-        RentalItem rentalItems = getRentalItem(resavation.getRentalItemId());
+        var rentalItems = getRentalItem(resavation.getRentalItemId());
         resavation.setRentalItem(rentalItems);
-        UserAccount reservers = getUserAccount(resavation.getUserAccountId());
+        var reservers = getUserAccount(resavation.getUserAccountId());
         resavation.setUserAccount(reservers);
         return resavation;
     }

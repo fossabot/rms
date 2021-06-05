@@ -45,15 +45,15 @@ public class FileRepositoryInitializeProducers {
     public FileAccessor creteFileAccessor(InjectionPoint injectionPoint) throws IOException {
 
         // 1%sの文字列取得
-        String fileType = config.getValue(FILE_TYPE_CONFIG_KEY, String.class);
+        var fileType = config.getValue(FILE_TYPE_CONFIG_KEY, String.class);
 
         // 2%sの文字列取得
         Class<?> beanClass = injectionPoint.getBean().getBeanClass();
-        String fileNameTypeConfigKey = FILE_NAME_TYPE_CONFIG_KEY_MAP.get(beanClass);
+        var fileNameTypeConfigKey = FILE_NAME_TYPE_CONFIG_KEY_MAP.get(beanClass);
 
         // ファイル名のConfigKeyの決定
-        String fileNameConfigKey = String.format(FILE_NAME_CONFIG_KEY_FORMAT, fileType, fileNameTypeConfigKey);
-        String fileName = config.getValue(fileNameConfigKey, String.class);
+        var fileNameConfigKey = String.format(FILE_NAME_CONFIG_KEY_FORMAT, fileType, fileNameTypeConfigKey);
+        var fileName = config.getValue(fileNameConfigKey, String.class);
 
         // フィルパスの取得
         Path filePath;

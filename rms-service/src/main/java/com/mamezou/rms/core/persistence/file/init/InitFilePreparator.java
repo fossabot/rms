@@ -66,7 +66,7 @@ public class InitFilePreparator {
 
         String initDataPath = config.getOptionalValue("csv.type.permanent.init.data", String.class).orElse(null);
         if (initDataPath != null) {
-            Path from = Paths.get(initDataPath);
+            var from = Paths.get(initDataPath);
             RecursiveCopyCommand.from(from).to(pathEnv.getBaseDir()).copy();
             log.info("初期データを作成しました。" + from + "=>" + pathEnv.getBaseDir());
             return;
@@ -78,9 +78,9 @@ public class InitFilePreparator {
         StreamSupport.stream(config.getPropertyNames().spliterator(), false)
             .filter(configKey -> configKey.startsWith(temporaryFileConfigPrefix))
             .map(configKey -> {
-                String fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + ".").length()); // csv.temporary.fileName.$1の$1部分を取得
-                String resoucePath = config.getValue(configKey, String.class);
-                String outputFileName = config.getValue("csv.permanent.fileName." + fileNameInConfigKey, String.class);
+                var fileNameInConfigKey = configKey.substring((temporaryFileConfigPrefix + ".").length()); // csv.temporary.fileName.$1の$1部分を取得
+                var resoucePath = config.getValue(configKey, String.class);
+                var outputFileName = config.getValue("csv.permanent.fileName." + fileNameInConfigKey, String.class);
                 return Pair.of(resoucePath, outputFileName);
             })
             .forEach(fileNames -> {
@@ -104,7 +104,7 @@ public class InitFilePreparator {
         }
 
         public static RecursiveCopyCommand from(Path from) {
-            RecursiveCopyCommand command = new RecursiveCopyCommand();
+            var command = new RecursiveCopyCommand();
             command.from = from;
             return command;
         }

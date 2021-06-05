@@ -29,7 +29,7 @@ public class ConfiguredCdiBeanBinder {
     // ----------------------------------------------------- factory methods
 
     public static ConfiguredCdiBeanBinder newBinder(Config config) {
-        ConfiguredCdiBeanBinder configBinder = new ConfiguredCdiBeanBinder();
+        var configBinder = new ConfiguredCdiBeanBinder();
         configBinder.config = config;
         return configBinder;
     }
@@ -102,7 +102,7 @@ public class ConfiguredCdiBeanBinder {
                 return ConfiguredCdiBeanBinder.newBinder(config).key(aliasKey.aliasConfigKey).bind();
             }
 
-            ConfiguredCdiBean configCdiBean = new ConfiguredCdiBean();
+            var configCdiBean = new ConfiguredCdiBean();
             configCdiBean.beanClass = config.getOptionalValue(registerPrefix + ".class", Class.class)
                     .orElseThrow(() -> new IllegalArgumentException("class is required. [" + registerPrefix + ".class]")); // class is required.
 

@@ -6,7 +6,7 @@ import com.mamezou.rms.core.domain.RentalItem;
 public class RentalItemDtoConverter {
 
     public static RentalItemClientDto toDto(RentalItem rentalItem) {
-        RentalItemClientDto dto = new RentalItemClientDto();
+        var dto = new RentalItemClientDto();
         dto.setId(rentalItem.getId());
         dto.setSerialNo(rentalItem.getSerialNo());
         dto.setItemName(rentalItem.getItemName());
@@ -14,7 +14,7 @@ public class RentalItemDtoConverter {
     }
 
     public static RentalItem toEntity(RentalItemClientDto dto) {
-        RentalItem rentalItem = new RentalItem();
+        var rentalItem = new RentalItem();
         rentalItem.setId(dto.getId());
         rentalItem.setSerialNo(dto.getSerialNo());
         rentalItem.setItemName(dto.getItemName());

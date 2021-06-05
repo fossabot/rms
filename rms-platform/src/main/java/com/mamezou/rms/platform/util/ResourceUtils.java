@@ -131,7 +131,7 @@ public class ResourceUtils {
 
         for (File jarFile : jarFiles) {
             List<URL> urls = null;
-            try (JarFile jar = new JarFile(jarFile)) {
+            try (var jar = new JarFile(jarFile)) {
                 urls = jar.stream()
                     .filter(not(JarEntry::isDirectory))
                     .filter(entry -> entry.getName().startsWith(targetDir))
@@ -162,8 +162,8 @@ public class ResourceUtils {
 
         List<URL> targetUrls = new ArrayList<>();
 
-        for (URL targetUrl : inFsUrls) {
-            Path targetPath = Paths.get(toUrl(targetUrl));
+        for (var targetUrl : inFsUrls) {
+            var targetPath = Paths.get(toUrl(targetUrl));
             if (Files.isDirectory(targetPath)) {
                 Files.walkFileTree(targetPath, new TargetFileCollector(targetUrls, fileFilter)); // targetUrl is IN/OUT Parameter.
             } else {

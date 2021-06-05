@@ -17,9 +17,9 @@ public class JsonbErsConfig implements ContextResolver<Jsonb> {
 
     public JsonbErsConfig() {
         // ConfigがなぜかInjectで取得できないためProvierクラス経由で取得
-        String dateTimeFormat = ConfigProvider.getConfig().getValue("json.format.dateTime", String.class);
-        LocalDateTimeSerializers serializers = new LocalDateTimeSerializers(DateTimeFormatter.ofPattern(dateTimeFormat));
-        JsonbConfig config = new JsonbConfig()
+        var dateTimeFormat = ConfigProvider.getConfig().getValue("json.format.dateTime", String.class);
+        var serializers = new LocalDateTimeSerializers(DateTimeFormatter.ofPattern(dateTimeFormat));
+        var config = new JsonbConfig()
                     .withSerializers(serializers.getSerializer())
                     .withDeserializers(serializers.getDeserializer());
         jsonb = JsonbBuilder.create(config);

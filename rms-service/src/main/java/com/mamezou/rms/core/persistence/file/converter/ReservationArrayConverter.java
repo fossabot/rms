@@ -13,12 +13,12 @@ public class ReservationArrayConverter implements EntityArrayConverter<Reservati
     @Override
     public Reservation toEntity(String[] attributes) {
 
-        int reservationId = Integer.parseInt(attributes[0]);
-        LocalDateTime startDateTime = LocalDateTime.parse(attributes[1], DATE_TIME_FORMATTER);
-        LocalDateTime endDateTime = LocalDateTime.parse(attributes[2], DATE_TIME_FORMATTER);
-        String note = attributes[3];
-        int rentalItemId = Integer.parseInt(attributes[4]);
-        int userAccountId = Integer.parseInt(attributes[5]);
+        var reservationId = Integer.parseInt(attributes[0]);
+        var startDateTime = LocalDateTime.parse(attributes[1], DATE_TIME_FORMATTER);
+        var endDateTime = LocalDateTime.parse(attributes[2], DATE_TIME_FORMATTER);
+        var note = attributes[3];
+        var rentalItemId = Integer.parseInt(attributes[4]);
+        var userAccountId = Integer.parseInt(attributes[5]);
 
         return Reservation.of(reservationId, startDateTime, endDateTime, note, rentalItemId, userAccountId);
     }
@@ -26,7 +26,7 @@ public class ReservationArrayConverter implements EntityArrayConverter<Reservati
     @Override
     public String[] toArray(Reservation reservation) {
 
-        String[] reservationAttributes = new String[6];
+        var reservationAttributes = new String[6];
 
         reservationAttributes[0] = String.valueOf(reservation.getId());
         reservationAttributes[1] = DATE_TIME_FORMATTER.format(reservation.getStartDateTime());

@@ -20,7 +20,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
@@ -40,8 +39,8 @@ public class ValidateParamInterceptor {
     public Object obj(InvocationContext ic) throws Exception {
 
         // メソッド定義を優先してバリデーショングループの指定を取得
-        ValidateGroup methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.class);
-        ValidateGroup classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.class);
+        var methodValidateGroup = ic.getMethod().getAnnotation(ValidateGroup.class);
+        var classValidateGroup = ic.getTarget().getClass().getAnnotation(ValidateGroup.class);
         Class<?>[] groups;
         if (methodValidateGroup != null) {
             groups = methodValidateGroup.groups();
@@ -57,7 +56,7 @@ public class ValidateParamInterceptor {
                 : ArrayUtils.add(groups, Default.class);
 
         // Bean Validationのパラメータバリデーションの実行
-        ExecutableValidator executableValidator = validator.forExecutables();
+        var executableValidator = validator.forExecutables();
         Set<ConstraintViolation<Object>> result = executableValidator.validateParameters(
                 ic.getTarget(), ic.getMethod(), ic.getParameters(), groups);
 
@@ -93,7 +92,7 @@ public class ValidateParamInterceptor {
         @PostConstruct
         public void init() {
             Configuration<?> config = Validation.byDefaultProvider().configure();
-            ValidatorFactory factory = config.buildValidatorFactory();
+            var factory = config.buildValidatorFactory();
             delegate = factory.getValidator();
             factory.close();
         }

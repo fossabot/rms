@@ -65,7 +65,7 @@ public class MainJarInfo {
     static class MainJarInfoBuilder {
 
         MainJarInfo build(Config config) {
-            URL manifestUrl = findTargetManifestUrl(config);
+            var manifestUrl = findTargetManifestUrl(config);
             return buidFromManifestUrl(manifestUrl);
         }
 
@@ -111,8 +111,8 @@ public class MainJarInfo {
             }
 
             // resolve jarName from jarfile path
-            String jarFilePath = manifestUrl.toString().substring(0, manifestUrl.toString().indexOf('!'));
-            String jarName = jarFilePath.substring(jarFilePath.lastIndexOf("/") + 1, jarFilePath.length());
+            var jarFilePath = manifestUrl.toString().substring(0, manifestUrl.toString().indexOf('!'));
+            var jarName = jarFilePath.substring(jarFilePath.lastIndexOf("/") + 1, jarFilePath.length());
 
             // resolve manifest
             Manifest manifest;
@@ -129,7 +129,7 @@ public class MainJarInfo {
             String buildtime = getManifestValue(manifest, "Build-Time", UNKNOWN_INFORMATION);
 
             // setup MainJarInfo
-            MainJarInfo mainJarInfo = new MainJarInfo();
+            var mainJarInfo = new MainJarInfo();
             mainJarInfo.applicationName = applicationName;
             mainJarInfo.jarName = jarName;
             mainJarInfo.mainClassName = mainClassName;

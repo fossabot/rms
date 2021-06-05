@@ -13,7 +13,6 @@ import javax.ws.rs.core.HttpHeaders;
 import org.apache.commons.lang3.Range;
 
 import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator;
-import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator.UserClaims;
 import com.mamezou.rms.platform.jwt.JsonWebTokenGenerator.UserClaimsFactory;
 import com.mamezou.rms.platform.jwt.JwtConfig;
 
@@ -56,7 +55,7 @@ public class JwtSupplyResponseFilter implements ContainerResponseFilter {
         }
 
         // JwtTokenの生成
-        UserClaims userClaims = userClaimsFactory.newInstanceFrom(entity);
+        var userClaims = userClaimsFactory.newInstanceFrom(entity);
         String jwtToken = tokenGenerator.generateToken(userClaims);
         log.info("Generated JWT-Token=>[{}]", jwtToken); // ホントはログに書いちゃダメだけどネ
 

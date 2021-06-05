@@ -8,7 +8,7 @@ import com.mamezou.rms.core.domain.UserAccount.UserType;
 public class UserAccountDtoConverter {
 
     public static UserAccountClientDto toDto(UserAccount user) {
-        UserAccountClientDto dto = new UserAccountClientDto();
+        var dto = new UserAccountClientDto();
         dto.setId(user.getId());
         dto.setLoginId(user.getLoginId());
         dto.setPassword(user.getPassword());
@@ -20,7 +20,7 @@ public class UserAccountDtoConverter {
     }
 
     public static UserAccount toEntity(UserAccountClientDto dto) {
-        UserAccount user = new UserAccount();
+        var user = new UserAccount();
         user.setId(dto.getId());
         user.setLoginId(dto.getLoginId());
         user.setPassword(dto.getPassword());

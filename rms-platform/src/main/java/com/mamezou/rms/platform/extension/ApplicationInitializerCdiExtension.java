@@ -9,7 +9,6 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.WithAnnotations;
 import javax.enterprise.inject.spi.configurator.AnnotatedTypeConfigurator;
 
-import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ public class ApplicationInitializerCdiExtension implements Extension {
 
     void enabledIfRuntimeConfig(@Observes @WithAnnotations(EnabledIfRuntimeConfig.class) ProcessAnnotatedType<?> event) {
         EnabledIfRuntimeConfig annotation = event.getAnnotatedType().getAnnotation(EnabledIfRuntimeConfig.class);
-        Config config = ConfigProvider.getConfig();
+        var config = ConfigProvider.getConfig();
         String runtimeConfigValue = config.getValue(annotation.propertyName(), String.class);
         if (runtimeConfigValue.equals(annotation.value())) {
             log.info("EnabledIfRuntimeConfigがアノテートされているCDIクラスを有効化しました [Class:{}]", event.getAnnotatedType().getJavaClass().getSimpleName());
@@ -33,8 +32,7 @@ public class ApplicationInitializerCdiExtension implements Extension {
     }
 
     void registerConfiguredBeans(@Observes BeforeBeanDiscovery event) {
-
-        Config config = ConfigProvider.getConfig();
+        var config = ConfigProvider.getConfig();
         List<ConfiguredCdiBean> configCdiBeans = ConfiguredCdiBeanBinder.newListBinder(config).alias(CDI_ALIAS_CONFIG_KEY)
                 .key(CDI_REGISTER_CONFIG_KEY).bind();
 

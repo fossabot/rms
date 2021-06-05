@@ -50,7 +50,7 @@ public class ClientExceptionMapper implements ResponseExceptionMapper<RuntimeExc
         }
 
         // 例外クラス名がConstraintViolationExceptionならバリデーションエラー
-        String causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);
+        var causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);
         if (SERVER_VALIDATION_ERROR.equals(causeClassName)) {
             return toValidationException(response);
         }

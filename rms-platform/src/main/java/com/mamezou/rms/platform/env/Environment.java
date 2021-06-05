@@ -1,6 +1,5 @@
 package com.mamezou.rms.platform.env;
 
-import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 public class Environment {
@@ -9,7 +8,7 @@ public class Environment {
 
     public synchronized static MainJarInfo getMainJarInfo() {
         if (mainJarInfo == null) {
-            Config config = ConfigProvider.getConfig();
+            var config = ConfigProvider.getConfig();
             mainJarInfo = MainJarInfo.builder().build(config);
         }
         return mainJarInfo == null ? MainJarInfo.UNKNOWN_INFO : mainJarInfo;

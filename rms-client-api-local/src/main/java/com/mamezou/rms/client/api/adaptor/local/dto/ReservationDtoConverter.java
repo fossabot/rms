@@ -6,7 +6,7 @@ import com.mamezou.rms.core.domain.Reservation;
 public class ReservationDtoConverter {
 
     public static ReservationClientDto toDto(Reservation reservation) {
-        ReservationClientDto dto = new ReservationClientDto();
+        var dto = new ReservationClientDto();
         dto.setId(reservation.getId());
         dto.setStartDateTime(reservation.getStartDateTime());
         dto.setEndDateTime(reservation.getEndDateTime());
@@ -25,7 +25,7 @@ public class ReservationDtoConverter {
     }
 
     public static Reservation toEntity(ReservationClientDto dto) {
-        Reservation reservation = new Reservation();
+        var reservation = new Reservation();
         reservation.setId(dto.getId());
         reservation.setStartDateTime(dto.getStartDateTime());
         reservation.setEndDateTime(dto.getEndDateTime());

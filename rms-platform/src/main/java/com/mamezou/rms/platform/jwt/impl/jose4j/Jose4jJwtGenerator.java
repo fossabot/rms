@@ -30,7 +30,7 @@ public class Jose4jJwtGenerator implements JsonWebTokenGenerator {
     @Override
     public String generateToken(UserClaims userClaims) {
 
-        JsonWebSignature jws = new JsonWebSignature(); // 署名オブジェクト
+        var jws = new JsonWebSignature(); // 署名オブジェクト
 
         JwtClaims claims = createClaims(userClaims);
         jws.setPayload(claims.toJson());
@@ -52,7 +52,7 @@ public class Jose4jJwtGenerator implements JsonWebTokenGenerator {
     private JwtClaims createClaims(UserClaims userClaims) {
 
         // MicroProfile-JWTで必須とされている項目のみ設定
-        JwtClaims claims = new JwtClaims();
+        var claims = new JwtClaims();
 
         // 発行者
         claims.setIssuer(jwtConfig.getIssuer());

@@ -46,7 +46,8 @@ public class ReservationService {
 
     public Reservation add(Reservation addReservation) throws BusinessFlowException {
         // 重複チェック
-        Reservation reservation = findOverlappedReservation(addReservation.getRentalItemId(),
+        var reservation = findOverlappedReservation(
+                addReservation.getRentalItemId(),
                 addReservation.getStartDateTime(),
                 addReservation.getEndDateTime());
         if (reservation != null) {

@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.mamezou.rms.core.persistence.file.IoSystemException;
@@ -47,7 +46,7 @@ public interface PathResolver {
          * コンストラクタ
          */
         public FixedDirPathResolver() {
-            Config config = ConfigProvider.getConfig();
+            var config = ConfigProvider.getConfig();
             this.baseDir = Paths.get(config.getValue("csv.permanent.directory", String.class));
         }
         /**
