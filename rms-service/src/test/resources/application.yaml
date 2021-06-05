@@ -27,7 +27,7 @@ javax.sql.DataSource:
 configdump:
   # true : Output only the config that matches the prefix to filter.
   # false: Temporarily disable the filter.
-  filter-enable: false
+  filter-enable: true
   filters:
     #- filter: security
     - filter: server

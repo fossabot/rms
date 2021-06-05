@@ -13,10 +13,10 @@ configdump:
   filter-enable: true
   filters:
     #- filter: security
-    #- filter: server
+    - filter: server
     #- filter: javax
     #- filter: cors
-    - filter: csv
+    #- filter: csv
     #- filter: persistence
     #- filter: configuredCdi
     #- filter: json
