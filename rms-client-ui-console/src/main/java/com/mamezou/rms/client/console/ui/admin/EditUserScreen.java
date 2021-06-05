@@ -53,7 +53,7 @@ public class EditUserScreen implements RmsScreen {
         var targetUser = users.stream()
                 .filter(user -> user.getId().equals(selectNumber))
                 .findFirst()
-                .orElse(null);
+                .get();
 
         // パスワードの入力
         var password = newStringInputReader()
