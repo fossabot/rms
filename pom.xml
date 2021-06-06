@@ -48,7 +48,7 @@
     <version.helidon>2.3.0</version.helidon>
     <version.lib.security-api>1.0</version.lib.security-api>
     <version.lib.jose4j>0.7.7</version.lib.jose4j>
-    <version.lib.junit-platform>1.7.0</version.lib.junit-platform>
+    <version.lib.junit-platform>1.7.2</version.lib.junit-platform>
     <version.lib.assertj>3.19.0</version.lib.assertj>
     <version.lib.archunit>0.15.0</version.lib.archunit>
     <version.lib.doxia-module-markdown>1.8</version.lib.doxia-module-markdown>
