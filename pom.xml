@@ -47,13 +47,13 @@
     <!-- library versions -->
     <version.helidon>2.3.0</version.helidon>
     <version.lib.security-api>1.0</version.lib.security-api>
-    <version.lib.jose4j>0.7.5</version.lib.jose4j>
-    <version.lib.junit-platform>1.7.0</version.lib.junit-platform>
+    <version.lib.jose4j>0.7.7</version.lib.jose4j>
+    <version.lib.junit-platform>1.7.2</version.lib.junit-platform>
     <version.lib.assertj>3.19.0</version.lib.assertj>
-    <version.lib.archunit>0.15.0</version.lib.archunit>
-    <version.lib.doxia-module-markdown>1.8</version.lib.doxia-module-markdown>
-    <version.lib.hibernate-validator>6.1.2.Final</version.lib.hibernate-validator>
-    <version.lib.commons-lang>3.11</version.lib.commons-lang>
+    <version.lib.archunit>0.19.0</version.lib.archunit>
+    <version.lib.doxia-module-markdown>1.9.1</version.lib.doxia-module-markdown>
+    <version.lib.hibernate-validator>7.0.1.Final</version.lib.hibernate-validator>
+    <version.lib.commons-lang>3.12.0</version.lib.commons-lang>
     <version.lib.commons-csv>1.8</version.lib.commons-csv>
     <version.lib.lombok>1.18.20</version.lib.lombok>
     <version.lib.text-io>3.4.1</version.lib.text-io>
@@ -61,22 +61,21 @@
     <!-- maven plugin versions -->
     <version.plugin.maven-compiler>3.8.1</version.plugin.maven-compiler>
     <version.plugin.maven-surefire>3.0.0-M5</version.plugin.maven-surefire>
-    <version.plugin.maven-jar>3.0.2</version.plugin.maven-jar>
+    <version.plugin.maven-jar>3.2.0</version.plugin.maven-jar>
     <version.plugin.maven-site>3.9.1</version.plugin.maven-site>
-    <version.plugin.maven-reports>3.1.1</version.plugin.maven-reports>
+    <version.plugin.maven-reports>3.1.2</version.plugin.maven-reports>
     <version.plugin.maven-wagon-scm>3.4.3</version.plugin.maven-wagon-scm>
     <version.plugin.maven-maven-scm-api>1.11.2</version.plugin.maven-maven-scm-api>
     <version.plugin.maven-scm-publish>3.1.0</version.plugin.maven-scm-publish>
-    <version.plugin.javadoc>3.2.0</version.plugin.javadoc>
-    <version.plugin.jandex>1.0.6</version.plugin.jandex>
-    <version.plugin.helidon-build-tools>2.1.2</version.plugin.helidon-build-tools>
-    <version.plugin.jacoco>0.8.6</version.plugin.jacoco>
-    <version.plugin.openapi-gen>5.0.0</version.plugin.openapi-gen>
+    <version.plugin.javadoc>3.3.0</version.plugin.javadoc>
+    <version.plugin.jandex>1.1.0</version.plugin.jandex>
+    <version.plugin.helidon-build-tools>2.2.1</version.plugin.helidon-build-tools>
+    <version.plugin.jacoco>0.8.7</version.plugin.jacoco>
+    <version.plugin.openapi-gen>5.1.1</version.plugin.openapi-gen>
     <version.plugin.jdepend>2.0</version.plugin.jdepend>
-    <version.plugin.stopbugs>4.2.0</version.plugin.stopbugs>
+    <version.plugin.stopbugs>4.2.3</version.plugin.stopbugs>
     <version.plugin.pmd>3.14.0</version.plugin.pmd>
-    <version.plugin.jxr>3.0.0</version.plugin.jxr>
-
+    <version.plugin.jxr>3.1.1</version.plugin.jxr>
     <!-- sonarcloud setting -->
     <sonar.projectKey>ozytso_rms</sonar.projectKey>
     <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
@@ -279,7 +278,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>timestamp-property</id>
@@ -466,7 +465,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.1.1</version>
+            <version>3.1.2</version>
             <executions>
               <execution>
                 <id>copy-libs</id>
