@@ -12,13 +12,13 @@ import com.mamezou.rms.client.api.login.JsonWebTokenConsumeEvent;
  * JAX-RSのProviderから直接イベント通知が行えないため、このクラスを設け通知を行うようにしている。
  */
 @ApplicationScoped
-<span class="nc" id="L15">public class JwtConsumeEventNotifyDelegator {</span>
+<span class="fc" id="L15">public class JwtConsumeEventNotifyDelegator {</span>
 
     @Inject
     Event&lt;JsonWebTokenConsumeEvent&gt; notificator;
 
     public void push(JsonWebTokenConsumeEvent event) {
-<span class="nc" id="L21">        notificator.fire(event);</span>
-<span class="nc" id="L22">    }</span>
+<span class="fc" id="L21">        notificator.fire(event);</span>
+<span class="fc" id="L22">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

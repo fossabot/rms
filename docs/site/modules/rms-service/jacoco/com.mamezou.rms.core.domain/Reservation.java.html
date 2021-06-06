@@ -34,7 +34,7 @@ import lombok.Setter;
 @Entity
 @BeforeAfterDateTime(from = &quot;利用開始日時&quot;, to = &quot;利用終了日時&quot;)
 @Getter
-<span class="pc" id="L37">@Setter</span>
+<span class="fc" id="L37">@Setter</span>
 <span class="fc" id="L38">public class Reservation implements BeforeAfterDateTimeValidatable, Transformable, IdAccessable {</span>
 
     /** id */
@@ -67,10 +67,10 @@ import lombok.Setter;
 <span class="fc" id="L67">    private int userAccountId;</span>
 
     /** 予約したユーザ */
-<span class="nc" id="L70">    private transient UserAccount userAccount;</span>
+<span class="fc" id="L70">    private transient UserAccount userAccount;</span>
 
     /** 予約したレンタル品 */
-<span class="nc" id="L73">    private transient RentalItem rentalItem;</span>
+<span class="fc" id="L73">    private transient RentalItem rentalItem;</span>
 
 
     // ----------------------------------------------------- factory methods
@@ -95,12 +95,12 @@ import lombok.Setter;
     // ----------------------------------------------------- original setter methods
 
     public void setStartDateTime(LocalDateTime startDateTime) {
-<span class="nc bnc" id="L98" title="All 2 branches missed.">        this.startDateTime = startDateTime == null ? null : startDateTime.truncatedTo(MINUTES);</span>
-<span class="nc" id="L99">    }</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        this.startDateTime = startDateTime == null ? null : startDateTime.truncatedTo(MINUTES);</span>
+<span class="fc" id="L99">    }</span>
 
     public void setEndDateTime(LocalDateTime endDateTime) {
-<span class="nc bnc" id="L102" title="All 2 branches missed.">        this.endDateTime = endDateTime == null ? null : endDateTime.truncatedTo(MINUTES);</span>
-<span class="nc" id="L103">    }</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        this.endDateTime = endDateTime == null ? null : endDateTime.truncatedTo(MINUTES);</span>
+<span class="fc" id="L103">    }</span>
 
 
     // ----------------------------------------------------- service methods
@@ -132,11 +132,11 @@ import lombok.Setter;
 <span class="fc" id="L132">            period = Range.between(startDateTime, endDateTime);        }</span>
 
         public LocalDateTime getStartDateTime() {
-<span class="nc" id="L135">            return this.startDateTime;</span>
+<span class="fc" id="L135">            return this.startDateTime;</span>
         }
 
         public LocalDateTime getEndDateTime() {
-<span class="nc" id="L139">            return this.endDateTime;</span>
+<span class="fc" id="L139">            return this.endDateTime;</span>
         }
 
         public boolean isOverlappedBy(DateTimePeriod otherPeriod) {

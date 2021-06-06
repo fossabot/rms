@@ -12,9 +12,9 @@ import com.mamezou.rms.core.exception.RmsSystemException;
 <span class="nc" id="L12">            throw new RmsSystemClientException(e);</span>
         }
 <span class="pc bpc" id="L14" title="1 of 2 branches missed.">        if (e instanceof BusinessFlowException) {</span>
-<span class="nc" id="L15">            throw new BusinessFlowClientException(e);</span>
+<span class="fc" id="L15">            throw new BusinessFlowClientException(e);</span>
         }
-<span class="fc" id="L17">        throw new RmsSystemClientException(e);</span>
+<span class="nc" id="L17">        throw new RmsSystemClientException(e);</span>
     }
 
     public static void throwConvertedException(Exception e) {

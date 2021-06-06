@@ -37,9 +37,9 @@ import com.mamezou.rms.platform.extension.ConfiguableScoped;
     @Override
     public List&lt;ReservationClientDto&gt; findReservationByRentalItemAndStartDate(Integer itemId, LocalDate startDate)
             throws BusinessFlowClientException {
-<span class="nc" id="L40">        return application.findReservationByRentalItemAndStartDate(itemId, startDate).stream()</span>
-<span class="nc" id="L41">                    .map(ReservationDtoConverter::toDto)</span>
-<span class="nc" id="L42">                    .collect(Collectors.toList());</span>
+<span class="fc" id="L40">        return application.findReservationByRentalItemAndStartDate(itemId, startDate).stream()</span>
+<span class="fc" id="L41">                    .map(ReservationDtoConverter::toDto)</span>
+<span class="fc" id="L42">                    .collect(Collectors.toList());</span>
     }
 
     @Override
@@ -56,9 +56,9 @@ import com.mamezou.rms.platform.extension.ConfiguableScoped;
 
     @Override
     public List&lt;RentalItemClientDto&gt; getAllRentalItems() {
-<span class="nc" id="L59">        return application.getAllRetailItems().stream()</span>
-<span class="nc" id="L60">                    .map(RentalItemDtoConverter::toDto)</span>
-<span class="nc" id="L61">                    .collect(Collectors.toList());</span>
+<span class="fc" id="L59">        return application.getAllRetailItems().stream()</span>
+<span class="fc" id="L60">                    .map(RentalItemDtoConverter::toDto)</span>
+<span class="fc" id="L61">                    .collect(Collectors.toList());</span>
     }
 
     @Override
@@ -70,31 +70,31 @@ import com.mamezou.rms.platform.extension.ConfiguableScoped;
 
     @Override
     public ReservationClientDto addReservation(ReservationClientDto addReservationDto) throws BusinessFlowClientException {
-<span class="nc" id="L73">        var newReservation = application.addReservation(addReservationDto.to(ReservationDtoConverter::toEntity));</span>
-<span class="nc" id="L74">        return newReservation.transform(ReservationDtoConverter::toDto);</span>
+<span class="fc" id="L73">        var newReservation = application.addReservation(addReservationDto.to(ReservationDtoConverter::toEntity));</span>
+<span class="fc" id="L74">        return newReservation.transform(ReservationDtoConverter::toDto);</span>
     }
 
     @Override
     public RentalItemClientDto addRentalItem(RentalItemClientDto addRentalItemDto) throws BusinessFlowClientException {
-<span class="nc" id="L79">        var newRentalItem = application.addRentalItem(addRentalItemDto.to(RentalItemDtoConverter::toEntity));</span>
-<span class="nc" id="L80">        return newRentalItem.transform(RentalItemDtoConverter::toDto);</span>
+<span class="fc" id="L79">        var newRentalItem = application.addRentalItem(addRentalItemDto.to(RentalItemDtoConverter::toEntity));</span>
+<span class="fc" id="L80">        return newRentalItem.transform(RentalItemDtoConverter::toDto);</span>
     }
 
     @Override
     public UserAccountClientDto addUserAccount(UserAccountClientDto addUserDto) throws BusinessFlowClientException {
-<span class="nc" id="L85">        var newUserAccount = application.addUserAccount(addUserDto.to(UserAccountDtoConverter::toEntity));</span>
-<span class="nc" id="L86">        return newUserAccount.transform(UserAccountDtoConverter::toDto);</span>
+<span class="fc" id="L85">        var newUserAccount = application.addUserAccount(addUserDto.to(UserAccountDtoConverter::toEntity));</span>
+<span class="fc" id="L86">        return newUserAccount.transform(UserAccountDtoConverter::toDto);</span>
     }
 
     @Override
     public void cancelReservation(int reservationId) throws BusinessFlowClientException {
-<span class="nc" id="L91">        application.cancelReservation(reservationId);</span>
-<span class="nc" id="L92">    }</span>
+<span class="fc" id="L91">        application.cancelReservation(reservationId);</span>
+<span class="fc" id="L92">    }</span>
 
     @Override
     public UserAccountClientDto updateUserAccount(UserAccountClientDto updateUserAccountDto) {
-<span class="nc" id="L96">        var updatedUser = application.updateUserAccount(updateUserAccountDto.to(UserAccountDtoConverter::toEntity));</span>
-<span class="nc" id="L97">        return updatedUser.transform(UserAccountDtoConverter::toDto);</span>
+<span class="fc" id="L96">        var updatedUser = application.updateUserAccount(updateUserAccountDto.to(UserAccountDtoConverter::toEntity));</span>
+<span class="fc" id="L97">        return updatedUser.transform(UserAccountDtoConverter::toDto);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

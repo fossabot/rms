@@ -1,6 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 rms-service,com.mamezou.rms.core.common,LoginUserUtils.new InheritableThreadLocal() {...},2,3,0,0,1,1,1,1,1,1
-rms-service,com.mamezou.rms.core.common,LoginUserUtils,6,13,0,0,3,4,2,3,2,3
+rms-service,com.mamezou.rms.core.common,LoginUserUtils,3,16,0,0,1,6,1,4,1,4
 rms-service,com.mamezou.rms.core.common,ServiceLoginUser,3,25,0,0,1,3,1,4,1,4
 rms-service,com.mamezou.rms.core.persistence.file.converter,ReservationArrayConverter,0,93,0,0,0,18,0,4,0,4
 rms-service,com.mamezou.rms.core.persistence.file.converter,UserAccountArrayConverter,0,90,0,0,0,19,0,4,0,4
@@ -10,22 +10,22 @@ rms-service,com.mamezou.rms.core.exception,RentalReservationServiceException,11,
 rms-service,com.mamezou.rms.core.exception,RmsSystemException,13,0,0,0,6,0,3,0,3,0
 rms-service,com.mamezou.rms.core.exception,BusinessFlowException,15,10,0,0,6,4,2,2,2,2
 rms-service,com.mamezou.rms.core.persistence.jpa,ReservationJpaRepository,0,107,0,0,0,29,0,10,0,10
-rms-service,com.mamezou.rms.core.persistence.jpa,UserAccountJpaRepository,0,87,1,3,0,26,1,8,0,7
+rms-service,com.mamezou.rms.core.persistence.jpa,UserAccountJpaRepository,0,87,0,4,0,26,0,9,0,7
 rms-service,com.mamezou.rms.core.persistence.jpa,RentalItemJpaRepository,0,44,0,0,0,14,0,5,0,5
 rms-service,com.mamezou.rms.core.persistence.file,IoSystemException,9,0,0,0,4,0,2,0,2,0
 rms-service,com.mamezou.rms.core.persistence.file,UserAccountFileRepository,0,107,0,4,0,25,0,10,0,8
 rms-service,com.mamezou.rms.core.persistence.file,ReservationFileRepository,0,109,0,6,0,20,0,13,0,10
 rms-service,com.mamezou.rms.core.persistence.file,RentalItemFileRepository,0,29,0,0,0,7,0,3,0,3
-rms-service,com.mamezou.rms.core.persistence.file,FileRepositoryInitializeProducers,8,87,1,2,2,17,2,6,1,5
+rms-service,com.mamezou.rms.core.persistence.file,FileRepositoryInitializeProducers,6,89,1,2,1,18,1,7,0,6
 rms-service,com.mamezou.rms.core.persistence.file,AbstractFileRepository,18,153,0,4,6,36,0,17,0,15
 rms-service,com.mamezou.rms.core,RentalReservationApplicationImpl,0,187,0,6,0,46,0,18,0,15
 rms-service,com.mamezou.rms.core.persistence.file.io,FileAccessor,6,164,1,3,2,30,1,11,0,10
 rms-service,com.mamezou.rms.core.persistence.file.io,PathResolver.FixedDirPathResolver,0,23,0,0,0,6,0,3,0,3
 rms-service,com.mamezou.rms.core.persistence.file.io,PathResolver.TempDirPathResolver,6,27,0,0,2,9,0,3,0,3
 rms-service,com.mamezou.rms.core.domain,RentalItem,0,52,0,0,0,8,0,11,0,11
-rms-service,com.mamezou.rms.core.domain,UserAccount,16,100,4,0,3,12,4,19,2,19
-rms-service,com.mamezou.rms.core.domain,Reservation,38,77,4,0,6,19,9,14,7,14
-rms-service,com.mamezou.rms.core.domain,Reservation.DateTimePeriod,6,20,0,0,2,5,2,2,2,2
+rms-service,com.mamezou.rms.core.domain,UserAccount,0,116,0,4,0,15,0,23,0,21
+rms-service,com.mamezou.rms.core.domain,Reservation,0,115,0,4,0,25,0,23,0,21
+rms-service,com.mamezou.rms.core.domain,Reservation.DateTimePeriod,0,26,0,0,0,7,0,4,0,4
 rms-service,com.mamezou.rms.core.domain,Transformable,0,4,0,0,0,1,0,1,0,1
 rms-service,com.mamezou.rms.core.domain,UserAccount.UserType,3,34,0,0,1,6,1,2,1,2
 rms-service,com.mamezou.rms.core.persistence.file.init,InitFilePreparator,1,134,1,7,1,29,1,10,0,7
@@ -35,5 +35,5 @@ rms-service,com.mamezou.rms.core.persistence.file.init,InitFilePreparator.Recurs
 rms-service,com.mamezou.rms.core.service,ReservationService,0,100,0,6,0,25,0,10,0,7
 rms-service,com.mamezou.rms.core.service,UserAccountService,0,65,0,4,0,16,0,9,0,7
 rms-service,com.mamezou.rms.core.service,RentalItemService,0,42,0,2,0,10,0,6,0,5
-rms-service,com.mamezou.rms.core.domain.constraint,BeforeAfterDateTime.BeforeAfterDateTimeValidator,17,0,4,0,4,0,4,0,2,0
+rms-service,com.mamezou.rms.core.domain.constraint,BeforeAfterDateTime.BeforeAfterDateTimeValidator,0,17,0,4,0,4,0,4,0,2
 rms-service,com.mamezou.rms.core.persistence,GenericRepository.ApiType,3,0,0,0,1,0,1,0,1,0

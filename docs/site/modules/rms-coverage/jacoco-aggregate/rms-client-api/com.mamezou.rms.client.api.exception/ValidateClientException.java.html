@@ -8,19 +8,19 @@ public class ValidateClientException extends RentalReservationClientException {
     private final transient ValidationErrorMessage errorMessage;
 
     public ValidateClientException(ValidationErrorMessage errorMessage) {
-<span class="nc" id="L11">        super(&quot;サーバ側でバリデーションエラーが発生しました&quot;);</span>
-<span class="nc" id="L12">        this.errorMessage = errorMessage;</span>
-<span class="nc" id="L13">    }</span>
+<span class="fc" id="L11">        super(&quot;サーバ側でバリデーションエラーが発生しました&quot;);</span>
+<span class="fc" id="L12">        this.errorMessage = errorMessage;</span>
+<span class="fc" id="L13">    }</span>
 
     @Override
     public String getMessage() {
-<span class="nc" id="L17">        String detailMessage = errorMessage.getErrorItems().stream()</span>
-<span class="nc" id="L18">                .map(t -&gt; t.getFieldName() + &quot;:&quot; + t.getMessage())</span>
-<span class="nc" id="L19">                .collect(Collectors.joining(&quot;,&quot;));</span>
-<span class="nc" id="L20">        return super.getMessage() + System.lineSeparator() + detailMessage;</span>
+<span class="fc" id="L17">        String detailMessage = errorMessage.getErrorItems().stream()</span>
+<span class="fc" id="L18">                .map(t -&gt; t.getFieldName() + &quot;:&quot; + t.getMessage())</span>
+<span class="fc" id="L19">                .collect(Collectors.joining(&quot;,&quot;));</span>
+<span class="fc" id="L20">        return super.getMessage() + System.lineSeparator() + detailMessage;</span>
     }
 
-<span class="nc" id="L23">    public static class ValidationErrorMessage {</span>
+<span class="fc" id="L23">    public static class ValidationErrorMessage {</span>
         private String errorReason;
         private String errorMessage;
         private List&lt;ValidationErrorItem&gt; errorItems;
@@ -29,37 +29,37 @@ public class ValidateClientException extends RentalReservationClientException {
 <span class="nc" id="L29">            return errorReason;</span>
         }
         public void setErrorReason(String errorReason) {
-<span class="nc" id="L32">            this.errorReason = errorReason;</span>
-<span class="nc" id="L33">        }</span>
+<span class="fc" id="L32">            this.errorReason = errorReason;</span>
+<span class="fc" id="L33">        }</span>
         public String getErrorMessage() {
 <span class="nc" id="L35">            return errorMessage;</span>
         }
         public void setErrorMessage(String errorMessage) {
-<span class="nc" id="L38">            this.errorMessage = errorMessage;</span>
-<span class="nc" id="L39">        }</span>
+<span class="fc" id="L38">            this.errorMessage = errorMessage;</span>
+<span class="fc" id="L39">        }</span>
         public List&lt;ValidationErrorItem&gt; getErrorItems() {
-<span class="nc" id="L41">            return errorItems;</span>
+<span class="fc" id="L41">            return errorItems;</span>
         }
         public void setErrorItems(List&lt;ValidationErrorItem&gt; errorItems) {
-<span class="nc" id="L44">            this.errorItems = errorItems;</span>
-<span class="nc" id="L45">        }</span>
+<span class="fc" id="L44">            this.errorItems = errorItems;</span>
+<span class="fc" id="L45">        }</span>
     }
 
-<span class="nc" id="L48">    public static class ValidationErrorItem {</span>
+<span class="fc" id="L48">    public static class ValidationErrorItem {</span>
         private String fieldName;
         private String message;
         public String getFieldName() {
-<span class="nc" id="L52">            return fieldName;</span>
+<span class="fc" id="L52">            return fieldName;</span>
         }
         public void setFieldName(String fieldName) {
-<span class="nc" id="L55">            this.fieldName = fieldName;</span>
-<span class="nc" id="L56">        }</span>
+<span class="fc" id="L55">            this.fieldName = fieldName;</span>
+<span class="fc" id="L56">        }</span>
         public String getMessage() {
-<span class="nc" id="L58">            return message;</span>
+<span class="fc" id="L58">            return message;</span>
         }
         public void setMessage(String message) {
-<span class="nc" id="L61">            this.message = message;</span>
-<span class="nc" id="L62">        }</span>
+<span class="fc" id="L61">            this.message = message;</span>
+<span class="fc" id="L62">        }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

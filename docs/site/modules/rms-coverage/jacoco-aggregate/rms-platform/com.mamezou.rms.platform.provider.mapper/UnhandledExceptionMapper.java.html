@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 
     @Override
     public Response toResponse(Exception exception) {
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if (exception instanceof WebApplicationException) {</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (exception instanceof WebApplicationException) {</span>
 <span class="nc" id="L21">            log.warn(&quot;Internal server error&quot;, exception);</span>
 <span class="nc" id="L22">            return ((WebApplicationException) exception).getResponse();</span>
         } else {
-<span class="fc" id="L24">            log.warn(&quot;Internal server error&quot;, exception);</span>
-<span class="fc" id="L25">            return Response.serverError().build();</span>
+<span class="nc" id="L24">            log.warn(&quot;Internal server error&quot;, exception);</span>
+<span class="nc" id="L25">            return Response.serverError().build();</span>
         }
     }
 

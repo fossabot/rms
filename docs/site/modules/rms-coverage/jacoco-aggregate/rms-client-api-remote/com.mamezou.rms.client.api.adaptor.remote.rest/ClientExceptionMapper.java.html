@@ -37,7 +37,7 @@ import com.mamezou.rms.client.api.exception.ValidateClientException.ValidationEr
 
     @Override
     public boolean handles(int status, MultivaluedMap&lt;String, Object&gt; headers) {
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        return headers.containsKey(RMS_EXCEPTION_HEADER)</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        return headers.containsKey(RMS_EXCEPTION_HEADER)</span>
 <span class="fc bfc" id="L41" title="All 2 branches covered.">                || SECURITY_ERROR_STATUS.contains(status);</span>
     }
 
@@ -45,18 +45,18 @@ import com.mamezou.rms.client.api.exception.ValidateClientException.ValidationEr
     public RuntimeException toThrowable(Response response) {
 
         // StatusCodeが401か403だったらセキュリティエラー
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (SECURITY_ERROR_STATUS.contains(response.getStatus())) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (SECURITY_ERROR_STATUS.contains(response.getStatus())) {</span>
 <span class="fc" id="L49">            return toSecurityException(response);</span>
         }
 
         // 例外クラス名がConstraintViolationExceptionならバリデーションエラー
-<span class="nc" id="L53">        var causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (SERVER_VALIDATION_ERROR.equals(causeClassName)) {</span>
-<span class="nc" id="L55">            return toValidationException(response);</span>
+<span class="fc" id="L53">        var causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (SERVER_VALIDATION_ERROR.equals(causeClassName)) {</span>
+<span class="fc" id="L55">            return toValidationException(response);</span>
         }
 
         // デフォルトマッピングのエラー
-<span class="nc" id="L59">        return toDefualtMappingException(response);</span>
+<span class="fc" id="L59">        return toDefualtMappingException(response);</span>
     }
 
     private SecurityConstraintClientException toSecurityException(Response response) {
@@ -64,14 +64,14 @@ import com.mamezou.rms.client.api.exception.ValidateClientException.ValidationEr
     }
 
     private ValidateClientException toValidationException(Response response) {
-<span class="nc" id="L67">        ValidationErrorMessage errorMessage = response.readEntity(ValidationErrorMessage.class);</span>
-<span class="nc" id="L68">        return new ValidateClientException(errorMessage);</span>
+<span class="fc" id="L67">        ValidationErrorMessage errorMessage = response.readEntity(ValidationErrorMessage.class);</span>
+<span class="fc" id="L68">        return new ValidateClientException(errorMessage);</span>
     }
 
     private RuntimeException toDefualtMappingException(Response response) {
-<span class="nc" id="L72">        String causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);</span>
-<span class="nc" id="L73">        String causeMessage = response.readEntity(new GenericType&lt;Map&lt;String, String&gt;&gt;() {}).get(&quot;errorMessage&quot;);</span>
-<span class="nc" id="L74">        return DEFAULT_EXCEPTION_MAPPING.getOrDefault(causeClassName, UNKNOWN_ERROR_HANDLER).apply(causeMessage);</span>
+<span class="fc" id="L72">        String causeClassName = response.getHeaderString(RMS_EXCEPTION_HEADER);</span>
+<span class="fc" id="L73">        String causeMessage = response.readEntity(new GenericType&lt;Map&lt;String, String&gt;&gt;() {}).get(&quot;errorMessage&quot;);</span>
+<span class="fc" id="L74">        return DEFAULT_EXCEPTION_MAPPING.getOrDefault(causeClassName, UNKNOWN_ERROR_HANDLER).apply(causeMessage);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -18,11 +18,11 @@ public class SecurityConstraintClientException extends RentalReservationClientEx
     }
 
     private static String getMessage(Response response) {
-<span class="pc bpc" id="L21" title="2 of 3 branches missed.">        switch (response.getStatus()) {</span>
+<span class="pc bpc" id="L21" title="1 of 3 branches missed.">        switch (response.getStatus()) {</span>
             case 401:
 <span class="fc" id="L23">                return &quot;認証エラー&quot;;</span>
             case 403:
-<span class="nc" id="L25">                return &quot;認可エラー&quot;;</span>
+<span class="fc" id="L25">                return &quot;認可エラー&quot;;</span>
             default:
 <span class="nc" id="L27">                return &quot;不明のエラー&quot;;</span>
         }

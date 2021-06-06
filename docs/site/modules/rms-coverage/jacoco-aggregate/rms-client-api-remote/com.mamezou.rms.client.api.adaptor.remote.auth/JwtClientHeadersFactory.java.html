@@ -25,18 +25,18 @@ import com.mamezou.rms.client.api.login.JsonWebTokenConsumeEvent;
     public MultivaluedMap&lt;String, String&gt; update(MultivaluedMap&lt;String, String&gt; incomingHeaders,
             MultivaluedMap&lt;String, String&gt; clientOutgoingHeaders) {
 
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (authHeader == null) {</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (authHeader == null) {</span>
 <span class="fc" id="L29">            return clientOutgoingHeaders;</span>
         }
 
-<span class="nc" id="L32">        var newHeadersMap = new MultivaluedHashMap&lt;String, String&gt;(clientOutgoingHeaders);</span>
-<span class="nc" id="L33">        newHeadersMap.add(authHeader.getKey(), authHeader.getValue());</span>
-<span class="nc" id="L34">        return newHeadersMap;</span>
+<span class="fc" id="L32">        var newHeadersMap = new MultivaluedHashMap&lt;String, String&gt;(clientOutgoingHeaders);</span>
+<span class="fc" id="L33">        newHeadersMap.add(authHeader.getKey(), authHeader.getValue());</span>
+<span class="fc" id="L34">        return newHeadersMap;</span>
     }
 
     void onEvent(@Observes JsonWebTokenConsumeEvent event) {
-<span class="nc" id="L38">        LOG.info(&quot;ヘッダに追加するJWTを受信しました&quot;);</span>
-<span class="nc" id="L39">        this.authHeader = event.getToken();</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L38">        LOG.info(&quot;ヘッダに追加するJWTを受信しました&quot;);</span>
+<span class="fc" id="L39">        this.authHeader = event.getToken();</span>
+<span class="fc" id="L40">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

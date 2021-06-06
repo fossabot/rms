@@ -93,12 +93,12 @@ public class UserAccount implements Transformable, IdAccessable {
 
     @Transient
     public boolean isAdmin() {
-<span class="nc bnc" id="L96" title="All 2 branches missed.">        return this.userType == UserType.ADMIN;</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        return this.userType == UserType.ADMIN;</span>
     }
 
     public void setAdmin(boolean isAdmin) {
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        this.userType = isAdmin ? UserType.ADMIN : UserType.MEMBER;</span>
-<span class="nc" id="L101">    }</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        this.userType = isAdmin ? UserType.ADMIN : UserType.MEMBER;</span>
+<span class="fc" id="L101">    }</span>
 
     // ----------------------------------------------------- override methods
 

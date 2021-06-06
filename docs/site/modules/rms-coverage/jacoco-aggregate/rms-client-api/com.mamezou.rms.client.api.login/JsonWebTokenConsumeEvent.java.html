@@ -10,12 +10,12 @@ public class JsonWebTokenConsumeEvent {
     /** サーバから受信したヘッダ(valueは受信時の生情報を入れているのでbearerも付いている) */
     private Pair&lt;String, String&gt; keyValue;
 
-<span class="nc" id="L13">    public JsonWebTokenConsumeEvent(Pair&lt;String, String&gt; keyValue) {</span>
-<span class="nc" id="L14">        this.keyValue = keyValue;</span>
-<span class="nc" id="L15">    }</span>
+<span class="fc" id="L13">    public JsonWebTokenConsumeEvent(Pair&lt;String, String&gt; keyValue) {</span>
+<span class="fc" id="L14">        this.keyValue = keyValue;</span>
+<span class="fc" id="L15">    }</span>
 
     public Pair&lt;String, String&gt; getToken() {
-<span class="nc" id="L18">        return keyValue;</span>
+<span class="fc" id="L18">        return keyValue;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

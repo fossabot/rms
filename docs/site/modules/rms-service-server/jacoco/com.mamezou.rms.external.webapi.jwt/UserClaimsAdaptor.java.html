@@ -9,21 +9,21 @@ public class UserClaimsAdaptor implements UserClaims {
 
     private UserAccountResourceDto org;
 
-<span class="nc" id="L12">    UserClaimsAdaptor(UserAccountResourceDto org) {</span>
-<span class="nc" id="L13">        this.org = org;</span>
-<span class="nc" id="L14">    }</span>
+<span class="fc" id="L12">    UserClaimsAdaptor(UserAccountResourceDto org) {</span>
+<span class="fc" id="L13">        this.org = org;</span>
+<span class="fc" id="L14">    }</span>
 
     @Override
     public String getUserId() {
-<span class="nc" id="L18">        return String.valueOf(org.getId());</span>
+<span class="fc" id="L18">        return String.valueOf(org.getId());</span>
     }
     @Override
     public String getUserPrincipalName() {
-<span class="nc" id="L22">        return org.getContact() + &quot;@rms.com&quot;;</span>
+<span class="fc" id="L22">        return org.getContact() + &quot;@rms.com&quot;;</span>
     }
     @Override
     public Set&lt;String&gt; getGroups() {
-<span class="nc" id="L26">        return Set.of(org.getUserType());</span>
+<span class="fc" id="L26">        return Set.of(org.getUserType());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
