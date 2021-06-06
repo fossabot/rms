@@ -75,7 +75,7 @@
     <version.plugin.jdepend>2.0</version.plugin.jdepend>
     <version.plugin.stopbugs>4.2.3</version.plugin.stopbugs>
     <version.plugin.pmd>3.14.0</version.plugin.pmd>
-    <version.plugin.jxr>3.0.0</version.plugin.jxr>
+    <version.plugin.jxr>3.1.1</version.plugin.jxr>
     
     <!-- sonarcloud setting -->
     <sonar.projectKey>ozytso_rms</sonar.projectKey>
