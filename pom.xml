@@ -67,7 +67,7 @@
     <version.plugin.maven-wagon-scm>3.4.3</version.plugin.maven-wagon-scm>
     <version.plugin.maven-maven-scm-api>1.11.2</version.plugin.maven-maven-scm-api>
     <version.plugin.maven-scm-publish>3.1.0</version.plugin.maven-scm-publish>
-    <version.plugin.javadoc>3.2.0</version.plugin.javadoc>
+    <version.plugin.javadoc>3.3.0</version.plugin.javadoc>
     <version.plugin.jandex>1.0.6</version.plugin.jandex>
     <version.plugin.helidon-build-tools>2.2.1</version.plugin.helidon-build-tools>
     <version.plugin.jacoco>0.8.7</version.plugin.jacoco>
