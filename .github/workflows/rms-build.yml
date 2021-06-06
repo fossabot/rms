@@ -3,6 +3,8 @@ name: rms-build
 on:
   workflow_dispatch:
     branches: [ main ]
+  pull_request_review:
+    types: [edited, dismissed]
   push:
     branches: [ main ]
     paths: 
