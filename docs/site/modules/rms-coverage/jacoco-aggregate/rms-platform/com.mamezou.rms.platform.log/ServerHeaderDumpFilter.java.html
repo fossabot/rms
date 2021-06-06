@@ -34,11 +34,11 @@ import lombok.extern.slf4j.Slf4j;
 <span class="fc" id="L34">        builder.append(responseContext.getStatusInfo().getStatusCode())</span>
 <span class="fc" id="L35">            .append(&quot; &quot; + responseContext.getStatusInfo().getReasonPhrase()).append(System.lineSeparator());</span>
 <span class="fc" id="L36">        responseContext.getHeaders().forEach((key, values) -&gt;</span>
-<span class="fc" id="L37">            builder.append(key + &quot;:&quot; + values + System.lineSeparator())</span>
+<span class="nc" id="L37">            builder.append(key + &quot;:&quot; + values + System.lineSeparator())</span>
         );
 <span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (log.isDebugEnabled()) {</span>
 <span class="fc" id="L40">            log.debug(&quot;&lt;=== RESPONSE&quot; + System.lineSeparator() + builder.toString());</span>
         }
 <span class="fc" id="L42">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

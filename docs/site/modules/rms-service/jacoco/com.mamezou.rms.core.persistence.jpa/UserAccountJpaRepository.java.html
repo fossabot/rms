@@ -73,7 +73,7 @@ import com.mamezou.rms.platform.validate.ValidateParam;
     @ValidateGroup(groups = Update.class)
     @Override
     public UserAccount update(@Valid UserAccount entity) {
-<span class="fc bfc" id="L76" title="All 4 branches covered.">        if (!em.contains(entity) &amp;&amp; get(entity.getId()) == null) {</span>
+<span class="pc bpc" id="L76" title="1 of 4 branches missed.">        if (!em.contains(entity) &amp;&amp; get(entity.getId()) == null) {</span>
 <span class="fc" id="L77">            return null;</span>
         }
 <span class="fc" id="L79">        var updated = em.merge(entity);</span>
@@ -81,4 +81,4 @@ import com.mamezou.rms.platform.validate.ValidateParam;
 <span class="fc" id="L81">        return updated;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

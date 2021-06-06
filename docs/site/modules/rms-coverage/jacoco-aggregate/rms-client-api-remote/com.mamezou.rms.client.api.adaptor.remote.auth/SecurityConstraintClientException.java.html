@@ -18,14 +18,14 @@ public class SecurityConstraintClientException extends RentalReservationClientEx
     }
 
     private static String getMessage(Response response) {
-<span class="pc bpc" id="L21" title="1 of 3 branches missed.">        switch (response.getStatus()) {</span>
+<span class="pc bpc" id="L21" title="2 of 3 branches missed.">        switch (response.getStatus()) {</span>
             case 401:
 <span class="fc" id="L23">                return &quot;認証エラー&quot;;</span>
             case 403:
-<span class="fc" id="L25">                return &quot;認可エラー&quot;;</span>
+<span class="nc" id="L25">                return &quot;認可エラー&quot;;</span>
             default:
 <span class="nc" id="L27">                return &quot;不明のエラー&quot;;</span>
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

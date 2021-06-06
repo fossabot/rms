@@ -12,13 +12,13 @@ import com.mamezou.rms.core.exception.RmsSystemException;
 <span class="nc" id="L12">            throw new RmsSystemClientException(e);</span>
         }
 <span class="pc bpc" id="L14" title="1 of 2 branches missed.">        if (e instanceof BusinessFlowException) {</span>
-<span class="fc" id="L15">            throw new BusinessFlowClientException(e);</span>
+<span class="nc" id="L15">            throw new BusinessFlowClientException(e);</span>
         }
-<span class="nc" id="L17">        throw new RmsSystemClientException(e);</span>
+<span class="fc" id="L17">        throw new RmsSystemClientException(e);</span>
     }
 
     public static void throwConvertedException(Exception e) {
 <span class="nc" id="L21">        throw new RmsSystemClientException(e);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

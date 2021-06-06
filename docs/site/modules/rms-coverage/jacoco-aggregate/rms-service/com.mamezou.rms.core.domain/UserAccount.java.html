@@ -93,12 +93,12 @@ public class UserAccount implements Transformable, IdAccessable {
 
     @Transient
     public boolean isAdmin() {
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        return this.userType == UserType.ADMIN;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        return this.userType == UserType.ADMIN;</span>
     }
 
     public void setAdmin(boolean isAdmin) {
-<span class="fc bfc" id="L100" title="All 2 branches covered.">        this.userType = isAdmin ? UserType.ADMIN : UserType.MEMBER;</span>
-<span class="fc" id="L101">    }</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        this.userType = isAdmin ? UserType.ADMIN : UserType.MEMBER;</span>
+<span class="nc" id="L101">    }</span>
 
     // ----------------------------------------------------- override methods
 
@@ -107,4 +107,4 @@ public class UserAccount implements Transformable, IdAccessable {
 <span class="fc" id="L107">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

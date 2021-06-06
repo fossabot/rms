@@ -17,49 +17,49 @@ import lombok.Setter;
 <span class="fc" id="L17">public class ReservationResourceDto {</span>
 
     @Schema(required = true)
-<span class="fc" id="L20">    private Integer id;</span>
+<span class="nc" id="L20">    private Integer id;</span>
 
     @Schema(required = true)
-<span class="fc" id="L23">    private LocalDateTime startDateTime;</span>
+<span class="nc" id="L23">    private LocalDateTime startDateTime;</span>
 
     @Schema(required = true)
-<span class="fc" id="L26">    private LocalDateTime endDateTime;</span>
+<span class="nc" id="L26">    private LocalDateTime endDateTime;</span>
 
     @Schema(required = false)
-<span class="fc" id="L29">    private String note;</span>
+<span class="nc" id="L29">    private String note;</span>
 
     @Schema(required = true)
-<span class="fc" id="L32">    private int rentalItemId;</span>
+<span class="nc" id="L32">    private int rentalItemId;</span>
 
     @Schema(required = true)
-<span class="fc" id="L35">    private int userAccountId;</span>
+<span class="nc" id="L35">    private int userAccountId;</span>
 
     @Schema(required = true)
-<span class="fc" id="L38">    private UserAccountResourceDto userAccountDto;</span>
+<span class="nc" id="L38">    private UserAccountResourceDto userAccountDto;</span>
 
     @Schema(required = true)
-<span class="fc" id="L41">    private RentalItemResourceDto rentalItemDto;</span>
+<span class="nc" id="L41">    private RentalItemResourceDto rentalItemDto;</span>
 
     public static ReservationResourceDto toDto(Reservation entity) {
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (entity == null) {</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (entity == null) {</span>
 <span class="nc" id="L45">            return null;</span>
         }
-<span class="fc" id="L47">        var dto = new ReservationResourceDto();</span>
-<span class="fc" id="L48">        dto.setId(entity.getId());</span>
-<span class="fc" id="L49">        dto.setStartDateTime(entity.getStartDateTime());</span>
-<span class="fc" id="L50">        dto.setEndDateTime(entity.getEndDateTime());</span>
-<span class="fc" id="L51">        dto.setNote(entity.getNote());</span>
-<span class="fc" id="L52">        dto.setRentalItemId(entity.getRentalItemId());</span>
-<span class="fc" id="L53">        dto.setUserAccountId(entity.getUserAccountId());</span>
-<span class="fc" id="L54">        dto.setRentalItemDto(entity.getRentalItem().transform(RentalItemResourceDto::toDto));</span>
-<span class="fc" id="L55">        dto.setUserAccountDto(entity.getUserAccount().transform(UserAccountResourceDto::toDto));</span>
-<span class="fc" id="L56">        return dto;</span>
+<span class="nc" id="L47">        var dto = new ReservationResourceDto();</span>
+<span class="nc" id="L48">        dto.setId(entity.getId());</span>
+<span class="nc" id="L49">        dto.setStartDateTime(entity.getStartDateTime());</span>
+<span class="nc" id="L50">        dto.setEndDateTime(entity.getEndDateTime());</span>
+<span class="nc" id="L51">        dto.setNote(entity.getNote());</span>
+<span class="nc" id="L52">        dto.setRentalItemId(entity.getRentalItemId());</span>
+<span class="nc" id="L53">        dto.setUserAccountId(entity.getUserAccountId());</span>
+<span class="nc" id="L54">        dto.setRentalItemDto(entity.getRentalItem().transform(RentalItemResourceDto::toDto));</span>
+<span class="nc" id="L55">        dto.setUserAccountDto(entity.getUserAccount().transform(UserAccountResourceDto::toDto));</span>
+<span class="nc" id="L56">        return dto;</span>
     }
 
     @Override
     public String toString() {
-<span class="fc" id="L61">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+<span class="nc" id="L61">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

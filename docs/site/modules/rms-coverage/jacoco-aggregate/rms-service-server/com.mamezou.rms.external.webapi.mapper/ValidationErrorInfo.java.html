@@ -11,33 +11,33 @@ import lombok.Setter;
 
 @Schema(description = &quot;パラメータチェックエラー情報&quot;)
 @Getter
-<span class="fc" id="L14">@Setter</span>
-<span class="fc" id="L15">@NoArgsConstructor // for JSON Deserialize</span>
+<span class="nc" id="L14">@Setter</span>
+<span class="nc" id="L15">@NoArgsConstructor // for JSON Deserialize</span>
 public class ValidationErrorInfo extends GenericErrorInfo {
 
-<span class="fc" id="L18">    private List&lt;ValidationErrorItem&gt; errorItems;</span>
+<span class="nc" id="L18">    private List&lt;ValidationErrorItem&gt; errorItems;</span>
 
     public ValidationErrorInfo(String errorReason, String errorMessage, List&lt;ValidationErrorItem&gt; errorItems) {
-<span class="fc" id="L21">        super(errorReason, errorMessage);</span>
-<span class="fc" id="L22">        this.errorItems = errorItems;</span>
-<span class="fc" id="L23">    }</span>
+<span class="nc" id="L21">        super(errorReason, errorMessage);</span>
+<span class="nc" id="L22">        this.errorItems = errorItems;</span>
+<span class="nc" id="L23">    }</span>
 
 
     // ----------------------------------------------------- inner classes
 
     @Schema(description = &quot;1件ごとのチェックエラー情報&quot;)
     @Getter
-<span class="fc" id="L30">    @Setter</span>
-<span class="fc" id="L31">    @NoArgsConstructor // for JSON Deserialize</span>
-<span class="fc" id="L32">    @AllArgsConstructor</span>
+<span class="nc" id="L30">    @Setter</span>
+<span class="nc" id="L31">    @NoArgsConstructor // for JSON Deserialize</span>
+<span class="nc" id="L32">    @AllArgsConstructor</span>
     public static class ValidationErrorItem {
 
         @Schema(description = &quot;エラーとなった項目&quot;)
-<span class="fc" id="L36">        private String fieldName;</span>
+<span class="nc" id="L36">        private String fieldName;</span>
 
         @Schema(description = &quot;エラーメッセージ&quot;)
-<span class="fc" id="L39">        private String message;</span>
+<span class="nc" id="L39">        private String message;</span>
     }
 }
 
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

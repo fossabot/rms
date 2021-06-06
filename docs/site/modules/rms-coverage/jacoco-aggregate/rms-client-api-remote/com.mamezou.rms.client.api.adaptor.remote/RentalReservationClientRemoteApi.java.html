@@ -31,66 +31,66 @@ import com.mamezou.rms.platform.extension.ConfiguableScoped;
 <span class="fc" id="L31">        var paramMap = new HashMap&lt;String, String&gt;();</span>
 <span class="fc" id="L32">        paramMap.put(&quot;loginId&quot;, loginId);</span>
 <span class="fc" id="L33">        paramMap.put(&quot;password&quot;, password);</span>
-<span class="fc" id="L34">        return client.authenticate(paramMap);</span>
+<span class="nc" id="L34">        return client.authenticate(paramMap);</span>
     }
 
     @Override
     @SuppressWarnings(&quot;unchecked&quot;)
     // RestClient does not allow type definition of List&lt;? extends ReservationDto&gt;. So forcibly cast.
     public List&lt;ReservationClientDto&gt; findReservationByRentalItemAndStartDate(Integer targetRentalItemId, LocalDate targetDate) {
-<span class="fc" id="L41">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.findReservation(targetRentalItemId, targetDate);</span>
+<span class="nc" id="L41">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.findReservation(targetRentalItemId, targetDate);</span>
     }
 
     @Override
     @SuppressWarnings(&quot;unchecked&quot;)
     public List&lt;ReservationClientDto&gt; findReservationByReserverId(int reserverId) {
-<span class="fc" id="L47">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.findReservationByReserverId(reserverId);</span>
+<span class="nc" id="L47">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.findReservationByReserverId(reserverId);</span>
     }
 
     @Override
     @SuppressWarnings(&quot;unchecked&quot;)
     public List&lt;ReservationClientDto&gt; getOwnReservations() {
-<span class="fc" id="L53">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.getOwnReservations();</span>
+<span class="nc" id="L53">        return (List&lt;ReservationClientDto&gt;)(List&lt;?&gt;)client.getOwnReservations();</span>
     }
 
     @Override
     @SuppressWarnings(&quot;unchecked&quot;)
     public List&lt;RentalItemClientDto&gt; getAllRentalItems() {
-<span class="fc" id="L59">        return (List&lt;RentalItemClientDto&gt;)(List&lt;?&gt;)client.getAllRentalItems();</span>
+<span class="nc" id="L59">        return (List&lt;RentalItemClientDto&gt;)(List&lt;?&gt;)client.getAllRentalItems();</span>
     }
 
     @Override
     @SuppressWarnings(&quot;unchecked&quot;)
     public List&lt;UserAccountClientDto&gt; getAllUserAccounts() {
-<span class="fc" id="L65">        return (List&lt;UserAccountClientDto&gt;)(List&lt;?&gt;)client.getAllUserAccounts();</span>
+<span class="nc" id="L65">        return (List&lt;UserAccountClientDto&gt;)(List&lt;?&gt;)client.getAllUserAccounts();</span>
     }
 
     @Override
     public ReservationClientDto addReservation(ReservationClientDto addReservation) {
-<span class="fc" id="L70">        var requestDto = new AddReservationRequestDto(addReservation);</span>
-<span class="fc" id="L71">        return client.addReservation(requestDto);</span>
+<span class="nc" id="L70">        var requestDto = new AddReservationRequestDto(addReservation);</span>
+<span class="nc" id="L71">        return client.addReservation(requestDto);</span>
     }
 
     @Override
     public RentalItemClientDto addRentalItem(RentalItemClientDto addRentalItem) {
 <span class="fc" id="L76">        var requestDto = new AddRentalItemRequestDto(addRentalItem);</span>
-<span class="fc" id="L77">        return client.addRentalItem(requestDto);</span>
+<span class="nc" id="L77">        return client.addRentalItem(requestDto);</span>
     }
 
     @Override
     public UserAccountClientDto addUserAccount(UserAccountClientDto addUserAccountDto) {
-<span class="fc" id="L82">        var requestDto = new AddUserAccountRequestDto(addUserAccountDto);</span>
-<span class="fc" id="L83">        return client.addUserAccount(requestDto);</span>
+<span class="nc" id="L82">        var requestDto = new AddUserAccountRequestDto(addUserAccountDto);</span>
+<span class="nc" id="L83">        return client.addUserAccount(requestDto);</span>
     }
 
     @Override
     public void cancelReservation(int reservationId) throws BusinessFlowClientException {
-<span class="fc" id="L88">        client.cancelReservation(reservationId);</span>
-<span class="fc" id="L89">    }</span>
+<span class="nc" id="L88">        client.cancelReservation(reservationId);</span>
+<span class="nc" id="L89">    }</span>
 
     @Override
     public UserAccountClientDto updateUserAccount(UserAccountClientDto updateUserAccountDto) {
-<span class="fc" id="L93">        return client.updateUserAccount(updateUserAccountDto);</span>
+<span class="nc" id="L93">        return client.updateUserAccount(updateUserAccountDto);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -15,29 +15,29 @@ import lombok.Setter;
 <span class="fc" id="L15">public class RentalItemResourceDto {</span>
 
     @Schema(required = true)
-<span class="fc" id="L18">    private Integer id;</span>
+<span class="nc" id="L18">    private Integer id;</span>
 
     @Schema(required = true)
-<span class="fc" id="L21">    private String serialNo;</span>
+<span class="nc" id="L21">    private String serialNo;</span>
 
     @Schema(required = false)
-<span class="fc" id="L24">    private String itemName;</span>
+<span class="nc" id="L24">    private String itemName;</span>
 
     public static RentalItemResourceDto toDto(RentalItem entity) {
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        if (entity == null) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (entity == null) {</span>
 <span class="nc" id="L28">            return null;</span>
         }
-<span class="fc" id="L30">        var dto = new RentalItemResourceDto();</span>
-<span class="fc" id="L31">        dto.setId(entity.getId());</span>
-<span class="fc" id="L32">        dto.setSerialNo(entity.getSerialNo());</span>
-<span class="fc" id="L33">        dto.setItemName(entity.getItemName());</span>
-<span class="fc" id="L34">        return dto;</span>
+<span class="nc" id="L30">        var dto = new RentalItemResourceDto();</span>
+<span class="nc" id="L31">        dto.setId(entity.getId());</span>
+<span class="nc" id="L32">        dto.setSerialNo(entity.getSerialNo());</span>
+<span class="nc" id="L33">        dto.setItemName(entity.getItemName());</span>
+<span class="nc" id="L34">        return dto;</span>
     }
 
     @Override
     public String toString() {
-<span class="fc" id="L39">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+<span class="nc" id="L39">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -37,22 +37,22 @@ import lombok.Setter;
     private UserType userType;
 
     public static UserAccountResourceDto toDto(UserAccount entity) {
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if (entity == null) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (entity == null) {</span>
 <span class="nc" id="L41">            return null;</span>
         }
-<span class="fc" id="L43">        var dto = new UserAccountResourceDto();</span>
-<span class="fc" id="L44">        dto.setId(entity.getId());</span>
-<span class="fc" id="L45">        dto.setLoginId(entity.getLoginId());</span>
-<span class="fc" id="L46">        dto.setPassword(entity.getPassword());</span>
-<span class="fc" id="L47">        dto.setUserName(entity.getUserName());</span>
-<span class="fc" id="L48">        dto.setPhoneNumber(entity.getPhoneNumber());</span>
-<span class="fc" id="L49">        dto.setContact(entity.getContact());</span>
-<span class="fc" id="L50">        dto.setUserType(entity.getUserType().name());</span>
-<span class="fc" id="L51">        return dto;</span>
+<span class="nc" id="L43">        var dto = new UserAccountResourceDto();</span>
+<span class="nc" id="L44">        dto.setId(entity.getId());</span>
+<span class="nc" id="L45">        dto.setLoginId(entity.getLoginId());</span>
+<span class="nc" id="L46">        dto.setPassword(entity.getPassword());</span>
+<span class="nc" id="L47">        dto.setUserName(entity.getUserName());</span>
+<span class="nc" id="L48">        dto.setPhoneNumber(entity.getPhoneNumber());</span>
+<span class="nc" id="L49">        dto.setContact(entity.getContact());</span>
+<span class="nc" id="L50">        dto.setUserType(entity.getUserType().name());</span>
+<span class="nc" id="L51">        return dto;</span>
     }
 
     public UserAccount toEntity() {
-<span class="fc" id="L55">        return UserAccount.of(id, loginId, password, userName, phoneNumber, contact, userType);</span>
+<span class="nc" id="L55">        return UserAccount.of(id, loginId, password, userName, phoneNumber, contact, userType);</span>
     }
 
     // original getter
@@ -67,7 +67,7 @@ import lombok.Setter;
 
     @Override
     public String toString() {
-<span class="fc" id="L70">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
+<span class="nc" id="L70">        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
