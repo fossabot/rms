@@ -1,5 +1,6 @@
 [![rms-build](https://github.com/ozytso/rms/actions/workflows/rms-build.yml/badge.svg)](https://github.com/ozytso/rms/actions/workflows/rms-build.yml)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ozytso_rms&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ozytso_rms)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fozytso%2Frms.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fozytso%2Frms?ref=badge_shield)
 # Rental Management System Reports
 アプリケーション
  - サーバーアプリケーション
@@ -39,3 +40,7 @@ Rental Management Systemのビルドやテスト、APIドキュメントなど�
 | rms-console-ui | Generate maven-site | [Project Information Top](https://ozytso.github.io/rms/site/modules/rms-client-ui-console/project-info.html) |
 | | JUnit Test Result | [Surefire Report](https://ozytso.github.io/rms/site/modules/rms-client-ui-console/surefire-report.html) |
 | | Static Code Analysis | [SpotBubgs](https://ozytso.github.io/rms/site/modules/rms-client-ui-console/spotbugs.html) |
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fozytso%2Frms.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fozytso%2Frms?ref=badge_large)
