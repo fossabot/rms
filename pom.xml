@@ -73,7 +73,7 @@
     <version.plugin.jacoco>0.8.6</version.plugin.jacoco>
     <version.plugin.openapi-gen>5.1.0</version.plugin.openapi-gen>
     <version.plugin.jdepend>2.0</version.plugin.jdepend>
-    <version.plugin.stopbugs>4.2.0</version.plugin.stopbugs>
+    <version.plugin.stopbugs>4.2.3</version.plugin.stopbugs>
     <version.plugin.pmd>3.14.0</version.plugin.pmd>
     <version.plugin.jxr>3.0.0</version.plugin.jxr>
     
