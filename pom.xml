@@ -52,7 +52,7 @@
     <version.lib.assertj>3.19.0</version.lib.assertj>
     <version.lib.archunit>0.15.0</version.lib.archunit>
     <version.lib.doxia-module-markdown>1.8</version.lib.doxia-module-markdown>
-    <version.lib.hibernate-validator>6.1.2.Final</version.lib.hibernate-validator>
+    <version.lib.hibernate-validator>7.0.1.Final</version.lib.hibernate-validator>
     <version.lib.commons-lang>3.11</version.lib.commons-lang>
     <version.lib.commons-csv>1.8</version.lib.commons-csv>
     <version.lib.lombok>1.18.20</version.lib.lombok>
@@ -71,7 +71,7 @@
     <version.plugin.jandex>1.0.6</version.plugin.jandex>
     <version.plugin.helidon-build-tools>2.1.2</version.plugin.helidon-build-tools>
     <version.plugin.jacoco>0.8.7</version.plugin.jacoco>
-    <version.plugin.openapi-gen>5.1.0</version.plugin.openapi-gen>
+    <version.plugin.openapi-gen>5.1.1</version.plugin.openapi-gen>
     <version.plugin.jdepend>2.0</version.plugin.jdepend>
     <version.plugin.stopbugs>4.2.3</version.plugin.stopbugs>
     <version.plugin.pmd>3.14.0</version.plugin.pmd>
