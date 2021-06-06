@@ -36,7 +36,7 @@
     <name>Mamezou Co.,Ltd.</name>
     <url>https://www.mamezou.com/</url>
   </organization>
-  <url>https://ozytso.github.io/rms/site/services</url>
+  <url>https://ozytso.github.io/rms/site/modules/index.html</url>
 
   <properties>
     <!-- environment settings -->
@@ -76,7 +76,7 @@
     <version.plugin.stopbugs>4.2.0</version.plugin.stopbugs>
     <version.plugin.pmd>3.14.0</version.plugin.pmd>
     <version.plugin.jxr>3.0.0</version.plugin.jxr>
-    
+
     <!-- sonarcloud setting -->
     <sonar.projectKey>ozytso_rms</sonar.projectKey>
     <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
