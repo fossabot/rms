@@ -53,7 +53,7 @@
     <version.lib.archunit>0.19.0</version.lib.archunit>
     <version.lib.doxia-module-markdown>1.8</version.lib.doxia-module-markdown>
     <version.lib.hibernate-validator>7.0.1.Final</version.lib.hibernate-validator>
-    <version.lib.commons-lang>3.11</version.lib.commons-lang>
+    <version.lib.commons-lang>3.12.0</version.lib.commons-lang>
     <version.lib.commons-csv>1.8</version.lib.commons-csv>
     <version.lib.lombok>1.18.20</version.lib.lombok>
     <version.lib.text-io>3.4.1</version.lib.text-io>
